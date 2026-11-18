@@ -1,0 +1,3 @@
+# Everything in includes/ is server-side only (config, partials,
+# PHPMailer lib, mail credentials) — never served over HTTP.
+Require all denied
