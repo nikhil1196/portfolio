@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Units
@@ -21,15 +21,15 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Building management | ✅ |
 | Flat details | ✅ |
-| Ownership information | 🔄 |
+| Ownership information (owner name/phone) | ✅ |
 
 ## Residents
 
 | Feature | Status |
 |---------|--------|
 | Resident profiles | ✅ |
-| Family members | ✅ |
-| Documents | ⬜ |
+| Family members (dedicated module) | ✅ |
+| Documents upload | ✅ |
 
 ## Maintenance Billing
 
@@ -37,23 +37,23 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Monthly bills | ✅ |
 | Payment status | ✅ |
-| Receipts + online payment | ✅ |
+| Receipts + online payment + printable receipt | ✅ |
 
 ## Complaints
 
 | Feature | Status |
 |---------|--------|
 | Creation | ✅ |
-| Assignment | ⬜ |
+| Assignment (assigned_to field) | ✅ |
 | Status workflow | ✅ |
-| Resolution tracking | 🔄 |
+| Resolution tracking (resolution + resolved_at) | ✅ |
 
 ## Visitors
 
 | Feature | Status |
 |---------|--------|
 | Visitor entry | ✅ |
-| Approval | ⬜ |
+| Approval (one-click Approve) | ✅ |
 | Visit history | ✅ |
 
 ## Extra

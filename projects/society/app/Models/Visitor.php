@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-    protected $fillable = ['unit_id', 'name', 'phone', 'purpose', 'check_in', 'check_out', 'status'];
+    protected $fillable = ['unit_id', 'name', 'phone', 'purpose', 'check_in', 'check_out', 'status', 'approved_by'];
 
     public function unit()
     {

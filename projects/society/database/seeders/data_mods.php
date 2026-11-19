@@ -98,4 +98,22 @@ return array (
       'status' => 'Free',
     ),
   ),
+  'family_members' => 
+  array (
+    0 => 
+    array (
+      'unit_id' => 1,
+      'resident_id' => 1,
+      'name' => 'Meena Shah',
+      'relation' => 'Spouse',
+      'occupation' => 'Teacher',
+    ),
+    1 => 
+    array (
+      'unit_id' => 1,
+      'resident_id' => 1,
+      'name' => 'Aryan Shah',
+      'relation' => 'Child',
+    ),
+  ),
 );

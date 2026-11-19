@@ -32,6 +32,15 @@
 <div class="card">
     <div class="card-head"><h2>All Visitors ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <input type="date" name="from" value="{{ request('from') }}">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'visitors') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Visitor</th><th>Unit</th><th>Purpose</th><th>In</th><th>Out</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -43,7 +52,10 @@
                     <td>{{ $r->check_out ?? "—" }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'visitors', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('visitors.index', ['edit' => $r->id]) }}">Edit</a>
+                        @if(!$r->approved_by)<form method="POST" action="{{ route('visitors.approve', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">Approve</button></form>@endif
+                        @if($r->status === 'Inside')<form method="POST" action="{{ route('visitors.checkout', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">Check Out</button></form>@endif
                         <form method="POST" action="{{ route('visitors.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -53,6 +65,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

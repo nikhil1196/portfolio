@@ -9,7 +9,9 @@ class BookingController extends Controller
 {
     public function index()
     {
-        $rows = Booking::with(['unit'])->latest()->get();
+        $rows = Booking::with(['unit'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('amenity', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('bookings.index', array_merge(compact('rows'), [
             'units' => \App\Models\Unit::orderBy('flat_no')->pluck('flat_no', 'id'),
         ]));

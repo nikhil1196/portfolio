@@ -11,6 +11,14 @@
 <div class="card">
     <div class="card-head"><h2>Status Breakdown</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'reports') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Module</th><th>Total</th><th>New This Month</th><th>By Status</th></tr>
             @foreach($reports as $r)

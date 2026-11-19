@@ -28,6 +28,8 @@
             <a href="{{ route('visitors.index') }}" class="{{ request()->routeIs('visitors.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "user"])Visitors</a>
             <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "briefcase"])Staff & Vendors</a>
             <a href="{{ route('parking.index') }}" class="{{ request()->routeIs('parking.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "grid"])Parking</a>
+            <a href="{{ route('members.index') }}" class="{{ request()->routeIs('members.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Family Members</a>
+            <a href="{{ route('audit.index') }}" class="{{ request()->routeIs('audit.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Audit Log</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

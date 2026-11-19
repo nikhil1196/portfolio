@@ -9,7 +9,9 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $rows = Staff::latest()->get();
+        $rows = Staff::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('role', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('staff.index', array_merge(compact('rows'), [
         ]));
     }

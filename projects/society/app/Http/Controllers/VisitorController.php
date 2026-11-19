@@ -9,7 +9,10 @@ class VisitorController extends Controller
 {
     public function index()
     {
-        $rows = Visitor::with(['unit'])->latest()->get();
+        $rows = Visitor::with(['unit'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('phone', 'like', "%$q%") ->orWhere('purpose', 'like', "%$q%"); }); }
+                if (request('from')) { $rows->whereDate('check_in', '>=', request('from')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('visitors.index', array_merge(compact('rows'), [
             'units' => \App\Models\Unit::orderBy('flat_no')->pluck('flat_no', 'id'),
         ]));

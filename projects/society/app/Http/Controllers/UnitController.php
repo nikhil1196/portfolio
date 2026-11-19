@@ -9,7 +9,9 @@ class UnitController extends Controller
 {
     public function index()
     {
-        $rows = Unit::latest()->get();
+        $rows = Unit::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('flat_no', 'like', "%$q%") ->orWhere('block', 'like', "%$q%") ->orWhere('owner_name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('units.index', array_merge(compact('rows'), [
         ]));
     }

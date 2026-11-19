@@ -9,7 +9,7 @@ class TeamController extends Controller
     public function index()
     {
         return view('team.index', [
-            'rows'  => User::with('role')->latest()->get(),
+            'rows'  => User::with('role')->latest()->paginate(15),
             'roles' => Role::orderBy('name')->pluck('name', 'id'),
         ]);
     }

@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-head"><h2>{{ $edit ? 'Edit Resident' : 'Add Resident' }}</h2></div>
     <div class="card-body">
-        <form method="POST" action="{{ $edit ? route('residents.update', $edit) : route('residents.store') }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ $edit ? route('residents.update', $edit) : route('residents.store') }}">
             @csrf @if($edit) @method('PUT') @endif
             <div class="form-grid">
                 <div class="form-row"><label>Unit</label>
@@ -27,6 +27,7 @@
   1 => 'Moved Out',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Document</label><input type="file" name="document"></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Resident</button>
             @if($edit)<a class="btn" href="{{ route('residents.index') }}">Cancel</a>@endif
         </form>
@@ -36,6 +37,14 @@
 <div class="card">
     <div class="card-head"><h2>All Residents ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'residents') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Name</th><th>Flat</th><th>Role</th><th>Phone</th><th>Email</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -47,8 +56,9 @@
                     <td>{{ $r->email }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'residents', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('residents.index', ['edit' => $r->id]) }}">Edit</a>
-                        <form method="POST" action="{{ route('residents.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('residents.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
                     </td>
@@ -57,6 +67,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

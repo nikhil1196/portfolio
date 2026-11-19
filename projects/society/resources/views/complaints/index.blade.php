@@ -30,6 +30,8 @@
   2 => 'Resolved',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Assigned To</label><input type="text" name="assigned_to" value="{{ old('assigned_to', $edit->assigned_to ?? '') }}" placeholder="Staff / vendor"></div>
+                <div class="form-row"><label>Resolution</label><textarea name="resolution">{{ old('resolution', $edit->resolution ?? '') }}</textarea></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Complaint</button>
             @if($edit)<a class="btn" href="{{ route('complaints.index') }}">Cancel</a>@endif
         </form>
@@ -39,6 +41,15 @@
 <div class="card">
     <div class="card-head"><h2>All Complaints ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All statuses</option><option @selected(request('status')==='Open')>Open</option><option @selected(request('status')==='In Progress')>In Progress</option><option @selected(request('status')==='Resolved')>Resolved</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'complaints') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Flat</th><th>Resident</th><th>Subject</th><th>Category</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -58,7 +69,10 @@
                                 <input type="hidden" name="status" value="Resolved"><button class="btn btn-sm" type="submit">Resolve</button>
                             </form>
                         @endif
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'complaints', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('complaints.index', ['edit' => $r->id]) }}">Edit</a>
+                        @if($r->status === 'Open')<form method="POST" action="{{ route('complaints.start', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">Start</button></form>@endif
+                        @if($r->status !== 'Resolved')<form method="POST" action="{{ route('complaints.resolve', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">✓ Resolve</button></form>@endif
                         <form method="POST" action="{{ route('complaints.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -68,6 +82,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

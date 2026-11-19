@@ -26,4 +26,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('visitors', \App\Http\Controllers\VisitorController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('staff', \App\Http\Controllers\StaffController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('parking', \App\Http\Controllers\ParkingController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::resource('members', \App\Http\Controllers\FamilyMemberController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('receipts/{receipt}/print', [\App\Http\Controllers\ReceiptPrintController::class, 'show'])->name('receipts.print');
+    Route::post('complaints/{complaint}/start', [\App\Http\Controllers\ComplaintActionController::class, 'start'])->name('complaints.start');
+    Route::post('complaints/{complaint}/resolve', [\App\Http\Controllers\ComplaintActionController::class, 'resolve'])->name('complaints.resolve');
+    Route::post('visitors/{visitor}/approve', [\App\Http\Controllers\VisitorActionController::class, 'approve'])->name('visitors.approve');
+    Route::post('visitors/{visitor}/checkout', [\App\Http\Controllers\VisitorActionController::class, 'checkout'])->name('visitors.checkout');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

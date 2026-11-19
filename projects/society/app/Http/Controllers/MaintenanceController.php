@@ -9,7 +9,10 @@ class MaintenanceController extends Controller
 {
     public function index()
     {
-        $rows = Maintenance::with(['unit'])->latest()->get();
+        $rows = Maintenance::with(['unit'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('month', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('maintenance.index', array_merge(compact('rows'), [
             'units' => \App\Models\Unit::orderBy('flat_no')->pluck('flat_no', 'id'),
         ]));

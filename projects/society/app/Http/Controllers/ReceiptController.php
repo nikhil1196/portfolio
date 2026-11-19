@@ -9,7 +9,9 @@ class ReceiptController extends Controller
 {
     public function index()
     {
-        $rows = Receipt::with(['maintenance','unit'])->latest()->get();
+        $rows = Receipt::with(['maintenance','unit'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('receipt_no', 'like', "%$q%") ->orWhere('txn_ref', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('receipts.index', array_merge(compact('rows'), [
             'maintenances' => \App\Models\Maintenance::orderBy('id')->pluck('id', 'id'),
             'units' => \App\Models\Unit::orderBy('flat_no')->pluck('flat_no', 'id'),

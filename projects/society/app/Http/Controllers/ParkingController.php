@@ -9,7 +9,8 @@ class ParkingController extends Controller
 {
     public function index()
     {
-        $rows = Parking::with(['unit'])->latest()->get();
+        $rows = Parking::with(['unit'])->latest();
+        $rows = $rows->paginate(15)->withQueryString();
         return view('parking.index', array_merge(compact('rows'), [
             'units' => \App\Models\Unit::orderBy('flat_no')->pluck('flat_no', 'id'),
         ]));

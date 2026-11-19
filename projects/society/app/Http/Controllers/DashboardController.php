@@ -13,6 +13,8 @@ class DashboardController extends Controller
         return view('dashboard', [
             'stats' => [
                 'Units' => Unit::count(),
+                'Occupied Units' => Unit::where('status','Occupied')->count(),
+                'Vacant Units' => Unit::where('status','Vacant')->count(),
                 'Residents' => Resident::count(),
                 'Maintenance Due' => '₹'.number_format(Maintenance::where('status','Due')->sum('amount')),
                 'Open Complaints' => Complaint::where('status','Open')->count(),

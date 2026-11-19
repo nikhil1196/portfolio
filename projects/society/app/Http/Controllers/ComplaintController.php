@@ -9,7 +9,10 @@ class ComplaintController extends Controller
 {
     public function index()
     {
-        $rows = Complaint::with(['resident.unit'])->latest()->get();
+        $rows = Complaint::with(['resident.unit'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('subject', 'like', "%$q%") ->orWhere('category', 'like', "%$q%") ->orWhere('assigned_to', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('complaints.index', array_merge(compact('rows'), [
             'residents' => \App\Models\Resident::orderBy('name')->pluck('name', 'id'),
         ]));

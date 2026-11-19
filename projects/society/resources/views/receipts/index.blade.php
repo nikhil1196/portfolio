@@ -42,6 +42,14 @@
 <div class="card">
     <div class="card-head"><h2>All Maintenance Receipts ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'receipts') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Receipt</th><th>Unit</th><th>Bill #</th><th>Amount</th><th>Method</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -53,7 +61,9 @@
                     <td>{{ $r->method }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'receipts', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('receipts.index', ['edit' => $r->id]) }}">Edit</a>
+                        <a class="btn btn-sm" href="{{ route('receipts.print', $r) }}" target="_blank">Print</a>
                         <form method="POST" action="{{ route('receipts.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -63,6 +73,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection
