@@ -9,7 +9,9 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $rows = Contact::latest()->get();
+        $rows = Contact::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('company', 'like', "%$q%") ->orWhere('email', 'like', "%$q%") ->orWhere('phone', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('contacts.index', array_merge(compact('rows'), [
         ]));
     }

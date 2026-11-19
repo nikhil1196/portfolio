@@ -9,8 +9,12 @@ class LeadController extends Controller
 {
     public function index()
     {
-        $rows = Lead::with(['contact'])->latest()->get();
+        $rows = Lead::with(['contact'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('owner', 'like', "%$q%") ->orWhere('notes', 'like', "%$q%"); }); }
+                if (request('stage')) { $rows->where('stage', request('stage')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('leads.index', array_merge(compact('rows'), [
+            'owners' => \App\Models\User::orderBy('name')->pluck('name'),
             'contacts' => \App\Models\Contact::orderBy('name')->pluck('name', 'id'),
         ]));
     }

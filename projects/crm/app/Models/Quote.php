@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Quote extends Model
 {
-    protected $fillable = ['quote_no', 'deal_id', 'title', 'amount', 'valid_until', 'status'];
+    protected $fillable = ['quote_no', 'deal_id', 'title', 'amount', 'valid_until', 'status', 'terms'];
 
     public function deal()
     {

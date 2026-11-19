@@ -23,4 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('products', \App\Http\Controllers\ProductController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('quotes', \App\Http\Controllers\QuoteController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('quotes/{quote}/print', [\App\Http\Controllers\QuotePrintController::class, 'show'])->name('quotes.print');
+    Route::post('activities/{activity}/done', \App\Http\Controllers\ActivityDoneController::class)->name('activities.done');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

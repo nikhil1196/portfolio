@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Contacts
@@ -20,7 +20,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Customer information | ✅ |
-| Communication history | ⬜ |
+| Communication history (lead timeline on record) | ✅ |
 
 ## Leads
 
@@ -28,7 +28,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Lead capture | ✅ |
 | Lead status | ✅ |
-| Assignment | 🔄 |
+| Assignment (owner select from team users) | ✅ |
 
 ## Deals
 
@@ -36,7 +36,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Sales pipeline (kanban) | ✅ |
 | Deal value | ✅ |
-| Probability tracking | ⬜ |
+| Probability tracking (0–100%) | ✅ |
 
 ## Activities
 
@@ -50,5 +50,5 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Product selection | ✅ |
 | Pricing | ✅ |
-| PDF quotation | ⬜ |
+| PDF quotation (printable) | ✅ |
 

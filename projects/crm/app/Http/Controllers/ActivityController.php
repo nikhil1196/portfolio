@@ -9,7 +9,9 @@ class ActivityController extends Controller
 {
     public function index()
     {
-        $rows = Activity::with(['lead'])->latest()->get();
+        $rows = Activity::with(['lead'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('summary', 'like', "%$q%") ->orWhere('type', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('activities.index', array_merge(compact('rows'), [
             'leads' => \App\Models\Lead::orderBy('title')->pluck('title', 'id'),
         ]));

@@ -29,6 +29,7 @@
   1 => 'Closed',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Win Probability %</label><input type="number" min="0" max="100" name="probability" value="{{ old('probability', $edit->probability ?? 0) }}"></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Deal</button>
             @if($edit)<a class="btn" href="{{ route('deals.index') }}">Cancel</a>@endif
         </form>
@@ -38,6 +39,15 @@
 <div class="card">
     <div class="card-head"><h2>All Deals ({{ $rows->count() }})</h2><a class="btn btn-sm" href="{{ route('pipeline') }}">◈ Pipeline Board</a></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="stage"><option value="">All stages</option><option @selected(request('stage')==='Qualification')>Qualification</option><option @selected(request('stage')==='Proposal')>Proposal</option><option @selected(request('stage')==='Negotiation')>Negotiation</option><option @selected(request('stage')==='Won')>Won</option><option @selected(request('stage')==='Lost')>Lost</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'deals') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Deal</th><th>Contact</th><th>Value</th><th>Stage</th><th>Close</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -49,6 +59,7 @@
                     <td>{{ $r->close_date }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'deals', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('deals.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('deals.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -59,6 +70,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

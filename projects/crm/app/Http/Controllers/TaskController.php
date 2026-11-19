@@ -9,7 +9,9 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $rows = Task::with(['contact'])->latest()->get();
+        $rows = Task::with(['contact'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('tasks.index', array_merge(compact('rows'), [
             'contacts' => \App\Models\Contact::orderBy('name')->pluck('name', 'id'),
         ]));

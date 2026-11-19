@@ -21,7 +21,7 @@ standalone app (`php artisan serve` inside its folder).
 | 4 | Society Management | `projects/society` | [IMPLEMENTATION.md](projects/society/IMPLEMENTATION.md) | ✅ Completed |
 | 5 | Restaurant POS + KDS | `projects/restaurant` | [IMPLEMENTATION.md](projects/restaurant/IMPLEMENTATION.md) | ✅ Completed |
 | 6 | HRMS | `projects/hrms` | [IMPLEMENTATION.md](projects/hrms/IMPLEMENTATION.md) | ✅ Completed |
-| 7 | CRM | `projects/crm` | [IMPLEMENTATION.md](projects/crm/IMPLEMENTATION.md) | ⬜ Pending |
+| 7 | CRM | `projects/crm` | [IMPLEMENTATION.md](projects/crm/IMPLEMENTATION.md) | ✅ Completed |
 | 8 | Property Management | `projects/property` | [IMPLEMENTATION.md](projects/property/IMPLEMENTATION.md) | ⬜ Pending |
 | 9 | Event Booking | `projects/events` | [IMPLEMENTATION.md](projects/events/IMPLEMENTATION.md) | ⬜ Pending |
 | 10 | AI Customer Support | `projects/ai-support` | [IMPLEMENTATION.md](projects/ai-support/IMPLEMENTATION.md) | ⬜ Pending |

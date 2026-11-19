@@ -9,7 +9,9 @@ class QuoteController extends Controller
 {
     public function index()
     {
-        $rows = Quote::with(['deal'])->latest()->get();
+        $rows = Quote::with(['deal'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('quote_no', 'like', "%$q%") ->orWhere('title', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('quotes.index', array_merge(compact('rows'), [
             'deals' => \App\Models\Deal::orderBy('title')->pluck('title', 'id'),
         ]));
@@ -22,6 +24,7 @@ class QuoteController extends Controller
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'valid_until' => 'required|date',
+            'terms' => 'nullable|string',
             'status' => 'required|in:Draft,Sent,Accepted,Rejected',
         ]);
 $data['quote_no'] = 'QT-' . str_pad((string)(\App\Models\Quote::max('id') + 1001), 4, '0', STR_PAD_LEFT);
@@ -36,6 +39,7 @@ $data['quote_no'] = 'QT-' . str_pad((string)(\App\Models\Quote::max('id') + 1001
             'title' => 'required|string|max:255',
             'amount' => 'required|numeric|min:0',
             'valid_until' => 'required|date',
+            'terms' => 'nullable|string',
             'status' => 'required|in:Draft,Sent,Accepted,Rejected',
         ]));
         return redirect()->route('quotes.index')->with('ok', 'Quote updated.');

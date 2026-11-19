@@ -24,7 +24,7 @@
   5 => 'Won',
   6 => 'Lost',
 ) as $s)<option @selected(old('stage', $edit->stage ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
-                <div class="form-row"><label>Owner</label><input type="text" name="owner" value="{{ old('owner', $edit->owner ?? '') }}"></div>
+                <div class="form-row"><label>Owner</label><select name="owner"><option value="">— Unassigned —</option>@foreach($owners ?? [] as $o)<option value="{{ $o }}" @selected(old('owner', $edit->owner ?? '') == $o)>{{ $o }}</option>@endforeach</select>owner ?? '') }}"></div>
                 <div class="form-row"><label>Notes</label><textarea name="notes">{{ old('notes', $edit->notes ?? '') }}</textarea></div>
             </div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Lead</button>
@@ -36,6 +36,15 @@
 <div class="card">
     <div class="card-head"><h2>All Leads ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="stage"><option value="">All stages</option><option @selected(request('stage')==='New')>New</option><option @selected(request('stage')==='Contacted')>Contacted</option><option @selected(request('stage')==='Qualified')>Qualified</option><option @selected(request('stage')==='Converted')>Converted</option><option @selected(request('stage')==='Lost')>Lost</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'leads') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Lead</th><th>Contact</th><th>Value</th><th>Stage</th><th>Owner</th><th></th></tr>
             @forelse($rows as $r)
@@ -46,6 +55,7 @@
                     <td><span class="badge">{{ $r->stage }}</span></td>
                     <td>{{ $r->owner }}</td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'leads', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('leads.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('leads.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -56,6 +66,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection
