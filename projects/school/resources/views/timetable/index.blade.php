@@ -42,6 +42,14 @@
 <div class="card">
     <div class="card-head"><h2>All Timetable Entrys ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'timetable') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Class</th><th>Day</th><th>Period</th><th>Subject</th><th>Teacher</th><th>Time</th><th></th></tr>
             @forelse($rows as $r)
@@ -53,6 +61,7 @@
                     <td>{{ $r->teacher->name }}</td>
                     <td>{{ substr($r->start_time,0,5) }}–{{ substr($r->end_time,0,5) }}</td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'timetable', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('timetable.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('timetable.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -63,6 +72,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

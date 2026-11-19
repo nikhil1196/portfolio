@@ -32,6 +32,9 @@
             <a href="{{ route('assignments.index') }}" class="{{ request()->routeIs('assignments.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Assignments</a>
             <a href="{{ route('submissions.index') }}" class="{{ request()->routeIs('submissions.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "check"])Submissions</a>
             <a href="{{ route('exams.index') }}" class="{{ request()->routeIs('exams.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "star"])Exams</a>
+            <a href="{{ route('fee-structures.index') }}" class="{{ request()->routeIs('fee-structures.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "money"])Fee Structure</a>
+            <a href="{{ route('reports.attendance') }}" class="{{ request()->routeIs('reports.attendance') ? 'active' : '' }}">@include("partials.icon", ["i" => "chart"])Att. Report</a>
+            <a href="{{ route('audit.index') }}" class="{{ request()->routeIs('audit.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Audit Log</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

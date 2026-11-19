@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Students
@@ -20,8 +20,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Admission details | ✅ |
-| Parent details | 🔄 |
-| Documents | ⬜ |
+| Parent details (guardian + parent email) | ✅ |
+| Documents upload | ✅ |
 | Class assignment | ✅ |
 
 ## Teachers
@@ -36,18 +36,18 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Fee structure | 🔄 |
-| Invoice generation | ⬜ |
+| Fee structure (per class/term) | ✅ |
+| Invoice generation (printable) | ✅ |
 | Payment collection | ✅ |
-| Outstanding reports | ⬜ |
+| Outstanding reports (status filter + reports) | ✅ |
 
 ## Attendance
 
 | Feature | Status |
 |---------|--------|
 | Daily attendance | ✅ |
-| Reports | ⬜ |
-| Parent notifications | ⬜ |
+| Reports (monthly % per student) | ✅ |
+| Parent notifications (email on Absent) | ✅ |
 
 ## Exams & Results
 
@@ -55,8 +55,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Exam scheduling | ✅ |
 | Marks entry | ✅ |
-| Grade calculation | 🔄 |
-| Result reports | ⬜ |
+| Grade calculation (auto A+–F) | ✅ |
+| Result reports (report card print) | ✅ |
 
 ## Extra
 

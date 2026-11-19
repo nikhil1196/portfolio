@@ -9,7 +9,10 @@ class FeeController extends Controller
 {
     public function index()
     {
-        $rows = Fee::with(['student'])->latest()->get();
+        $rows = Fee::with(['student'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('receipt_no', 'like', "%$q%") ->orWhere('term', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('fees.index', array_merge(compact('rows'), [
             'students' => \App\Models\Student::orderBy('name')->pluck('name', 'id'),
         ]));

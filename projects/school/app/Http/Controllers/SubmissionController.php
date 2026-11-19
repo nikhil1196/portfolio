@@ -9,7 +9,8 @@ class SubmissionController extends Controller
 {
     public function index()
     {
-        $rows = Submission::with(['assignment','student'])->latest()->get();
+        $rows = Submission::with(['assignment','student'])->latest();
+        $rows = $rows->paginate(15)->withQueryString();
         return view('submissions.index', array_merge(compact('rows'), [
             'assignments' => \App\Models\Assignment::orderBy('title')->pluck('title', 'id'),
             'students' => \App\Models\Student::orderBy('name')->pluck('name', 'id'),

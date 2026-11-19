@@ -9,7 +9,8 @@ class TimetableController extends Controller
 {
     public function index()
     {
-        $rows = Timetable::with(['schoolClass','subject','teacher'])->latest()->get();
+        $rows = Timetable::with(['schoolClass','subject','teacher'])->latest();
+        $rows = $rows->paginate(15)->withQueryString();
         return view('timetable.index', array_merge(compact('rows'), [
             'school_classs' => \App\Models\SchoolClass::orderBy('name')->pluck('name', 'id'),
             'subjects' => \App\Models\Subject::orderBy('name')->pluck('name', 'id'),

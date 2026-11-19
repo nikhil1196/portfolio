@@ -9,7 +9,9 @@ class ExamController extends Controller
 {
     public function index()
     {
-        $rows = Exam::with(['schoolClass','subject'])->latest()->get();
+        $rows = Exam::with(['schoolClass','subject'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('exams.index', array_merge(compact('rows'), [
             'school_classs' => \App\Models\SchoolClass::orderBy('name')->pluck('name', 'id'),
             'subjects' => \App\Models\Subject::orderBy('name')->pluck('name', 'id'),

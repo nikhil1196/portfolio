@@ -27,11 +27,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('timetable', \App\Http\Controllers\TimetableController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('materials', \App\Http\Controllers\MaterialController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('assignments', \App\Http\Controllers\AssignmentController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('staff', \App\Http\Controllers\StaffController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('timetable', \App\Http\Controllers\TimetableController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('materials', \App\Http\Controllers\MaterialController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('assignments', \App\Http\Controllers\AssignmentController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('submissions', \App\Http\Controllers\SubmissionController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('exams', \App\Http\Controllers\ExamController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('reports/attendance', [\App\Http\Controllers\AttendanceReportController::class, 'index'])->name('reports.attendance');
+    Route::get('fees/{fee}/invoice', [\App\Http\Controllers\FeeInvoiceController::class, 'show'])->name('fees.invoice');
+    Route::get('students/{student}/report-card', [\App\Http\Controllers\ReportCardController::class, 'show'])->name('students.report-card');
+    Route::resource('fee-structures', \App\Http\Controllers\FeeStructureController::class)->only(['index','store','update','destroy']);
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

@@ -9,7 +9,9 @@ class ResultController extends Controller
 {
     public function index()
     {
-        $rows = Result::with(['student'])->latest()->get();
+        $rows = Result::with(['student'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('exam', 'like', "%$q%") ->orWhere('subject', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('results.index', array_merge(compact('rows'), [
             'students' => \App\Models\Student::orderBy('name')->pluck('name', 'id'),
         ]));
@@ -26,6 +28,7 @@ class ResultController extends Controller
             'grade' => 'nullable|string|max:5',
         ]);
 
+        $data['grade'] = $data['grade'] ?? $this->gradeFor($data['marks'], $data['max_marks']);
         Result::create($data);
         return back()->with('ok', 'Result added.');
     }
@@ -48,4 +51,10 @@ class ResultController extends Controller
         $row->delete();
         return back()->with('ok', 'Result deleted.');
     }
+    private function gradeFor(float $m, float $max): string
+    {
+        $p = $max > 0 ? $m / $max * 100 : 0;
+        return $p >= 90 ? 'A+' : ($p >= 75 ? 'A' : ($p >= 60 ? 'B' : ($p >= 45 ? 'C' : ($p >= 33 ? 'D' : 'F'))));
+    }
+
 }

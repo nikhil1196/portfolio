@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-head"><h2>{{ $edit ? 'Edit Student' : 'Add Student' }}</h2></div>
     <div class="card-body">
-        <form method="POST" action="{{ $edit ? route('students.update', $edit) : route('students.store') }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ $edit ? route('students.update', $edit) : route('students.store') }}">
             @csrf @if($edit) @method('PUT') @endif
             <div class="form-grid">
                 <div class="form-row"><label>Student Name</label><input type="text" name="name" value="{{ old('name', $edit->name ?? '') }}" required></div>
@@ -24,6 +24,8 @@
   2 => 'Alumni',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Parent Email</label><input type="email" name="parent_email" value="{{ old('parent_email', $edit->parent_email ?? '') }}"></div>
+                <div class="form-row"><label>Document</label><input type="file" name="document"></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Student</button>
             @if($edit)<a class="btn" href="{{ route('students.index') }}">Cancel</a>@endif
         </form>
@@ -33,6 +35,14 @@
 <div class="card">
     <div class="card-head"><h2>All Students ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'students') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Roll</th><th>Name</th><th>Class</th><th>Guardian</th><th>Phone</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -44,8 +54,9 @@
                     <td>{{ $r->phone }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'students', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('students.index', ['edit' => $r->id]) }}">Edit</a>
-                        <form method="POST" action="{{ route('students.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('students.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
                     </td>
@@ -54,6 +65,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

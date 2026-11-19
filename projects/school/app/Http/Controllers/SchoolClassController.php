@@ -9,7 +9,9 @@ class SchoolClassController extends Controller
 {
     public function index()
     {
-        $rows = SchoolClass::with(['teacher'])->latest()->get();
+        $rows = SchoolClass::with(['teacher'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('section', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('classes.index', array_merge(compact('rows'), [
             'teachers' => \App\Models\Teacher::orderBy('name')->pluck('name', 'id'),
         ]));

@@ -9,7 +9,9 @@ class AssignmentController extends Controller
 {
     public function index()
     {
-        $rows = Assignment::with(['subject','schoolClass','teacher'])->latest()->get();
+        $rows = Assignment::with(['subject','schoolClass','teacher'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('assignments.index', array_merge(compact('rows'), [
             'subjects' => \App\Models\Subject::orderBy('name')->pluck('name', 'id'),
             'school_classs' => \App\Models\SchoolClass::orderBy('name')->pluck('name', 'id'),

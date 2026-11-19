@@ -9,7 +9,9 @@ class NoticeController extends Controller
 {
     public function index()
     {
-        $rows = Notice::latest()->get();
+        $rows = Notice::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('body', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('notices.index', array_merge(compact('rows'), [
         ]));
     }

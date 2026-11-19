@@ -267,5 +267,9 @@ class DatabaseSeeder extends Seeder
   ),
 )));
         $this->call(ModsSeeder::class);
+        if (\App\Models\SchoolClass::count() && !\App\Models\FeeStructure::count()) {
+            \App\Models\FeeStructure::create(['class_id' => \App\Models\SchoolClass::first()->id, 'term' => 'Term 1', 'amount' => 15000]);
+            \App\Models\FeeStructure::create(['class_id' => \App\Models\SchoolClass::first()->id, 'term' => 'Term 2', 'amount' => 15000]);
+        }
     }
 }

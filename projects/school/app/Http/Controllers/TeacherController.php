@@ -9,7 +9,9 @@ class TeacherController extends Controller
 {
     public function index()
     {
-        $rows = Teacher::latest()->get();
+        $rows = Teacher::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('subject', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('teachers.index', array_merge(compact('rows'), [
         ]));
     }

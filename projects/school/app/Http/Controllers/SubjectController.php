@@ -9,7 +9,9 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        $rows = Subject::with(['schoolClass','teacher'])->latest()->get();
+        $rows = Subject::with(['schoolClass','teacher'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('subjects.index', array_merge(compact('rows'), [
             'school_classs' => \App\Models\SchoolClass::orderBy('name')->pluck('name', 'id'),
             'teachers' => \App\Models\Teacher::orderBy('name')->pluck('name', 'id'),

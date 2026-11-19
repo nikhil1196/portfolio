@@ -37,6 +37,15 @@
 <div class="card">
     <div class="card-head"><h2>All Fees ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All statuses</option><option @selected(request('status')==='Paid')>Paid</option><option @selected(request('status')==='Pending')>Pending</option><option @selected(request('status')==='Overdue')>Overdue</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'fees') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Receipt</th><th>Student</th><th>Term</th><th>Amount</th><th>Date</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -53,7 +62,9 @@
                                 <button class="btn btn-sm" type="submit">Mark Paid</button>
                             </form>
                         @endif
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'fees', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('fees.index', ['edit' => $r->id]) }}">Edit</a>
+                        <a class="btn btn-sm" href="{{ route('fees.invoice', $r) }}" target="_blank">Invoice</a>
                         <form method="POST" action="{{ route('fees.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -63,6 +74,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection
