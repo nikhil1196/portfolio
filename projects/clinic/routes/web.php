@@ -22,4 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('payments/{payment}/receipt', [\App\Http\Controllers\ReceiptController::class, 'show'])->name('payments.receipt');
+    Route::get('prescriptions/{prescription}/print', [\App\Http\Controllers\RxPrintController::class, 'show'])->name('prescriptions.print');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

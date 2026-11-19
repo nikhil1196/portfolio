@@ -9,7 +9,9 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $rows = Schedule::with(['doctor','clinic'])->latest()->get();
+        $rows = Schedule::with(['doctor','clinic'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('day', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('schedules.index', array_merge(compact('rows'), [
             'doctors' => \App\Models\Doctor::orderBy('name')->pluck('name', 'id'),
             'clinics' => \App\Models\Clinic::orderBy('name')->pluck('name', 'id'),

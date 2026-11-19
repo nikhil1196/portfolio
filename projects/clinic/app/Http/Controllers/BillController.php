@@ -9,7 +9,9 @@ class BillController extends Controller
 {
     public function index()
     {
-        $rows = Bill::with(['patient'])->latest()->get();
+        $rows = Bill::with(['patient'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('notes', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('bills.index', array_merge(compact('rows'), [
             'patients' => \App\Models\Patient::orderBy('name')->pluck('name', 'id'),
         ]));

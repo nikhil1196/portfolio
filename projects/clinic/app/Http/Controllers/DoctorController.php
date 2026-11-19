@@ -9,7 +9,9 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $rows = Doctor::with(['clinic'])->latest()->get();
+        $rows = Doctor::with(['clinic'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('specialty', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('doctors.index', array_merge(compact('rows'), [
             'clinics' => \App\Models\Clinic::orderBy('name')->pluck('name', 'id'),
         ]));

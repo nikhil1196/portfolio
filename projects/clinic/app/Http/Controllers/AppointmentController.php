@@ -9,7 +9,11 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $rows = Appointment::with(['patient','doctor','clinic'])->latest()->get();
+        $rows = Appointment::with(['patient','doctor','clinic'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->where('reason', 'like', "%$q%"); }); }
+        if (request('from')) { $rows->whereDate('appt_date', '>=', request('from')); }
+        if (request('to'))   { $rows->whereDate('appt_date', '<=', request('to')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('appointments.index', array_merge(compact('rows'), [
             'patients' => \App\Models\Patient::orderBy('name')->pluck('name', 'id'),
             'doctors' => \App\Models\Doctor::orderBy('name')->pluck('name', 'id'),
@@ -26,6 +30,7 @@ class AppointmentController extends Controller
             'appt_date' => 'required|date',
             'appt_time' => 'nullable',
             'reason' => 'nullable|string',
+            'visit_notes' => 'nullable|string',
             'status' => 'required|in:Scheduled,Completed,Cancelled',
         ]);
 
@@ -63,6 +68,7 @@ class AppointmentController extends Controller
             'appt_date' => 'required|date',
             'appt_time' => 'nullable',
             'reason' => 'nullable|string',
+            'visit_notes' => 'nullable|string',
             'status' => 'required|in:Scheduled,Completed,Cancelled',
         ]));
         return redirect()->route('appointments.index')->with('ok', 'Appointment updated.');

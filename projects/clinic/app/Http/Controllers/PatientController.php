@@ -9,7 +9,9 @@ class PatientController extends Controller
 {
     public function index()
     {
-        $rows = Patient::latest()->get();
+        $rows = Patient::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->where('name', 'like', "%$q%")->orWhere('phone', 'like', "%$q%")->orWhere('email', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('patients.index', array_merge(compact('rows'), [
         ]));
     }
@@ -25,7 +27,9 @@ class PatientController extends Controller
             'blood' => 'nullable|string|max:5',
             'address' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
+            'medical_history' => 'nullable|string', 'document' => 'nullable|file|max:4096',
         ]);
+        if ($request->hasFile('document')) { $data['document'] = $request->file('document')->store('docs', 'public'); }
 
         Patient::create($data);
         return back()->with('ok', 'Patient added.');
@@ -33,15 +37,19 @@ class PatientController extends Controller
 
     public function update(Request $request, Patient $row)
     {
-        $row->update($request->validate([
+        $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email',
             'dob' => 'nullable|date',
             'gender' => 'nullable|string',
             'blood' => 'nullable|string|max:5',
             'address' => 'nullable|string',
             'status' => 'required|in:Active,Inactive',
-        ]));
+            'medical_history' => 'nullable|string', 'document' => 'nullable|file|max:4096',
+        ]);
+        if ($request->hasFile('document')) { $data['document'] = $request->file('document')->store('docs', 'public'); }
+        $row->update($data);
         return redirect()->route('patients.index')->with('ok', 'Patient updated.');
     }
 

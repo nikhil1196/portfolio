@@ -9,7 +9,9 @@ class ClinicController extends Controller
 {
     public function index()
     {
-        $rows = Clinic::latest()->get();
+        $rows = Clinic::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->where('name', 'like', "%$q%")->orWhere('city', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('clinics.index', array_merge(compact('rows'), [
         ]));
     }

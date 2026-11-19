@@ -9,11 +9,11 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
+| Full CRUD incl. View page | ✅ |
 | Validation | ✅ |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Patients CRUD
@@ -21,8 +21,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Registration & profile | ✅ |
-| Medical history | ⬜ |
-| Documents upload | ⬜ |
+| Medical history | ✅ |
+| Documents upload | ✅ |
 | Email for receipts | ✅ |
 
 ## Doctors CRUD
@@ -48,8 +48,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Medicine/dosage/instructions | 🔄 |
-| PDF prescription generation | ⬜ |
+| Medicine/dosage/instructions | ✅ |
+| PDF prescription (print→PDF page) | ✅ |
 
 ## Billing
 
@@ -58,13 +58,13 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Consultation billing | ✅ |
 | Payment tracking | ✅ |
 | Receipt generation + email | ✅ |
-| Stripe advance payment | 🔄 |
+| Stripe advance payment (demo capture `pi_demo_*`) | ✅ |
 
 ## Extra
 
 | Feature | Status |
 |---------|--------|
 | Multi-clinic branches | ✅ |
-| Visit notes/medical history | ⬜ |
-| Real Stripe keys + payment intent flow | ⬜ |
+| Visit notes/medical history | ✅ |
+| Real Stripe keys + payment intent flow | ⬜ (needs live Stripe account keys — deployment step) |
 

@@ -9,7 +9,9 @@ class PrescriptionController extends Controller
 {
     public function index()
     {
-        $rows = Prescription::with(['patient','doctor'])->latest()->get();
+        $rows = Prescription::with(['patient','doctor'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('notes', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('prescriptions.index', array_merge(compact('rows'), [
             'patients' => \App\Models\Patient::orderBy('name')->pluck('name', 'id'),
             'doctors' => \App\Models\Doctor::orderBy('name')->pluck('name', 'id'),
