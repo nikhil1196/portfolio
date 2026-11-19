@@ -25,4 +25,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('reservations', \App\Http\Controllers\ReservationController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('inventory', \App\Http\Controllers\InventoryItemController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::post('inventory/{item}/adjust', [\App\Http\Controllers\StockController::class, 'adjust'])->name('inventory.adjust');
+    Route::get('movements', [\App\Http\Controllers\StockController::class, 'movements'])->name('movements.index');
+    Route::post('menu/{item}/toggle', \App\Http\Controllers\MenuToggleController::class)->name('menu.toggle');
+    Route::get('orders/{order}/bill', [\App\Http\Controllers\BillController::class, 'show'])->name('orders.bill');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

@@ -9,7 +9,10 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $rows = Order::with(['diningTable','items'])->latest()->get();
+        $rows = Order::with(['diningTable','items'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('order_no', 'like', "%$q%") ->orWhere('status', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('orders.index', array_merge(compact('rows'), [
             'dining_tables' => \App\Models\DiningTable::orderBy('name')->pluck('name', 'id'),
         ]));

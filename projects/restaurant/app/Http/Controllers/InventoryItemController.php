@@ -9,7 +9,10 @@ class InventoryItemController extends Controller
 {
     public function index()
     {
-        $rows = InventoryItem::latest()->get();
+        $rows = InventoryItem::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('supplier', 'like', "%$q%"); }); }
+                if (request('low')) { $rows->whereColumn('qty', '<=', 'reorder_level'); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('inventory.index', array_merge(compact('rows'), [
         ]));
     }

@@ -26,6 +26,8 @@
             <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "grid"])Categories</a>
             <a href="{{ route('reservations.index') }}" class="{{ request()->routeIs('reservations.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "calendar"])Reservations</a>
             <a href="{{ route('inventory.index') }}" class="{{ request()->routeIs('inventory.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Inventory</a>
+            <a href="{{ route('movements.index') }}" class="{{ request()->routeIs('movements.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "refresh"])Stock Log</a>
+            <a href="{{ route('audit.index') }}" class="{{ request()->routeIs('audit.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Audit Log</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

@@ -9,7 +9,9 @@ class DiningTableController extends Controller
 {
     public function index()
     {
-        $rows = DiningTable::latest()->get();
+        $rows = DiningTable::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('tables.index', array_merge(compact('rows'), [
         ]));
     }

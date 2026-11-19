@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Menu
@@ -22,7 +22,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Items | ✅ |
 | Categories | ✅ |
 | Pricing | ✅ |
-| Availability | 🔄 |
+| Availability (one-click toggle) | ✅ |
 
 ## Orders
 
@@ -31,15 +31,15 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Create order (POS) | ✅ |
 | Order status | ✅ |
 | Kitchen workflow (KDS live) | ✅ |
-| Billing | ✅ |
+| Billing (printable bill) | ✅ |
 
 ## Inventory
 
 | Feature | Status |
 |---------|--------|
 | Stock items | ✅ |
-| Stock movement | ⬜ |
-| Low stock alerts | ⬜ |
+| Stock movement (in/out adjust + log page) | ✅ |
+| Low stock alerts (badge + filter + dashboard) | ✅ |
 
 ## Reservations
 

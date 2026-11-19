@@ -10,6 +10,7 @@ class DashboardController extends Controller
     {
         return view('dashboard', [
             'stats' => [
+                'Low Stock' => \App\Models\InventoryItem::whereColumn('qty','<=','reorder_level')->count(),
                 'Today\'s Orders' => Order::whereDate('created_at', today())->count(),
                 'Live Orders' => Order::whereIn('status', ['Pending','Preparing','Ready'])->count(),
                 'Today\'s Revenue' => '₹'.number_format(Order::where('payment','Paid')->whereDate('created_at', today())->sum('total')),

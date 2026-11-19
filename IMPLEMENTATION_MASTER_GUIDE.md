@@ -19,7 +19,7 @@ standalone app (`php artisan serve` inside its folder).
 | 2 | Clinic Management | `projects/clinic` | [IMPLEMENTATION.md](projects/clinic/IMPLEMENTATION.md) | ✅ Completed |
 | 3 | School ERP | `projects/school` | [IMPLEMENTATION.md](projects/school/IMPLEMENTATION.md) | ✅ Completed |
 | 4 | Society Management | `projects/society` | [IMPLEMENTATION.md](projects/society/IMPLEMENTATION.md) | ✅ Completed |
-| 5 | Restaurant POS + KDS | `projects/restaurant` | [IMPLEMENTATION.md](projects/restaurant/IMPLEMENTATION.md) | ⬜ Pending |
+| 5 | Restaurant POS + KDS | `projects/restaurant` | [IMPLEMENTATION.md](projects/restaurant/IMPLEMENTATION.md) | ✅ Completed |
 | 6 | HRMS | `projects/hrms` | [IMPLEMENTATION.md](projects/hrms/IMPLEMENTATION.md) | ⬜ Pending |
 | 7 | CRM | `projects/crm` | [IMPLEMENTATION.md](projects/crm/IMPLEMENTATION.md) | ⬜ Pending |
 | 8 | Property Management | `projects/property` | [IMPLEMENTATION.md](projects/property/IMPLEMENTATION.md) | ⬜ Pending |

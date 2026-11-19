@@ -9,7 +9,9 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $rows = Reservation::with(['table'])->latest()->get();
+        $rows = Reservation::with(['table'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('phone', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('reservations.index', array_merge(compact('rows'), [
             'dining_tables' => \App\Models\DiningTable::orderBy('name')->pluck('name', 'id'),
         ]));

@@ -36,17 +36,31 @@
 <div class="card">
     <div class="card-head"><h2>All Inventory Items ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <label style="display:flex;align-items:center;gap:4px"><input type="checkbox" name="low" value="1" @checked(request('low'))> Low stock only</label>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'inventory') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Item</th><th>Stock</th><th>Reorder @</th><th>Supplier</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
                 <tr>
                     <td><strong>{{ $r->name }}</strong></td>
-                    <td>{{ $r->qty }} {{ $r->unit }}</td>
+                    <td>{{ $r->qty }} {{ $r->unit }} @if($r->qty <= $r->reorder_level)<span class="badge b-overdue">Low</span>@endif</td>
                     <td>{{ $r->reorder_level }}</td>
                     <td>{{ $r->supplier }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'inventory', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('inventory.index', ['edit' => $r->id]) }}">Edit</a>
+                        <form method="POST" action="{{ route('inventory.adjust', $r) }}" style="display:inline-flex;gap:4px">@csrf
+                            <input type="number" step="0.01" name="qty" placeholder="Qty" style="width:70px" required>
+                            <select name="direction"><option value="in">+In</option><option value="out">−Out</option></select>
+                            <button class="btn btn-sm">Adjust</button></form>
                         <form method="POST" action="{{ route('inventory.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -56,6 +70,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

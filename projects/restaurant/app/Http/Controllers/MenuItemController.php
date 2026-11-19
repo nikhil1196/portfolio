@@ -9,7 +9,9 @@ class MenuItemController extends Controller
 {
     public function index()
     {
-        $rows = MenuItem::latest()->get();
+        $rows = MenuItem::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('category', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('menu.index', array_merge(compact('rows'), [
         ]));
     }
