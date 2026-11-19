@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Employees</div><div class="stat-value">{{ $stats['Employees'] }}</div><div class="stat-sub">Employee::where('status','Active')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Departments</div><div class="stat-value">{{ $stats['Departments'] }}</div><div class="stat-sub">Department::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Present Today</div><div class="stat-value">{{ $stats['Present Today'] }}</div><div class="stat-sub">HrAttendance::whereDate('work_date', today())->where('status','Present')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Pending Leaves</div><div class="stat-value">{{ $stats['Pending Leaves'] }}</div><div class="stat-sub">Leave::where('status','Pending')->count()</div></div>
+    <div class="stat-card"><div class="stat-label">Employees</div><div class="stat-value">{{ $stats['Employees'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Departments</div><div class="stat-value">{{ $stats['Departments'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Present Today</div><div class="stat-value">{{ $stats['Present Today'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Leaves</div><div class="stat-value">{{ $stats['Pending Leaves'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Today's Attendance</h2><a class="btn btn-sm" href="{{ route('attendance.index') }}">Mark</a></div>

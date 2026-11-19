@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Patients</div><div class="stat-value">{{ $stats['Patients'] }}</div><div class="stat-sub">Patient::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Doctors</div><div class="stat-value">{{ $stats['Doctors'] }}</div><div class="stat-sub">Doctor::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Today's Appointments</div><div class="stat-value">{{ $stats['Today\'s Appointments'] }}</div><div class="stat-sub">Appointment::whereDate('appt_date', today())->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Revenue (Month)</div><div class="stat-value">{{ $stats['Revenue (Month)'] }}</div><div class="stat-sub">'₹'.number_format(Bill::where('status','Paid')->whereMonth('paid_at', now()->month)->whereYear('paid_at', now()->year)->sum('amount'))</div></div>
+    <div class="stat-card"><div class="stat-label">Patients</div><div class="stat-value">{{ $stats['Patients'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Doctors</div><div class="stat-value">{{ $stats['Doctors'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Today's Appointments</div><div class="stat-value">{{ $stats['Today\'s Appointments'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Revenue (Month)</div><div class="stat-value">{{ $stats['Revenue (Month)'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Today's Appointments</h2><a class="btn btn-sm" href="{{ route('appointments.index') }}">All</a></div>

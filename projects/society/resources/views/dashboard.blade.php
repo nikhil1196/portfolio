@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Units</div><div class="stat-value">{{ $stats['Units'] }}</div><div class="stat-sub">Unit::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Residents</div><div class="stat-value">{{ $stats['Residents'] }}</div><div class="stat-sub">Resident::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Maintenance Due</div><div class="stat-value">{{ $stats['Maintenance Due'] }}</div><div class="stat-sub">'₹'.number_format(Maintenance::where('status','Due')->sum('amount'))</div></div>
-    <div class="stat-card"><div class="stat-label">Open Complaints</div><div class="stat-value">{{ $stats['Open Complaints'] }}</div><div class="stat-sub">Complaint::where('status','Open')->count()</div></div>
+    <div class="stat-card"><div class="stat-label">Units</div><div class="stat-value">{{ $stats['Units'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Residents</div><div class="stat-value">{{ $stats['Residents'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Maintenance Due</div><div class="stat-value">{{ $stats['Maintenance Due'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Open Complaints</div><div class="stat-value">{{ $stats['Open Complaints'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Active Complaints</h2><a class="btn btn-sm" href="{{ route('complaints.index') }}">All</a></div>

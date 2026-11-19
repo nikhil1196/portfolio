@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Today's Orders</div><div class="stat-value">{{ $stats['Today\'s Orders'] }}</div><div class="stat-sub">Order::whereDate('created_at', today())->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Live Orders</div><div class="stat-value">{{ $stats['Live Orders'] }}</div><div class="stat-sub">Order::whereIn('status', ['Pending','Preparing','Ready'])->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-value">{{ $stats['Today\'s Revenue'] }}</div><div class="stat-sub">'₹'.number_format(Order::where('payment','Paid')->whereDate('created_at', today())->sum('total'))</div></div>
-    <div class="stat-card"><div class="stat-label">Menu Items</div><div class="stat-value">{{ $stats['Menu Items'] }}</div><div class="stat-sub">MenuItem::where('available',1)->count()</div></div>
+    <div class="stat-card"><div class="stat-label">Today's Orders</div><div class="stat-value">{{ $stats['Today\'s Orders'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Live Orders</div><div class="stat-value">{{ $stats['Live Orders'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Today's Revenue</div><div class="stat-value">{{ $stats['Today\'s Revenue'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Menu Items</div><div class="stat-value">{{ $stats['Menu Items'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Live Orders</h2><a class="btn btn-sm" href="{{ route('kitchen') }}">Open Kitchen Display</a></div>

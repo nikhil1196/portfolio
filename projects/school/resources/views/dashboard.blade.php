@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value">{{ $stats['Students'] }}</div><div class="stat-sub">Student::where('status','Active')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Teachers</div><div class="stat-value">{{ $stats['Teachers'] }}</div><div class="stat-sub">Teacher::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Classes</div><div class="stat-value">{{ $stats['Classes'] }}</div><div class="stat-sub">SchoolClass::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Fees Collected</div><div class="stat-value">{{ $stats['Fees Collected'] }}</div><div class="stat-sub">'₹'.number_format(Fee::where('status','Paid')->sum('amount'))</div></div>
+    <div class="stat-card"><div class="stat-label">Students</div><div class="stat-value">{{ $stats['Students'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Teachers</div><div class="stat-value">{{ $stats['Teachers'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Classes</div><div class="stat-value">{{ $stats['Classes'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Fees Collected</div><div class="stat-value">{{ $stats['Fees Collected'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Recent Admissions</h2><a class="btn btn-sm" href="{{ route('students.index') }}">All students</a></div>

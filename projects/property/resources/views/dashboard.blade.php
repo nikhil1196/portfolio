@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Properties</div><div class="stat-value">{{ $stats['Properties'] }}</div><div class="stat-sub">Property::count()</div></div>
-    <div class="stat-card"><div class="stat-label">Occupied</div><div class="stat-value">{{ $stats['Occupied'] }}</div><div class="stat-sub">Property::where('status','Occupied')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Active Leases</div><div class="stat-value">{{ $stats['Active Leases'] }}</div><div class="stat-sub">Lease::where('status','Active')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Rent Due</div><div class="stat-value">{{ $stats['Rent Due'] }}</div><div class="stat-sub">'₹'.number_format(Rent::where('status','Due')->sum('amount'))</div></div>
+    <div class="stat-card"><div class="stat-label">Properties</div><div class="stat-value">{{ $stats['Properties'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Occupied</div><div class="stat-value">{{ $stats['Occupied'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Active Leases</div><div class="stat-value">{{ $stats['Active Leases'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Rent Due</div><div class="stat-value">{{ $stats['Rent Due'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Pending Rent</h2><a class="btn btn-sm" href="{{ route('rents.index') }}">All</a></div>

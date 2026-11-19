@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Total Members</div><div class="stat-value">{{ $totalMembers }}</div><div class="stat-sub">all registrations</div></div>
-    <div class="stat-card"><div class="stat-label">Active Members</div><div class="stat-value">{{ $activeMembers }}</div><div class="stat-sub">currently subscribed</div></div>
-    <div class="stat-card"><div class="stat-label">Revenue (Month)</div><div class="stat-value">₹{{ number_format($monthRevenue) }}</div><div class="stat-sub">collected payments</div></div>
-    <div class="stat-card"><div class="stat-label">Today's Check-ins</div><div class="stat-value">{{ $todayCheckins }}</div><div class="stat-sub">attendance marked</div></div>
+    <div class="stat-card"><div class="stat-label">Total Members</div><div class="stat-value">{{ $totalMembers }}</div></div>
+    <div class="stat-card"><div class="stat-label">Active Members</div><div class="stat-value">{{ $activeMembers }}</div></div>
+    <div class="stat-card"><div class="stat-label">Revenue (Month)</div><div class="stat-value">₹{{ number_format($monthRevenue) }}</div></div>
+    <div class="stat-card"><div class="stat-label">Today's Check-ins</div><div class="stat-value">{{ $todayCheckins }}</div></div>
 </div>
 <div class="two-col">
     <div class="card">

@@ -2,10 +2,10 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="stats-row">
-    <div class="stat-card"><div class="stat-label">Events</div><div class="stat-value">{{ $stats['Events'] }}</div><div class="stat-sub">Event::where('status','Published')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Bookings</div><div class="stat-value">{{ $stats['Bookings'] }}</div><div class="stat-sub">Booking::where('status','Confirmed')->count()</div></div>
-    <div class="stat-card"><div class="stat-label">Seats Sold</div><div class="stat-value">{{ $stats['Seats Sold'] }}</div><div class="stat-sub">Booking::where('status','Confirmed')->sum('seats')</div></div>
-    <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">{{ $stats['Revenue'] }}</div><div class="stat-sub">'₹'.number_format(Booking::where('status','Confirmed')->sum('amount'))</div></div>
+    <div class="stat-card"><div class="stat-label">Events</div><div class="stat-value">{{ $stats['Events'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Bookings</div><div class="stat-value">{{ $stats['Bookings'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Seats Sold</div><div class="stat-value">{{ $stats['Seats Sold'] }}</div></div>
+    <div class="stat-card"><div class="stat-label">Revenue</div><div class="stat-value">{{ $stats['Revenue'] }}</div></div>
 </div>
 <div class="card">
     <div class="card-head"><h2>Upcoming Events</h2><a class="btn btn-sm" href="{{ route('events.index') }}">All</a></div>
