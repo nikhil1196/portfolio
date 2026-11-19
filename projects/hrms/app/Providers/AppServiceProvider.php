@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        \Illuminate\Pagination\Paginator::defaultView("partials.pagination");
         foreach ([\App\Models\Department::class, \App\Models\Employee::class, \App\Models\HrAttendance::class, \App\Models\Leave::class, \App\Models\Payroll::class, \App\Models\Holiday::class, \App\Models\Announcement::class, \App\Models\Document::class] as $m) { $m::observe(\App\Observers\AuditObserver::class); }
         //
     }
