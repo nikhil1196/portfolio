@@ -25,6 +25,13 @@
             <a href="{{ route('reports') }}" class="{{ request()->routeIs('reports') ? 'active' : '' }}">@include("partials.icon", ["i" => "chart"])Reports</a>
             <a href="{{ route('team.index') }}" class="{{ request()->routeIs('team.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Team</a>
             <a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "shield"])Roles</a>
+            <a href="{{ route('subjects.index') }}" class="{{ request()->routeIs('subjects.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "book"])Subjects</a>
+            <a href="{{ route('staff.index') }}" class="{{ request()->routeIs('staff.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "briefcase"])Staff</a>
+            <a href="{{ route('timetable.index') }}" class="{{ request()->routeIs('timetable.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "calendar"])Timetable</a>
+            <a href="{{ route('materials.index') }}" class="{{ request()->routeIs('materials.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Materials</a>
+            <a href="{{ route('assignments.index') }}" class="{{ request()->routeIs('assignments.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Assignments</a>
+            <a href="{{ route('submissions.index') }}" class="{{ request()->routeIs('submissions.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "check"])Submissions</a>
+            <a href="{{ route('exams.index') }}" class="{{ request()->routeIs('exams.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "star"])Exams</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

@@ -202,5 +202,6 @@ class DatabaseSeeder extends Seeder
     'status' => 'Completed',
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

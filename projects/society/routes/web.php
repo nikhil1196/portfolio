@@ -22,4 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+    Route::resource('receipts', \App\Http\Controllers\ReceiptController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('visitors', \App\Http\Controllers\VisitorController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('staff', \App\Http\Controllers\StaffController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('parking', \App\Http\Controllers\ParkingController::class)->only(['index', 'store', 'update', 'destroy']);
 });

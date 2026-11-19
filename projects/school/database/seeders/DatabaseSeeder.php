@@ -266,5 +266,6 @@ class DatabaseSeeder extends Seeder
     'status' => 'Published',
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

@@ -23,15 +23,18 @@ $colTypes = [
     'date'          => fn($n) => "\$table->date('$n');",
     'dateNullable'  => fn($n) => "\$table->date('$n')->nullable();",
     'datetime'      => fn($n) => "\$table->dateTime('$n')->nullable();",
+    'datetimeNullable' => fn($n) => "\$table->dateTime('$n')->nullable();",
     'time'          => fn($n) => "\$table->time('$n')->nullable();",
     'bool'          => fn($n) => "\$table->boolean('$n')->default(false);",
+    'intNullable'   => fn($n) => "\$table->integer('$n')->nullable();",
+    'index'         => fn($n) => "\$table->string('$n')->unique();",
     'statusActive'  => fn($n) => "\$table->string('$n')->default('Active');",
 ];
 
 $out = fn($path, $content) => file_put_contents("$root/$path", $content) !== false
     ? print("  + $path\n") : print("  ! FAILED $path\n");
 
-$tableOf = [];
+$tableOf = $frag['base_tables'] ?? [];
 foreach (array_merge(array_values($frag['modules'] ?? []), $frag['extra_models'] ?? []) as $mm) {
     $tableOf[$mm['model']] = $mm['table'] ?? $plural($mm['model']);
 }
@@ -239,10 +242,12 @@ $tcols                    <td>
 ");
 
     $routes = file_get_contents("$root/routes/web.php");
-    $line = "    Route::resource('$uri', \\App\\Http\\Controllers\\$ctrl::class)->only(['index', 'store', 'update', 'destroy']);\n";
-    $routes = preg_replace('/\n\}\);\s*$/', "\n$line});", $routes);
-    file_put_contents("$root/routes/web.php", $routes);
-    echo "  + route $uri\n";
+    if (!str_contains($routes, "Route::resource('$uri'")) {
+        $line = "    Route::resource('$uri', \\App\\Http\\Controllers\\$ctrl::class)->only(['index', 'store', 'update', 'destroy']);\n";
+        $routes = preg_replace('/\n\}\);\s*$/', "\n$line});", $routes);
+        file_put_contents("$root/routes/web.php", $routes);
+        echo "  + route $uri\n";
+    }
 }
 
 // ---- nav links appended before </nav>
@@ -251,6 +256,7 @@ if (!empty($frag['nav'])) {
     $c = file_get_contents($lay);
     $links = '';
     foreach ($frag['nav'] as [$label, $route, $icon]) {
+        if (str_contains($c, "route('$route')")) continue; // idempotent
         $rpat = str_replace('.index', '.*', $route);
         $links .= "            <a href=\"{{ route('$route') }}\" class=\"{{ request()->routeIs('$rpat') ? 'active' : '' }}\">@include(\"partials.icon\", [\"i\" => \"$icon\"])$label</a>\n";
     }

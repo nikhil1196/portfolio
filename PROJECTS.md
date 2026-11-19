@@ -71,12 +71,12 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Students, teachers, classes, fees + mark-paid, results, attendance, notices | ✅ done |
-| Subjects | ⬜ pending |
-| Staff (non-teaching) | ⬜ pending |
-| Timetable (class × day × period → subject/teacher) | ⬜ pending |
-| Study materials | ⬜ pending |
-| Assignments + submissions | ⬜ pending |
-| Exams (schedule, separate from results) | ⬜ pending |
+| Subjects | ✅ done |
+| Staff (non-teaching) | ✅ done |
+| Timetable (class × day × period → subject/teacher) | ✅ done |
+| Study materials | ✅ done |
+| Assignments + submissions | ✅ done |
+| Exams (schedule, separate from results) | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 4. `society` — Society Management
@@ -88,10 +88,10 @@ php artisan serve                  # http://localhost:8000
 | Maintenance bills + mark-paid | ✅ done |
 | Complaint status flow | ✅ done |
 | Notices, amenity bookings | ✅ done |
-| Online payment record + receipt for maintenance | ⬜ pending |
-| Visitors log | ⬜ pending |
-| Staff / vendors | ⬜ pending |
-| Parking slots | ⬜ pending |
+| Online payment record + receipt for maintenance | ✅ done |
+| Visitors log | ✅ done |
+| Staff / vendors | ✅ done |
+| Parking slots | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 5. `restaurant` — Restaurant POS + KDS

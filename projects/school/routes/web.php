@@ -22,4 +22,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+    Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('staff', \App\Http\Controllers\StaffController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('timetable', \App\Http\Controllers\TimetableController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('materials', \App\Http\Controllers\MaterialController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('assignments', \App\Http\Controllers\AssignmentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('subjects', \App\Http\Controllers\SubjectController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('staff', \App\Http\Controllers\StaffController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('timetable', \App\Http\Controllers\TimetableController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('materials', \App\Http\Controllers\MaterialController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('assignments', \App\Http\Controllers\AssignmentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('submissions', \App\Http\Controllers\SubmissionController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('exams', \App\Http\Controllers\ExamController::class)->only(['index', 'store', 'update', 'destroy']);
 });
