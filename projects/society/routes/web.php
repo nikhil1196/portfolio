@@ -12,7 +12,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('units', \App\Http\Controllers\UnitController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('residents', \App\Http\Controllers\ResidentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('maintenance/{row}/pay', [\App\Http\Controllers\MaintenanceController::class, 'markPaid'])->name('maintenance.pay');
     Route::resource('maintenance', \App\Http\Controllers\MaintenanceController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('complaints/{row}/status', [\App\Http\Controllers\ComplaintController::class, 'setStatus'])->name('complaints.status');
     Route::resource('complaints', \App\Http\Controllers\ComplaintController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('notices', \App\Http\Controllers\NoticeController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('bookings', \App\Http\Controllers\BookingController::class)->only(['index', 'store', 'update', 'destroy']);
 });

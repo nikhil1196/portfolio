@@ -48,4 +48,11 @@ class LeaveController extends Controller
         $row->delete();
         return back()->with('ok', 'Leave deleted.');
     }
+
+    public function setStatus(Leave $row, Request $request)
+    {
+        $data = $request->validate(["status" => "required|in:Pending,Approved,Rejected"]);
+        $row->update($data);
+        return back()->with("ok", "Leave {$data["status"]}.");
+    }
 }

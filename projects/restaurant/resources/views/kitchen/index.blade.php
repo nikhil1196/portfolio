@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Kitchen Display')
 @section('content')
+<div class="note" data-refresh="15" style="margin-bottom:14px"><span class="live-dot"></span>Live — refreshes every 15 seconds</div>
 <div class="kds-grid">
     @foreach($columns as $status => $orders)
         <div class="kds-col">

@@ -26,4 +26,10 @@
             input.value = Math.max(0, v);
         });
     });
+
+    /* Badges: derive b-<slug> class from text content */
+    document.querySelectorAll(".badge:not([class*=b-])").forEach(function (b) {
+        var s = b.textContent.trim().toLowerCase().replace(/[^a-z]+/g, "-").replace(/^-|-$/g, "");
+        if (s) b.classList.add("b-" + s);
+    });
 })();

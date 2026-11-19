@@ -40,30 +40,30 @@ gitignored and configured for `database/database.sqlite`.
 
 | # | App | Modules | Status |
 |---|-----|---------|--------|
-| 1 | `gym` | Auth, dashboard, members, plans, trainers, attendance log, payments/invoices | ✅ verified |
+| 1 | `gym` | Auth, dashboard, members, plans, trainers, check-in/out log, payments + mark-paid | ✅ verified |
 | 2 | `clinic` | Auth, dashboard, patients, doctors, appointments, prescriptions, bills | ✅ verified |
-| 3 | `school` | Auth, dashboard, students, teachers, classes, fee records, exam results | ✅ verified |
-| 4 | `society` | Auth, dashboard, units, residents, maintenance bills, complaints, notices | ✅ verified |
-| 5 | `restaurant` | Auth, dashboard, menu items, tables, POS order screen, kitchen display, order history | ✅ verified |
-| 6 | `hrms` | Auth, dashboard, departments, employees, attendance, leaves, payroll | ✅ verified |
-| 7 | `crm` | Auth, dashboard, contacts, leads pipeline, deals, follow-up tasks | ✅ verified |
-| 8 | `property` | Auth, dashboard, properties, tenants, leases, rent payments, maintenance requests | ✅ verified |
-| 9 | `events` | Auth, dashboard, events, ticket tiers, bookings, attendee check-in | ✅ verified |
-| 10 | `ai-support` | Auth, dashboard, tickets, replies, KB articles, canned replies, agents | ✅ verified |
+| 3 | `school` | Auth, dashboard, students, teachers, classes, fee records (+mark-paid), exam results, **attendance register, notices** | ✅ verified |
+| 4 | `society` | Auth, dashboard, units, residents, maintenance bills (+mark-paid), complaint status flow (Open→Progress→Resolved), notices, **amenity bookings** | ✅ verified |
+| 5 | `restaurant` | Auth, dashboard, menu items, tables, POS order screen, **live kitchen display (15s auto-refresh)**, order history | ✅ verified |
+| 6 | `hrms` | Auth, dashboard, departments, employees, attendance, **leave approve/reject actions**, payroll | ✅ verified |
+| 7 | `crm` | Auth, dashboard, contacts, leads, deals, **kanban pipeline board with stage moves**, tasks | ✅ verified |
+| 8 | `property` | Auth, dashboard, properties, tenants, leases, rent, maintenance request status flow | ✅ verified |
+| 9 | `events` | Auth, dashboard, events, ticket tiers, bookings, **one-click attendee check-in** | ✅ verified |
+| 10 | `ai-support` | Auth, dashboard, tickets, **AI reply suggestion (KB keyword match)**, replies, KB, canned replies, agents | ✅ verified |
 
 Verified = login, dashboard, all module pages return 200, and POST create
 flow persists data.
 
 ## Deferred / roadmap
 
-These were in the original scope but remain pending:
+Remaining enhancements for later:
 
-- **School**: attendance register, notices board
-- **Society**: amenity bookings
-- **Restaurant**: KDS auto-refresh/polling, split bills, print receipts
-- **AI Support**: AI reply suggestion (KB keyword match or pluggable LLM call)
-- **All apps**: edit/update forms per row (currently add + delete + status
-  transitions), feature tests, role-based access beyond the single admin
+- **Restaurant**: split bills, print receipts, WebSocket push for KDS
+  (currently 15s polling)
+- **AI Support**: plug suggestion engine into a real LLM API (currently KB
+  keyword matching)
+- **All apps**: search/filters on list pages, pagination on large tables,
+  feature tests, role-based access beyond the single admin
 
 ## Notes
 

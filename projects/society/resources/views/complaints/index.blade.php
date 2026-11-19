@@ -49,6 +49,15 @@
                     <td>{{ $r->category }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        @if($r->status === 'Open')
+                            <form method="POST" action="{{ route('complaints.status', $r) }}" class="inline">@csrf @method('PATCH')
+                                <input type="hidden" name="status" value="In Progress"><button class="btn btn-sm" type="submit">Start</button>
+                            </form>
+                        @elseif($r->status === 'In Progress')
+                            <form method="POST" action="{{ route('complaints.status', $r) }}" class="inline">@csrf @method('PATCH')
+                                <input type="hidden" name="status" value="Resolved"><button class="btn btn-sm" type="submit">Resolve</button>
+                            </form>
+                        @endif
                         <a class="btn btn-sm" href="{{ route('complaints.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('complaints.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>

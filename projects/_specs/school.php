@@ -5,6 +5,7 @@ return [
         ['Dashboard', 'dashboard', '⌂'], ['Students', 'students.index', '◉'],
         ['Teachers', 'teachers.index', '✎'], ['Classes', 'classes.index', '▤'],
         ['Fees', 'fees.index', '₹'], ['Results', 'results.index', '★'],
+        ['Attendance', 'attendance.index', '✓'], ['Notices', 'notices.index', '⚑'],
     ],
     'uses' => "use App\\Models\\SchoolClass;\nuse App\\Models\\Fee;\nuse App\\Models\\Student;\nuse App\\Models\\Teacher;",
     'stats' => [
@@ -108,6 +109,45 @@ return [
                 'Marks' => '{{ $r->marks }} / {{ $r->max_marks }}', 'Grade' => '<span class="badge">{{ $r->grade }}</span>',
             ],
         ],
+        'attendance' => [
+            'model' => 'Attendance', 'title' => 'Attendance', '_mid' => 6,
+            'columns' => [['student_id','fkreq:Student'],['att_date','date'],['status','default:Present'],['remark','stringNullable']],
+            'fillable' => ['student_id','att_date','status','remark'],
+            'validation' => ['student_id'=>'required|exists:students,id','att_date'=>'required|date','status'=>'required|in:Present,Absent,Late','remark'=>'nullable|string'],
+            'fields' => [
+                ['student_id','Student','select','@Student:name',true],
+                ['att_date','Date','date',null,true],
+                ['status','Status','select',['Present','Absent','Late']],
+                ['remark','Remark','text'],
+            ],
+            'with' => ['student'],
+            'rels' => ['student' => 'belongsTo:Student'],
+            'cols' => [
+                'Student' => '<strong>{{ $r->student->name ?? "—" }}</strong><br><span class="note">{{ $r->student->roll_no ?? "" }}</span>',
+                'Class' => '{{ $r->student->schoolClass->name ?? "—" }}',
+                'Date' => '{{ $r->att_date ? \Carbon\Carbon::parse($r->att_date)->format("d M Y") : "—" }}',
+                'Status' => '<span class="badge">{{ $r->status }}</span>',
+                'Remark' => '{{ $r->remark }}',
+            ],
+        ],
+        'notices' => [
+            'model' => 'Notice', 'title' => 'Notice', '_mid' => 7,
+            'columns' => [['title','string'],['body','text'],['audience','default:All'],['publish_on','dateNullable'],['status','default:Published']],
+            'fillable' => ['title','body','audience','publish_on','status'],
+            'validation' => ['title'=>'required|string|max:255','body'=>'required|string','audience'=>'required|in:All,Students,Teachers,Parents','publish_on'=>'nullable|date','status'=>'required|in:Published,Draft'],
+            'fields' => [
+                ['title','Title','text',null,true],
+                ['audience','Audience','select',['All','Students','Teachers','Parents']],
+                ['publish_on','Publish Date','date'],
+                ['status','Status','select',['Published','Draft']],
+                ['body','Notice Text','textarea',null,true],
+            ],
+            'cols' => [
+                'Title' => '<strong>{{ $r->title }}</strong>', 'Notice' => '{{ Str::limit($r->body, 80) }}',
+                'Audience' => '{{ $r->audience }}', 'Published' => '{{ $r->publish_on }}',
+                'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
     ],
     'seed' => [
         'Teacher' => [
@@ -138,6 +178,20 @@ return [
             ['student_id'=>1,'exam'=>'Mid-Term','subject'=>'Mathematics','marks'=>88,'max_marks'=>100,'grade'=>'A'],
             ['student_id'=>2,'exam'=>'Mid-Term','subject'=>'Mathematics','marks'=>92,'max_marks'=>100,'grade'=>'A+'],
             ['student_id'=>3,'exam'=>'Mid-Term','subject'=>'Science','marks'=>65,'max_marks'=>100,'grade'=>'B'],
+        ],
+        'Attendance' => [
+            ['student_id'=>1,'att_date'=>'2026-11-18','status'=>'Present','remark'=>null],
+            ['student_id'=>2,'att_date'=>'2026-11-18','status'=>'Present','remark'=>null],
+            ['student_id'=>3,'att_date'=>'2026-11-18','status'=>'Absent','remark'=>'Sick leave informed'],
+            ['student_id'=>4,'att_date'=>'2026-11-18','status'=>'Late','remark'=>'Arrived 9:40 AM'],
+            ['student_id'=>5,'att_date'=>'2026-11-18','status'=>'Present','remark'=>null],
+            ['student_id'=>1,'att_date'=>'2026-11-19','status'=>'Present','remark'=>null],
+            ['student_id'=>2,'att_date'=>'2026-11-19','status'=>'Absent','remark'=>'Family function'],
+        ],
+        'Notice' => [
+            ['title'=>'Diwali Vacation','body'=>'School will remain closed from 24 Nov to 30 Nov for Diwali vacation. Classes resume 1 Dec.','audience'=>'All','publish_on'=>'2026-11-15','status'=>'Published'],
+            ['title'=>'Parent-Teacher Meeting','body'=>'PTM for Classes 8-10 on 28 Nov, 10 AM - 1 PM. Parents are requested to attend.','audience'=>'Parents','publish_on'=>'2026-11-18','status'=>'Published'],
+            ['title'=>'Science Exhibition','body'=>'Annual science exhibition on 5 Dec. Students must submit project entries by 30 Nov.','audience'=>'Students','publish_on'=>'2026-11-19','status'=>'Published'],
         ],
     ],
 ];

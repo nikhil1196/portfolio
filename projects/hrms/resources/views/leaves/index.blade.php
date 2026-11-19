@@ -49,6 +49,14 @@
                     <td>{{ Str::limit($r->reason, 40) }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        @if($r->status === 'Pending')
+                            <form method="POST" action="{{ route('leaves.status', $r) }}" class="inline">@csrf @method('PATCH')
+                                <input type="hidden" name="status" value="Approved"><button class="btn btn-sm" type="submit">Approve</button>
+                            </form>
+                            <form method="POST" action="{{ route('leaves.status', $r) }}" class="inline">@csrf @method('PATCH')
+                                <input type="hidden" name="status" value="Rejected"><button class="btn btn-sm btn-danger" type="submit">Reject</button>
+                            </form>
+                        @endif
                         <a class="btn btn-sm" href="{{ route('leaves.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('leaves.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>

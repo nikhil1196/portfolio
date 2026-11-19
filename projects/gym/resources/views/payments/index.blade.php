@@ -41,6 +41,11 @@
                     <td>{{ $p->paid_at?->format('d M Y') }}</td>
                     <td><span class="badge">{{ $p->status }}</span></td>
                     <td>
+                        @if($p->status !== 'Paid')
+                            <form method="POST" action="{{ route('payments.pay', $p) }}" class="inline">@csrf @method('PATCH')
+                                <button class="btn btn-sm" type="submit">Mark Paid</button>
+                            </form>
+                        @endif
                         <form method="POST" action="{{ route('payments.destroy', $p) }}" class="inline" onsubmit="return confirm('Delete this payment?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>

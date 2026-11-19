@@ -1,6 +1,6 @@
 /* Shared admin theme for all portfolio demo projects */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-:root { --acc: #6c5ce7; }
+:root { --acc: #6c5ce7; --card: #ffffff; --border: #e4e8f3; --ink: #1b2440; --mut: #77809c; }
 body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f1f3f9; color: #1b2440; }
 a { color: var(--acc); text-decoration: none; }
 code { background: #eef0f8; padding: 2px 7px; border-radius: 5px; font-size: .85em; }
@@ -149,18 +149,80 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: .88rem; }
     .pos-grid, .two-col, .kds-board { grid-template-columns: 1fr; }
 }
 
-/* Restaurant POS / KDS */
-.menu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:.6rem; }
-.menu-item { display:flex; justify-content:space-between; align-items:center; gap:.5rem;
-    border:1px solid var(--border); border-radius:10px; padding:.6rem .75rem; font-size:.9rem; }
-.menu-item input { width:56px; }
-.kds-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; align-items:start; }
-@media (max-width:800px){ .kds-grid{ grid-template-columns:1fr; } }
-.kds-col h2 { font-size:1rem; margin-bottom:.75rem; display:flex; align-items:center; gap:.5rem; }
-.kds-ticket { background:var(--card); border:1px solid var(--border); border-radius:12px;
-    padding:.9rem; margin-bottom:.75rem; box-shadow:0 2px 8px rgba(0,0,0,.06); }
-.kds-head { display:flex; justify-content:space-between; font-size:.85rem; margin-bottom:.5rem; }
-.kds-head span { opacity:.65; }
-.kds-ticket ul { list-style:none; margin:0 0 .7rem; padding:0; font-size:.9rem; }
-.kds-ticket li { padding:.15rem 0; border-bottom:1px dashed var(--border); }
-.kds-ticket li:last-child { border-bottom:0; }
+/* ---------- Form rows (used by all module forms) ---------- */
+.form-row { display: flex; flex-direction: column; gap: 6px; font-size: .83rem; font-weight: 600; color: #4a5578; }
+.form-row label { font-size: .83rem; font-weight: 600; color: #4a5578; }
+.form-row input, .form-row select, .form-row textarea {
+    padding: 10px 13px; border: 1px solid #dde1ef; border-radius: 8px;
+    font: inherit; font-weight: 400; color: var(--ink); background: #fff; width: 100%;
+}
+.form-row input:focus, .form-row select:focus, .form-row textarea:focus {
+    outline: none; border-color: var(--acc);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 15%, transparent);
+}
+.form-row textarea { min-height: 84px; resize: vertical; }
+.form-row:has(textarea) { grid-column: 1 / -1; }
+form .btn-acc { margin-top: 4px; }
+
+/* ---------- Login ---------- */
+.login-ico { width: 58px; height: 58px; border-radius: 14px; margin: 0 auto 6px; color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem; font-weight: 700; }
+.login-card form { display: flex; flex-direction: column; gap: 14px; }
+
+/* ---------- Status badges (class auto-added by admin.js from text) ---------- */
+.b-active, .b-paid, .b-approved, .b-confirmed, .b-completed, .b-resolved, .b-present,
+.b-served, .b-available, .b-occupied, .b-processed, .b-published, .b-ready,
+.b-checked-in, .b-won, .b-in-stock { background: #dff7ea; color: #0b7a4b; }
+.b-pending, .b-due, .b-scheduled, .b-new, .b-in-progress, .b-preparing, .b-open,
+.b-vacant, .b-booked, .b-draft, .b-medium, .b-contacted, .b-qualified, .b-late { background: #fff4d9; color: #a8730a; }
+.b-cancelled, .b-overdue, .b-rejected, .b-expired, .b-absent, .b-closed, .b-inactive,
+.b-moved-out, .b-urgent, .b-high, .b-lost, .b-failed, .b-full { background: #fdeaea; color: #b03050; }
+.b-ai, .b-lead, .b-low, .b-owner, .b-tenant, .b-alumni, .b-free, .b-sent,
+.b-partial, .b-billed, .b-ongoing { background: #e6e0ff; color: #5a3fd6; }
+
+/* ---------- Restaurant POS / KDS ---------- */
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: .6rem; }
+.menu-item { display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+    border: 1px solid var(--border); border-radius: 10px; padding: .6rem .75rem; font-size: .9rem;
+    background: var(--card); }
+.menu-item input { width: 56px; padding: 6px 8px; border: 1px solid var(--border); border-radius: 7px; }
+.kds-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; align-items: start; }
+@media (max-width: 800px) { .kds-grid { grid-template-columns: 1fr; } }
+.kds-col h2 { font-size: 1rem; margin-bottom: .75rem; display: flex; align-items: center; gap: .5rem; color: var(--ink); }
+.kds-ticket { background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: .9rem; margin-bottom: .75rem; box-shadow: 0 2px 8px rgba(20, 27, 51, .06); }
+.kds-head { display: flex; justify-content: space-between; font-size: .85rem; margin-bottom: .5rem; }
+.kds-head span { opacity: .65; }
+.kds-ticket ul { list-style: none; margin: 0 0 .7rem; padding: 0; font-size: .9rem; }
+.kds-ticket li { padding: .15rem 0; border-bottom: 1px dashed var(--border); }
+.kds-ticket li:last-child { border-bottom: 0; }
+
+/* ---------- Kanban / pipeline board ---------- */
+.board { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+.board-col { background: #f7f8fc; border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.board-col h3 { font-size: .82rem; text-transform: uppercase; letter-spacing: .05em; color: var(--mut);
+    margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.board-col h3 .cnt { background: #fff; border: 1px solid var(--border); border-radius: 99px;
+    padding: 1px 9px; font-size: .72rem; }
+.board-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 13px; margin-bottom: 10px; }
+.board-card .bc-title { font-weight: 700; font-size: .9rem; }
+.board-card .bc-val { color: var(--acc); font-weight: 700; margin-top: 5px; }
+.board-card .bc-sub { font-size: .78rem; color: #9aa2ba; margin-top: 4px; }
+.board-card form { margin-top: 10px; }
+.board-card select { width: 100%; padding: 7px 9px; border: 1px solid #dde1ef; border-radius: 7px; font-size: .8rem; }
+
+/* ---------- Action button row in tables ---------- */
+.row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.tbl td .btn { white-space: nowrap; }
+
+/* ---------- AI suggestion box ---------- */
+.ai-box { background: linear-gradient(135deg, #f3f0ff, #e8fbff); border: 1px solid #d9d0ff;
+    border-radius: 10px; padding: 14px 16px; font-size: .86rem; }
+.ai-box .ai-tag { display: inline-block; background: var(--acc); color: #fff; border-radius: 6px;
+    padding: 1px 8px; font-size: .68rem; font-weight: 700; letter-spacing: .05em; margin-bottom: 6px; }
+
+/* ---------- Live indicator ---------- */
+.live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #22c55e;
+    margin-right: 6px; animation: pulse 1.4s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }

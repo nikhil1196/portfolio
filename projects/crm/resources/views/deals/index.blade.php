@@ -36,7 +36,7 @@
 </div>
 
 <div class="card">
-    <div class="card-head"><h2>All Deals ({{ $rows->count() }})</h2></div>
+    <div class="card-head"><h2>All Deals ({{ $rows->count() }})</h2><a class="btn btn-sm" href="{{ route('pipeline') }}">◈ Pipeline Board</a></div>
     <div class="card-body" style="padding:0">
         <table class="tbl">
             <tr><th>Deal</th><th>Contact</th><th>Value</th><th>Stage</th><th>Close</th><th>Status</th><th></th></tr>

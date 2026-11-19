@@ -57,6 +57,9 @@
                     <td>{{ $r->agent->name ?? "—" }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <form method="POST" action="{{ route('tickets.suggest', $r) }}" class="inline">
+                            @csrf<button class="btn btn-sm" type="submit">✦ AI Suggest</button>
+                        </form>
                         <a class="btn btn-sm" href="{{ route('tickets.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('tickets.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>

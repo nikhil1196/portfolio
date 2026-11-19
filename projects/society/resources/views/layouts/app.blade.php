@@ -20,6 +20,7 @@
             <a href="{{ route('maintenance.index') }}" class="{{ request()->routeIs('maintenance.*') ? 'active' : '' }}"><span class="ni">₹</span>Maintenance</a>
             <a href="{{ route('complaints.index') }}" class="{{ request()->routeIs('complaints.*') ? 'active' : '' }}"><span class="ni">✉</span>Complaints</a>
             <a href="{{ route('notices.index') }}" class="{{ request()->routeIs('notices.*') ? 'active' : '' }}"><span class="ni">⚑</span>Notices</a>
+            <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}"><span class="ni">▤</span>Bookings</a>
         </nav>
         <div class="side-foot"><a href="{{ url('/../') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>
@@ -38,5 +39,6 @@
         </main>
     </div>
 </div>
+<script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

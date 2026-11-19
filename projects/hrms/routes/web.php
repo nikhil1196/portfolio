@@ -13,6 +13,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('departments', \App\Http\Controllers\DepartmentController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('employees', \App\Http\Controllers\EmployeeController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('attendance', \App\Http\Controllers\HrAttendanceController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('leaves/{row}/status', [\App\Http\Controllers\LeaveController::class, 'setStatus'])->name('leaves.status');
     Route::resource('leaves', \App\Http\Controllers\LeaveController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('payroll', \App\Http\Controllers\PayrollController::class)->only(['index', 'store', 'update', 'destroy']);
 });

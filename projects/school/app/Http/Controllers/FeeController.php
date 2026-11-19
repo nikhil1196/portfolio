@@ -46,4 +46,10 @@ class FeeController extends Controller
         $row->delete();
         return back()->with('ok', 'Fee deleted.');
     }
+
+    public function markPaid(Fee $row)
+    {
+        $row->update(["status" => "Paid", "paid_at" => now()->toDateString()]);
+        return back()->with("ok", "Fee marked as paid.");
+    }
 }

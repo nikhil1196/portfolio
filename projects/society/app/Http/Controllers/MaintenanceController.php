@@ -46,4 +46,10 @@ class MaintenanceController extends Controller
         $row->delete();
         return back()->with('ok', 'Maintenance Bill deleted.');
     }
+
+    public function markPaid(Maintenance $row)
+    {
+        $row->update(["status" => "Paid", "paid_at" => now()->toDateString()]);
+        return back()->with("ok", "Bill marked as paid.");
+    }
 }

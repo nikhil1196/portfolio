@@ -48,6 +48,11 @@
                     <td>{{ $r->paid_at }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        @if($r->status === 'Pending')
+                            <form method="POST" action="{{ route('fees.pay', $r) }}" class="inline">@csrf @method('PATCH')
+                                <button class="btn btn-sm" type="submit">Mark Paid</button>
+                            </form>
+                        @endif
                         <a class="btn btn-sm" href="{{ route('fees.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('fees.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>

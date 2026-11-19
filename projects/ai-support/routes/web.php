@@ -10,6 +10,7 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('tickets/{row}/suggest', [\App\Http\Controllers\SupportTicketController::class, 'suggest'])->name('tickets.suggest');
     Route::resource('tickets', \App\Http\Controllers\SupportTicketController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('replies', \App\Http\Controllers\ReplyController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('kb', \App\Http\Controllers\KbArticleController::class)->only(['index', 'store', 'update', 'destroy']);

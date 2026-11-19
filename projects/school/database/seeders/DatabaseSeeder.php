@@ -183,5 +183,82 @@ class DatabaseSeeder extends Seeder
     'grade' => 'B',
   ),
 )));
+        \App\Models\Attendance::insert(array_map(fn($r) => $r + ['created_at' => now(), 'updated_at' => now()], array (
+  0 => 
+  array (
+    'student_id' => 1,
+    'att_date' => '2026-11-18',
+    'status' => 'Present',
+    'remark' => NULL,
+  ),
+  1 => 
+  array (
+    'student_id' => 2,
+    'att_date' => '2026-11-18',
+    'status' => 'Present',
+    'remark' => NULL,
+  ),
+  2 => 
+  array (
+    'student_id' => 3,
+    'att_date' => '2026-11-18',
+    'status' => 'Absent',
+    'remark' => 'Sick leave informed',
+  ),
+  3 => 
+  array (
+    'student_id' => 4,
+    'att_date' => '2026-11-18',
+    'status' => 'Late',
+    'remark' => 'Arrived 9:40 AM',
+  ),
+  4 => 
+  array (
+    'student_id' => 5,
+    'att_date' => '2026-11-18',
+    'status' => 'Present',
+    'remark' => NULL,
+  ),
+  5 => 
+  array (
+    'student_id' => 1,
+    'att_date' => '2026-11-19',
+    'status' => 'Present',
+    'remark' => NULL,
+  ),
+  6 => 
+  array (
+    'student_id' => 2,
+    'att_date' => '2026-11-19',
+    'status' => 'Absent',
+    'remark' => 'Family function',
+  ),
+)));
+        \App\Models\Notice::insert(array_map(fn($r) => $r + ['created_at' => now(), 'updated_at' => now()], array (
+  0 => 
+  array (
+    'title' => 'Diwali Vacation',
+    'body' => 'School will remain closed from 24 Nov to 30 Nov for Diwali vacation. Classes resume 1 Dec.',
+    'audience' => 'All',
+    'publish_on' => '2026-11-15',
+    'status' => 'Published',
+  ),
+  1 => 
+  array (
+    'title' => 'Parent-Teacher Meeting',
+    'body' => 'PTM for Classes 8-10 on 28 Nov, 10 AM - 1 PM. Parents are requested to attend.',
+    'audience' => 'Parents',
+    'publish_on' => '2026-11-18',
+    'status' => 'Published',
+  ),
+  2 => 
+  array (
+    'title' => 'Science Exhibition',
+    'body' => 'Annual science exhibition on 5 Dec. Students must submit project entries by 30 Nov.',
+    'audience' => 'Students',
+    'publish_on' => '2026-11-19',
+    'status' => 'Published',
+  ),
+)));
     }
 }

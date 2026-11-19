@@ -13,6 +13,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('students', \App\Http\Controllers\StudentController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('teachers', \App\Http\Controllers\TeacherController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('classes', \App\Http\Controllers\SchoolClassController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('fees/{row}/pay', [\App\Http\Controllers\FeeController::class, 'markPaid'])->name('fees.pay');
     Route::resource('fees', \App\Http\Controllers\FeeController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('results', \App\Http\Controllers\ResultController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('attendance', \App\Http\Controllers\AttendanceController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('notices', \App\Http\Controllers\NoticeController::class)->only(['index', 'store', 'update', 'destroy']);
 });

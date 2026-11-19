@@ -18,6 +18,7 @@
             <a href="{{ route('contacts.index') }}" class="{{ request()->routeIs('contacts.*') ? 'active' : '' }}"><span class="ni">◉</span>Contacts</a>
             <a href="{{ route('leads.index') }}" class="{{ request()->routeIs('leads.*') ? 'active' : '' }}"><span class="ni">◎</span>Leads</a>
             <a href="{{ route('deals.index') }}" class="{{ request()->routeIs('deals.*') ? 'active' : '' }}"><span class="ni">₹</span>Deals</a>
+            <a href="{{ route('pipeline') }}" class="{{ request()->routeIs('pipeline') ? 'active' : '' }}"><span class="ni">◈</span>Pipeline</a>
             <a href="{{ route('tasks.index') }}" class="{{ request()->routeIs('tasks.*') ? 'active' : '' }}"><span class="ni">✓</span>Tasks</a>
         </nav>
         <div class="side-foot"><a href="{{ url('/../') }}" class="side-back">← Back to Portfolio</a></div>
@@ -37,5 +38,6 @@
         </main>
     </div>
 </div>
+<script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

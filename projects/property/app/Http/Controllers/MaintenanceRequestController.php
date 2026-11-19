@@ -47,4 +47,11 @@ class MaintenanceRequestController extends Controller
         $row->delete();
         return back()->with('ok', 'Maintenance Request deleted.');
     }
+
+    public function setStatus(MaintenanceRequest $row, Request $request)
+    {
+        $data = $request->validate(["status" => "required|in:Open,In Progress,Resolved"]);
+        $row->update($data);
+        return back()->with("ok", "Request marked {$data["status"]}.");
+    }
 }

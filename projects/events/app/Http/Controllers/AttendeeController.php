@@ -42,4 +42,10 @@ class AttendeeController extends Controller
         $row->delete();
         return back()->with('ok', 'Attendee deleted.');
     }
+
+    public function checkin(Attendee $row)
+    {
+        $row->update(["checked_in" => !$row->checked_in]);
+        return back()->with("ok", $row->checked_in ? "Checked in." : "Check-in removed.");
+    }
 }

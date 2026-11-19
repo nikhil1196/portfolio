@@ -13,5 +13,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('events', \App\Http\Controllers\EventController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('tickets', \App\Http\Controllers\TicketController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('bookings', \App\Http\Controllers\BookingController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('attendees/{row}/checkin', [\App\Http\Controllers\AttendeeController::class, 'checkin'])->name('attendees.checkin');
     Route::resource('attendees', \App\Http\Controllers\AttendeeController::class)->only(['index', 'store', 'update', 'destroy']);
 });

@@ -14,5 +14,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('tenants', \App\Http\Controllers\TenantController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('leases', \App\Http\Controllers\LeaseController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('rents', \App\Http\Controllers\RentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('requests/{row}/status', [\App\Http\Controllers\MaintenanceRequestController::class, 'setStatus'])->name('requests.status');
     Route::resource('requests', \App\Http\Controllers\MaintenanceRequestController::class)->only(['index', 'store', 'update', 'destroy']);
 });

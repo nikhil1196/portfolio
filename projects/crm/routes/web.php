@@ -12,6 +12,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('contacts', \App\Http\Controllers\ContactController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('leads', \App\Http\Controllers\LeadController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::get('pipeline', [\App\Http\Controllers\PipelineController::class, 'index'])->name('pipeline');
+    Route::patch('deals/{row}/stage', [\App\Http\Controllers\PipelineController::class, 'move'])->name('deals.stage');
     Route::resource('deals', \App\Http\Controllers\DealController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('tasks', \App\Http\Controllers\TaskController::class)->only(['index', 'store', 'update', 'destroy']);
 });

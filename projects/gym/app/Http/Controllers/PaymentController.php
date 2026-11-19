@@ -41,4 +41,10 @@ class PaymentController extends Controller
         $payment->delete();
         return back()->with('ok', 'Payment deleted.');
     }
+
+    public function markPaid(Payment $payment)
+    {
+        $payment->update(["status" => "Paid", "paid_at" => now()]);
+        return back()->with("ok", "Payment marked as paid.");
+    }
 }

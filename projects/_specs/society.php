@@ -5,6 +5,7 @@ return [
         ['Dashboard', 'dashboard', '⌂'], ['Units', 'units.index', '▦'],
         ['Residents', 'residents.index', '◉'], ['Maintenance', 'maintenance.index', '₹'],
         ['Complaints', 'complaints.index', '✉'], ['Notices', 'notices.index', '⚑'],
+        ['Bookings', 'bookings.index', '▤'],
     ],
     'uses' => "use App\\Models\\Complaint;\nuse App\\Models\\Maintenance;\nuse App\\Models\\Resident;\nuse App\\Models\\Unit;",
     'stats' => [
@@ -106,6 +107,26 @@ return [
                 'Audience' => '{{ $r->audience }}', 'Published' => '{{ $r->published_at }}',
             ],
         ],
+        'bookings' => [
+            'model' => 'Booking', 'title' => 'Amenity Booking', '_mid' => 6,
+            'columns' => [['amenity','string'],['unit_id','fkreq:Unit'],['booking_date','date'],['slot','stringNullable'],['status','default:Confirmed']],
+            'fillable' => ['amenity','unit_id','booking_date','slot','status'],
+            'validation' => ['amenity'=>'required|in:Clubhouse,Community Hall,Swimming Pool,Tennis Court,Party Lawn','unit_id'=>'required|exists:units,id','booking_date'=>'required|date','slot'=>'nullable|string','status'=>'required|in:Confirmed,Cancelled,Completed'],
+            'fields' => [
+                ['amenity','Amenity','select',['Clubhouse','Community Hall','Swimming Pool','Tennis Court','Party Lawn'],true],
+                ['unit_id','Unit','select','@Unit:flat_no',true],
+                ['booking_date','Date','date',null,true],
+                ['slot','Time Slot','select',['Morning (6-12)','Afternoon (12-5)','Evening (5-10)','Full Day']],
+                ['status','Status','select',['Confirmed','Cancelled','Completed']],
+            ],
+            'with' => ['unit'],
+            'rels' => ['unit' => 'belongsTo:Unit'],
+            'cols' => [
+                'Amenity' => '<strong>{{ $r->amenity }}</strong>', 'Flat' => '{{ $r->unit->flat_no ?? "—" }}',
+                'Date' => '{{ $r->booking_date ? \Carbon\Carbon::parse($r->booking_date)->format("d M Y") : "—" }}',
+                'Slot' => '{{ $r->slot }}', 'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
     ],
     'seed' => [
         'Unit' => [
@@ -135,6 +156,11 @@ return [
         'Notice' => [
             ['title'=>'Water Tank Cleaning','body'=>'Water supply off on Sunday 10 AM - 1 PM.','audience'=>'All','published_at'=>'2026-11-08'],
             ['title'=>'AGM Notice','body'=>'Annual General Meeting on Nov 30th.','audience'=>'Owners','published_at'=>'2026-11-15'],
+        ],
+        'Booking' => [
+            ['amenity'=>'Community Hall','unit_id'=>1,'booking_date'=>'2026-11-22','slot'=>'Evening (5-10)','status'=>'Confirmed'],
+            ['amenity'=>'Swimming Pool','unit_id'=>3,'booking_date'=>'2026-11-19','slot'=>'Morning (6-12)','status'=>'Confirmed'],
+            ['amenity'=>'Clubhouse','unit_id'=>2,'booking_date'=>'2026-11-15','slot'=>'Full Day','status'=>'Completed'],
         ],
     ],
 ];

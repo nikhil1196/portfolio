@@ -46,4 +46,11 @@ class ComplaintController extends Controller
         $row->delete();
         return back()->with('ok', 'Complaint deleted.');
     }
+
+    public function setStatus(Complaint $row, Request $request)
+    {
+        $data = $request->validate(["status" => "required|in:Open,In Progress,Resolved"]);
+        $row->update($data);
+        return back()->with("ok", "Complaint marked {$data["status"]}.");
+    }
 }

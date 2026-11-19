@@ -170,5 +170,31 @@ class DatabaseSeeder extends Seeder
     'published_at' => '2026-11-15',
   ),
 )));
+        \App\Models\Booking::insert(array_map(fn($r) => $r + ['created_at' => now(), 'updated_at' => now()], array (
+  0 => 
+  array (
+    'amenity' => 'Community Hall',
+    'unit_id' => 1,
+    'booking_date' => '2026-11-22',
+    'slot' => 'Evening (5-10)',
+    'status' => 'Confirmed',
+  ),
+  1 => 
+  array (
+    'amenity' => 'Swimming Pool',
+    'unit_id' => 3,
+    'booking_date' => '2026-11-19',
+    'slot' => 'Morning (6-12)',
+    'status' => 'Confirmed',
+  ),
+  2 => 
+  array (
+    'amenity' => 'Clubhouse',
+    'unit_id' => 2,
+    'booking_date' => '2026-11-15',
+    'slot' => 'Full Day',
+    'status' => 'Completed',
+  ),
+)));
     }
 }

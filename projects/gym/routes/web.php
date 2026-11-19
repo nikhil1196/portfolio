@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('members', MemberController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('plans', PlanController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('trainers', TrainerController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::patch('payments/{payment}/pay', [PaymentController::class, 'markPaid'])->name('payments.pay');
     Route::resource('payments', PaymentController::class)->only(['index', 'store', 'destroy']);
 
     Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');

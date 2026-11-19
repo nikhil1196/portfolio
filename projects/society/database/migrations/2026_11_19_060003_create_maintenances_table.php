@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('unit_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('unit_id')->constrained('units')->cascadeOnDelete();
             $table->string('month')->nullable();
             $table->decimal('amount', 10, 2)->default(0);
             $table->string('status')->default('Due');

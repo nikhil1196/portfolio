@@ -20,6 +20,8 @@
             <a href="{{ route('classes.index') }}" class="{{ request()->routeIs('classes.*') ? 'active' : '' }}"><span class="ni">▤</span>Classes</a>
             <a href="{{ route('fees.index') }}" class="{{ request()->routeIs('fees.*') ? 'active' : '' }}"><span class="ni">₹</span>Fees</a>
             <a href="{{ route('results.index') }}" class="{{ request()->routeIs('results.*') ? 'active' : '' }}"><span class="ni">★</span>Results</a>
+            <a href="{{ route('attendance.index') }}" class="{{ request()->routeIs('attendance.*') ? 'active' : '' }}"><span class="ni">✓</span>Attendance</a>
+            <a href="{{ route('notices.index') }}" class="{{ request()->routeIs('notices.*') ? 'active' : '' }}"><span class="ni">⚑</span>Notices</a>
         </nav>
         <div class="side-foot"><a href="{{ url('/../') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>
@@ -38,5 +40,6 @@
         </main>
     </div>
 </div>
+<script src="{{ asset('js/admin.js') }}"></script>
 </body>
 </html>

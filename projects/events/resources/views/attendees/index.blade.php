@@ -37,6 +37,9 @@
                     <td>{{ $r->booking->event->title ?? "—" }}</td>
                     <td><span class="badge">{{ $r->checked_in ? "Checked In" : "Not Yet" }}</span></td>
                     <td>
+                        <form method="POST" action="{{ route('attendees.checkin', $r) }}" class="inline">@csrf @method('PATCH')
+                            <button class="btn btn-sm {{ $r->checked_in ? '' : 'btn-acc' }}" type="submit">{{ $r->checked_in ? 'Undo' : '✓ Check In' }}</button>
+                        </form>
                         <a class="btn btn-sm" href="{{ route('attendees.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('attendees.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
