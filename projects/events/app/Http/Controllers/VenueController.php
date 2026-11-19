@@ -9,7 +9,10 @@ class VenueController extends Controller
 {
     public function index()
     {
-        $rows = Venue::latest()->get();
+        $rows = Venue::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('address', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('venues.index', array_merge(compact('rows'), [
         ]));
     }

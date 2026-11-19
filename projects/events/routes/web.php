@@ -22,4 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', \App\Http\Controllers\CategoryController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('venues', \App\Http\Controllers\VenueController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('sessions', \App\Http\Controllers\SessionController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('checkin', [\App\Http\Controllers\CheckinController::class, 'index'])->name('checkin');
+    Route::post('checkin', [\App\Http\Controllers\CheckinController::class, 'scan'])->name('checkin.scan');
+    Route::get('bookings/{booking}/ticket', [\App\Http\Controllers\ETicketController::class, 'show'])->name('bookings.ticket');
+    Route::post('bookings/{booking}/paid', [\App\Http\Controllers\ETicketController::class, 'markPaid'])->name('bookings.paid');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

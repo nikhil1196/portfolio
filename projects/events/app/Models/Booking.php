@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Booking extends Model
 {
-    protected $fillable = ['booking_no', 'event_id', 'name', 'email', 'seats', 'amount', 'status'];
+    protected $fillable = ['booking_no', 'event_id', 'name', 'email', 'seats', 'amount', 'status', 'ticket_id','payment','txn_ref'];
 
     public function event()
     {
@@ -17,4 +17,6 @@ class Booking extends Model
     {
         return $this->hasMany(\App\Models\Attendee::class);
     }
+    public function ticket() { return $this->belongsTo(Ticket::class); }
+
 }

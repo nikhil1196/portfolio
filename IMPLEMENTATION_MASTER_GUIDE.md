@@ -23,7 +23,7 @@ standalone app (`php artisan serve` inside its folder).
 | 6 | HRMS | `projects/hrms` | [IMPLEMENTATION.md](projects/hrms/IMPLEMENTATION.md) | ✅ Completed |
 | 7 | CRM | `projects/crm` | [IMPLEMENTATION.md](projects/crm/IMPLEMENTATION.md) | ✅ Completed |
 | 8 | Property Management | `projects/property` | [IMPLEMENTATION.md](projects/property/IMPLEMENTATION.md) | ✅ Completed |
-| 9 | Event Booking | `projects/events` | [IMPLEMENTATION.md](projects/events/IMPLEMENTATION.md) | ⬜ Pending |
+| 9 | Event Booking | `projects/events` | [IMPLEMENTATION.md](projects/events/IMPLEMENTATION.md) | ✅ Completed |
 | 10 | AI Customer Support | `projects/ai-support` | [IMPLEMENTATION.md](projects/ai-support/IMPLEMENTATION.md) | ⬜ Pending |
 
 ## Global module implementation rules (applies to every module)

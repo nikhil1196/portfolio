@@ -9,7 +9,9 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $rows = Ticket::with(['event'])->latest()->get();
+        $rows = Ticket::with(['event'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('tickets.index', array_merge(compact('rows'), [
             'events' => \App\Models\Event::orderBy('title')->pluck('title', 'id'),
         ]));

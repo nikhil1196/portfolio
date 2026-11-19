@@ -25,6 +25,8 @@
             <a href="{{ route('categories.index') }}" class="{{ request()->routeIs('categories.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "grid"])Categories</a>
             <a href="{{ route('venues.index') }}" class="{{ request()->routeIs('venues.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "building"])Venues</a>
             <a href="{{ route('sessions.index') }}" class="{{ request()->routeIs('sessions.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "calendar"])Sessions</a>
+            <a href="{{ route('checkin') }}" class="{{ request()->routeIs('checkin*') ? 'active' : '' }}">@include("partials.icon", ["i" => "check"])Check-in</a>
+            <a href="{{ route('audit.index') }}" class="{{ request()->routeIs('audit.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Audit Log</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

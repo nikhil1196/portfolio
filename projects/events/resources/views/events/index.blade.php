@@ -29,6 +29,8 @@
   2 => 'Cancelled',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Organizer</label><input type="text" name="organizer" value="{{ old('organizer', $edit->organizer ?? '') }}"></div>
+                <div class="form-row"><label>Organizer Contact</label><input type="text" name="organizer_contact" value="{{ old('organizer_contact', $edit->organizer_contact ?? '') }}"></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Event</button>
             @if($edit)<a class="btn" href="{{ route('events.index') }}">Cancel</a>@endif
         </form>
@@ -38,6 +40,15 @@
 <div class="card">
     <div class="card-head"><h2>All Events ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All</option><option @selected(request('status')==='Draft')>Draft</option><option @selected(request('status')==='Published')>Published</option><option @selected(request('status')==='Cancelled')>Cancelled</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'events') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Event</th><th>Venue</th><th>Date</th><th>Price</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -48,6 +59,7 @@
                     <td>{{ $r->price ? "₹".number_format($r->price) : "Free" }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'events', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('events.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('events.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -58,6 +70,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

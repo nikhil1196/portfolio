@@ -9,7 +9,9 @@ class AttendeeController extends Controller
 {
     public function index()
     {
-        $rows = Attendee::with(['booking.event'])->latest()->get();
+        $rows = Attendee::with(['booking.event'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('checkin_code', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('attendees.index', array_merge(compact('rows'), [
             'bookings' => \App\Models\Booking::orderBy('booking_no')->pluck('booking_no', 'id'),
         ]));

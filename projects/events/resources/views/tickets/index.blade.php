@@ -25,6 +25,14 @@
 <div class="card">
     <div class="card-head"><h2>All Ticket Tiers ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'tickets') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Event</th><th>Tier</th><th>Price</th><th>Qty</th><th></th></tr>
             @forelse($rows as $r)
@@ -32,8 +40,9 @@
                     <td>{{ $r->event->title ?? "—" }}</td>
                     <td><strong>{{ $r->name }}</strong></td>
                     <td>₹{{ number_format($r->price) }}</td>
-                    <td>{{ $r->qty }}</td>
+                    <td>{{ $r->qty }} <span class="badge">sold {{ $r->sold }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'tickets', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('tickets.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('tickets.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -44,6 +53,7 @@
                 <tr><td colspan="5" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection
