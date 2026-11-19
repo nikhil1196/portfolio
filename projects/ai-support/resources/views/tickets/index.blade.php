@@ -1,0 +1,72 @@
+@extends('layouts.app')
+@section('title', 'Tickets')
+@section('content')
+@php $edit = request('edit') ? $rows->firstWhere('id', request('edit')) : null; @endphp
+<div class="card">
+    <div class="card-head"><h2>{{ $edit ? 'Edit Ticket' : 'Add Ticket' }}</h2></div>
+    <div class="card-body">
+        <form method="POST" action="{{ $edit ? route('tickets.update', $edit) : route('tickets.store') }}">
+            @csrf @if($edit) @method('PUT') @endif
+            <div class="form-grid">
+                <div class="form-row"><label>Customer Name</label><input type="text" name="customer" value="{{ old('customer', $edit->customer ?? '') }}" required></div>
+                <div class="form-row"><label>Customer Email</label><input type="email" name="email" value="{{ old('email', $edit->email ?? '') }}"></div>
+                <div class="form-row"><label>Subject</label><input type="text" name="subject" value="{{ old('subject', $edit->subject ?? '') }}" required></div>
+                <div class="form-row"><label>Channel</label>
+                    <select name="channel">@foreach(array (
+  0 => 'Email',
+  1 => 'Chat',
+  2 => 'WhatsApp',
+  3 => 'Phone',
+  4 => 'API',
+) as $s)<option @selected(old('channel', $edit->channel ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
+                <div class="form-row"><label>Priority</label>
+                    <select name="priority">@foreach(array (
+  0 => 'High',
+  1 => 'Medium',
+  2 => 'Low',
+) as $s)<option @selected(old('priority', $edit->priority ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
+                <div class="form-row"><label>Assigned To</label>
+                    <select name="agent_id"><option value="">— Select —</option>
+                        @foreach($agents as $id => $n)<option value="{{ $id }}" @selected(old('agent_id', $edit->agent_id ?? '') == $id)>{{ $n }}</option>@endforeach
+                    </select></div>
+                <div class="form-row"><label>AI Summary</label><textarea name="ai_summary">{{ old('ai_summary', $edit->ai_summary ?? '') }}</textarea></div>
+                <div class="form-row"><label>Status</label>
+                    <select name="status">@foreach(array (
+  0 => 'Open',
+  1 => 'In Progress',
+  2 => 'Resolved',
+) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
+            </div>
+            <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Ticket</button>
+            @if($edit)<a class="btn" href="{{ route('tickets.index') }}">Cancel</a>@endif
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-head"><h2>All Tickets ({{ $rows->count() }})</h2></div>
+    <div class="card-body" style="padding:0">
+        <table class="tbl">
+            <tr><th>Ticket</th><th>Customer</th><th>Subject</th><th>Priority</th><th>Agent</th><th>Status</th><th></th></tr>
+            @forelse($rows as $r)
+                <tr>
+                    <td><code>{{ $r->ticket_no }}</code></td>
+                    <td><strong>{{ $r->customer }}</strong><br><span class="note">{{ $r->channel }}</span></td>
+                    <td>{{ $r->subject }}</td>
+                    <td><span class="badge">{{ $r->priority }}</span></td>
+                    <td>{{ $r->agent->name ?? "—" }}</td>
+                    <td><span class="badge">{{ $r->status }}</span></td>
+                    <td>
+                        <a class="btn btn-sm" href="{{ route('tickets.index', ['edit' => $r->id]) }}">Edit</a>
+                        <form method="POST" action="{{ route('tickets.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
+                            @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr><td colspan="7" class="empty">No records yet</td></tr>
+            @endforelse
+        </table>
+    </div>
+</div>
+@endsection

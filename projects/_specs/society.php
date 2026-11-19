@@ -1,0 +1,140 @@
+<?php
+return [
+    'name' => 'Society Management', 'accent' => '#e17055', 'icon' => '⌂',
+    'nav' => [
+        ['Dashboard', 'dashboard', '⌂'], ['Units', 'units.index', '▦'],
+        ['Residents', 'residents.index', '◉'], ['Maintenance', 'maintenance.index', '₹'],
+        ['Complaints', 'complaints.index', '✉'], ['Notices', 'notices.index', '⚑'],
+    ],
+    'uses' => "use App\\Models\\Complaint;\nuse App\\Models\\Maintenance;\nuse App\\Models\\Resident;\nuse App\\Models\\Unit;",
+    'stats' => [
+        ['Units', 'Unit::count()', 'total flats'],
+        ['Residents', 'Resident::count()', 'registered'],
+        ['Maintenance Due', "'₹'.number_format(Maintenance::where('status','Due')->sum('amount'))", 'outstanding'],
+        ['Open Complaints', "Complaint::where('status','Open')->count()", 'need action'],
+    ],
+    'dash' => [
+        'title' => 'Active Complaints', 'link' => ['complaints.index', 'All'],
+        'query' => "Complaint::with(['resident.unit'])->where('status','!=','Resolved')->latest()->limit(8)->get()",
+        'cols' => ['Flat' => '{{ $r->resident->unit->flat_no ?? "—" }}', 'Resident' => '<strong>{{ $r->resident->name ?? "—" }}</strong>', 'Subject' => '{{ $r->subject }}', 'Category' => '{{ $r->category }}', 'Status' => '<span class="badge">{{ $r->status }}</span>'],
+        'empty' => 'No open complaints',
+    ],
+    'modules' => [
+        'units' => [
+            'model' => 'Unit', 'title' => 'Unit', '_mid' => 1,
+            'columns' => [['block','stringNullable'],['flat_no','string'],['floor','integer'],['type','stringNullable'],['area_sqft','integer'],['status','default:Occupied']],
+            'fillable' => ['block','flat_no','floor','type','area_sqft','status'],
+            'validation' => ['block'=>'nullable|string|max:5','flat_no'=>'required|string|max:15','floor'=>'nullable|integer','type'=>'nullable|string','area_sqft'=>'nullable|integer','status'=>'required|in:Occupied,Vacant'],
+            'fields' => [
+                ['block','Block','text'], ['flat_no','Flat No','text',null,true], ['floor','Floor','number'],
+                ['type','Type','select',['1 BHK','2 BHK','3 BHK','Shop']], ['area_sqft','Area (sq.ft)','number'],
+                ['status','Status','select',['Occupied','Vacant']],
+            ],
+            'cols' => [
+                'Flat' => '<strong>{{ $r->flat_no }}</strong>', 'Block' => '{{ $r->block }}',
+                'Type' => '{{ $r->type }}', 'Area' => '{{ $r->area_sqft }} sq.ft',
+                'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
+        'residents' => [
+            'model' => 'Resident', 'title' => 'Resident', '_mid' => 2,
+            'columns' => [['unit_id','fkreq:Unit'],['name','string'],['phone','stringNullable'],['email','stringNullable'],['role','default:Owner'],['status','statusActive']],
+            'fillable' => ['unit_id','name','phone','email','role','status'],
+            'validation' => ['unit_id'=>'required|exists:units,id','name'=>'required|string|max:255','phone'=>'nullable|string|max:20','email'=>'nullable|email','role'=>'required|in:Owner,Tenant,Family Member','status'=>'required|in:Active,Moved Out'],
+            'fields' => [
+                ['unit_id','Unit','select','@Unit:flat_no',true], ['name','Resident Name','text',null,true],
+                ['phone','Phone','tel'], ['email','Email','email'],
+                ['role','Role','select',['Owner','Tenant','Family Member']],
+                ['status','Status','select',['Active','Moved Out']],
+            ],
+            'with' => ['unit'],
+            'rels' => ['unit' => 'belongsTo:Unit', 'complaints' => 'hasMany:Complaint'],
+            'cols' => [
+                'Name' => '<strong>{{ $r->name }}</strong>', 'Flat' => '{{ $r->unit->flat_no ?? "—" }}',
+                'Role' => '{{ $r->role }}', 'Phone' => '{{ $r->phone }}',
+                'Email' => '{{ $r->email }}', 'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
+        'maintenance' => [
+            'model' => 'Maintenance', 'title' => 'Maintenance Bill', '_mid' => 3,
+            'columns' => [['unit_id','fkreq:Unit'],['month','stringNullable'],['amount','decimal'],['status','default:Due'],['paid_at','dateNullable']],
+            'fillable' => ['unit_id','month','amount','status','paid_at'],
+            'validation' => ['unit_id'=>'required|exists:units,id','month'=>'required|string|max:10','amount'=>'required|numeric|min:0','status'=>'required|in:Paid,Due,Overdue','paid_at'=>'nullable|date'],
+            'fields' => [
+                ['unit_id','Unit','select','@Unit:flat_no',true], ['month','Month','month',null,true],
+                ['amount','Amount (₹)','number',null,true],
+                ['status','Status','select',['Paid','Due','Overdue']], ['paid_at','Paid On','date'],
+            ],
+            'with' => ['unit'],
+            'rels' => ['unit' => 'belongsTo:Unit'],
+            'cols' => [
+                'Flat' => '<strong>{{ $r->unit->flat_no ?? "—" }}</strong>', 'Month' => '{{ $r->month }}',
+                'Amount' => '₹{{ number_format($r->amount) }}', 'Paid On' => '{{ $r->paid_at ?? "—" }}',
+                'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
+        'complaints' => [
+            'model' => 'Complaint', 'title' => 'Complaint', '_mid' => 4,
+            'columns' => [['resident_id','fkreq:Resident'],['category','stringNullable'],['subject','string'],['description','textNullable'],['status','default:Open']],
+            'fillable' => ['resident_id','category','subject','description','status'],
+            'validation' => ['resident_id'=>'required|exists:residents,id','category'=>'nullable|string','subject'=>'required|string','description'=>'nullable|string','status'=>'required|in:Open,In Progress,Resolved'],
+            'fields' => [
+                ['resident_id','Resident','select','@Resident',true],
+                ['category','Category','select',['Plumbing','Electrical','Security','Cleaning','Parking','Other']],
+                ['subject','Subject','text',null,true], ['description','Description','textarea'],
+                ['status','Status','select',['Open','In Progress','Resolved']],
+            ],
+            'with' => ['resident.unit'],
+            'rels' => ['resident' => 'belongsTo:Resident'],
+            'cols' => [
+                'Flat' => '{{ $r->resident->unit->flat_no ?? "—" }}', 'Resident' => '<strong>{{ $r->resident->name ?? "—" }}</strong>',
+                'Subject' => '{{ $r->subject }}', 'Category' => '{{ $r->category }}',
+                'Status' => '<span class="badge">{{ $r->status }}</span>',
+            ],
+        ],
+        'notices' => [
+            'model' => 'Notice', 'title' => 'Notice', '_mid' => 5,
+            'columns' => [['title','string'],['body','text'],['audience','default:All'],['published_at','dateNullable']],
+            'fillable' => ['title','body','audience','published_at'],
+            'validation' => ['title'=>'required|string|max:255','body'=>'required|string','audience'=>'required|in:All,Owners,Tenants','published_at'=>'nullable|date'],
+            'fields' => [
+                ['title','Title','text',null,true], ['body','Notice Text','textarea',null,true],
+                ['audience','Audience','select',['All','Owners','Tenants']], ['published_at','Publish Date','date'],
+            ],
+            'cols' => [
+                'Title' => '<strong>{{ $r->title }}</strong>', 'Notice' => '{{ Str::limit($r->body, 80) }}',
+                'Audience' => '{{ $r->audience }}', 'Published' => '{{ $r->published_at }}',
+            ],
+        ],
+    ],
+    'seed' => [
+        'Unit' => [
+            ['block'=>'A','flat_no'=>'A-101','floor'=>1,'type'=>'2 BHK','area_sqft'=>1050,'status'=>'Occupied'],
+            ['block'=>'A','flat_no'=>'A-102','floor'=>1,'type'=>'2 BHK','area_sqft'=>1050,'status'=>'Occupied'],
+            ['block'=>'A','flat_no'=>'A-201','floor'=>2,'type'=>'3 BHK','area_sqft'=>1400,'status'=>'Occupied'],
+            ['block'=>'B','flat_no'=>'B-101','floor'=>1,'type'=>'1 BHK','area_sqft'=>720,'status'=>'Occupied'],
+            ['block'=>'B','flat_no'=>'B-301','floor'=>3,'type'=>'3 BHK','area_sqft'=>1450,'status'=>'Vacant'],
+        ],
+        'Resident' => [
+            ['unit_id'=>1,'name'=>'Mahesh Thakkar','phone'=>'9840001111','email'=>'mahesh@example.com','role'=>'Owner','status'=>'Active'],
+            ['unit_id'=>2,'name'=>'Lata Krishnan','phone'=>'9840001112','email'=>'lata@example.com','role'=>'Owner','status'=>'Active'],
+            ['unit_id'=>3,'name'=>'Nilesh Bhavsar','phone'=>'9840001113','email'=>'nilesh@example.com','role'=>'Tenant','status'=>'Active'],
+            ['unit_id'=>4,'name'=>'Seema Choudhary','phone'=>'9840001114','email'=>'seema@example.com','role'=>'Owner','status'=>'Active'],
+        ],
+        'Maintenance' => [
+            ['unit_id'=>1,'month'=>'2026-11','amount'=>2500,'status'=>'Paid','paid_at'=>'2026-11-05'],
+            ['unit_id'=>2,'month'=>'2026-11','amount'=>2500,'status'=>'Paid','paid_at'=>'2026-11-07'],
+            ['unit_id'=>3,'month'=>'2026-11','amount'=>3200,'status'=>'Due','paid_at'=>null],
+            ['unit_id'=>4,'month'=>'2026-11','amount'=>1800,'status'=>'Due','paid_at'=>null],
+        ],
+        'Complaint' => [
+            ['resident_id'=>1,'category'=>'Plumbing','subject'=>'Leakage in bathroom','description'=>'Water seeping from ceiling.','status'=>'In Progress'],
+            ['resident_id'=>2,'category'=>'Electrical','subject'=>'Lift not working','description'=>'Block A lift stops on odd floors.','status'=>'Open'],
+            ['resident_id'=>3,'category'=>'Security','subject'=>'Gate left open','description'=>'Main gate unattended at night.','status'=>'Resolved'],
+        ],
+        'Notice' => [
+            ['title'=>'Water Tank Cleaning','body'=>'Water supply off on Sunday 10 AM - 1 PM.','audience'=>'All','published_at'=>'2026-11-08'],
+            ['title'=>'AGM Notice','body'=>'Annual General Meeting on Nov 30th.','audience'=>'Owners','published_at'=>'2026-11-15'],
+        ],
+    ],
+];

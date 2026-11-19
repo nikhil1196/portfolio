@@ -1,0 +1,18 @@
+<?php
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('login', [LoginController::class, 'show'])->name('login');
+Route::post('login', [LoginController::class, 'login'])->name('login.attempt');
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('properties', \App\Http\Controllers\PropertyController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('tenants', \App\Http\Controllers\TenantController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('leases', \App\Http\Controllers\LeaseController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('rents', \App\Http\Controllers\RentController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('requests', \App\Http\Controllers\MaintenanceRequestController::class)->only(['index', 'store', 'update', 'destroy']);
+});
