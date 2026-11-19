@@ -45,12 +45,12 @@ php artisan serve                  # http://localhost:8000
 | Check-in / check-out attendance | ✅ done |
 | Payments + invoices + mark-paid | ✅ done |
 | Personal trainer assignment (member ↔ coach) | ✅ done (trainer_id on member) |
-| Exercise library (with demo video URL) | ⬜ pending |
-| Workout plans (plan → exercises, sets/reps) | ⬜ pending |
-| Assign workout plan to member | ⬜ pending |
-| Member measurements (weight, BMI, chest, waist…) | ⬜ pending |
-| PT sessions (book coach session) | ⬜ pending |
-| Class/session bookings | ⬜ pending |
+| Exercise library (with demo video URL) | ✅ done |
+| Workout plans (plan → exercises, sets/reps) | ✅ done |
+| Assign workout plan to member | ✅ done |
+| Member measurements (weight, BMI, chest, waist…) | ✅ done |
+| PT sessions (book coach session) | ✅ done |
+| Class/session bookings | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 2. `clinic` — Clinic Management
@@ -58,11 +58,11 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Patients, doctors, appointments, prescriptions, bills | ✅ done |
-| Multi-clinic branches + clinic selection | ⬜ pending |
-| Doctor availability / schedule slots | ⬜ pending |
-| Slot-aware appointment booking | ⬜ pending |
-| Advance booking payment (Stripe-ready record) | ⬜ pending |
-| Email receipt → patient + doctor | ⬜ pending |
+| Multi-clinic branches + clinic selection | ✅ done |
+| Doctor availability / schedule slots | ✅ done |
+| Slot-aware appointment booking | ✅ done |
+| Advance booking payment (Stripe-ready record) | ✅ done |
+| Email receipt → patient + doctor | ✅ done |
 | Visit notes / medical history | ⬜ pending |
 | Roles & permissions, team users, reports | ✅ done |
 
