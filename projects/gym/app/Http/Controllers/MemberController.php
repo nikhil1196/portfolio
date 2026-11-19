@@ -12,7 +12,7 @@ class MemberController extends Controller
     public function index()
     {
         return view('members.index', [
-            'members' => Member::with(['plan', 'trainer'])->latest()->get(),
+            'members' => Member::with(['plan', 'trainer'])->when(request('q'), fn($q) => $q->where('name','like','%'.request('q').'%')->orWhere('phone','like','%'.request('q').'%')->orWhere('email','like','%'.request('q').'%'))->latest()->paginate(15)->withQueryString(),
             'plans'    => Plan::orderBy('name')->pluck('name', 'id'),
             'trainers' => Trainer::where('status', 'Active')->orderBy('name')->pluck('name', 'id'),
         ]);
@@ -20,13 +20,21 @@ class MemberController extends Controller
 
     public function store(Request $request)
     {
-        Member::create($this->validated($request));
+        $data = $this->validated($request);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('uploads', 'public');
+        }
+        Member::create($data);
         return back()->with('ok', 'Member added.');
     }
 
     public function update(Request $request, Member $member)
     {
-        $member->update($this->validated($request));
+        $data = $this->validated($request);
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('uploads', 'public');
+        }
+        $member->update($data);
         return redirect()->route('members.index')->with('ok', 'Member updated.');
     }
 
@@ -45,6 +53,11 @@ class MemberController extends Controller
             'plan_id'    => 'nullable|exists:plans,id',
             'trainer_id' => 'nullable|exists:trainers,id',
             'join_date'  => 'nullable|date',
+            'expiry_date' => 'nullable|date',
+            'emergency_name' => 'nullable|string|max:255',
+            'emergency_phone' => 'nullable|string|max:30',
+            'notes'      => 'nullable|string',
+            'photo'      => 'nullable|image|max:2048',
             'status'     => 'required|in:Active,Inactive,Expired',
         ]);
     }

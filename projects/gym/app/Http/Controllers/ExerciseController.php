@@ -9,7 +9,7 @@ class ExerciseController extends Controller
 {
     public function index()
     {
-        $rows = Exercise::latest()->get();
+        $rows = Exercise::latest()->paginate(15)->withQueryString();
         return view('exercises.index', array_merge(compact('rows'), [
         ]));
     }

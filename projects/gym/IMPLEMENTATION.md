@@ -10,13 +10,13 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | List/Create/Edit/Delete screens | ✅ |
-| View (show) page per entity | ⬜ |
+| View (show) page per entity (`/v/{module}/{id}`) | ✅ |
 | Validation | ✅ |
-| Search on list pages | ⬜ |
-| Pagination | ⬜ |
-| Sorting/filters | ⬜ |
-| Audit log of actions | ⬜ |
-| CSV export | ⬜ |
+| Search on list pages (`?q=`) | ✅ |
+| Pagination (`->paginate(15)`) | ✅ |
+| Sorting/filters (attendance date range, list ordering) | ✅ |
+| Audit log (`/audit`, model observer) | ✅ |
+| CSV export (`/export/{module}`) | ✅ |
 | Roles/permissions + team + reports | ✅ |
 | Responsive UI | ✅ |
 
@@ -26,11 +26,12 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Member registration & profile | ✅ |
 | Membership plan assignment | ✅ |
-| Emergency contact details | ⬜ |
-| Documents & profile image upload | ⬜ |
-| Attendance history per member | ⬜ |
-| Payment history per member | ⬜ |
-| Notes & activity timeline | ⬜ |
+| Emergency contact details | ✅ |
+| Profile image upload | ✅ |
+| Attendance history per member (record page) | ✅ |
+| Payment history per member (record page) | ✅ |
+| Notes & activity timeline (notes field + audit trail) | ✅ |
+| Membership expiry date tracking | ✅ |
 
 ## Membership Plans CRUD
 
@@ -39,7 +40,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Create membership packages | ✅ |
 | Duration management | ✅ |
 | Pricing | ✅ |
-| Discount configuration | ⬜ |
+| Discount configuration (`discount_pct`) | ✅ |
 | Active/inactive status | ✅ |
 
 ## Trainers CRUD
@@ -48,9 +49,9 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Trainer profile | ✅ |
 | Specialization | ✅ |
-| Availability | ⬜ |
+| Availability | ✅ |
 | Assigned members | ✅ |
-| Performance reports | ⬜ |
+| Performance reports (via /reports + CSV) | ✅ |
 
 ## Attendance Management
 
@@ -58,16 +59,16 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Check-in/check-out | ✅ |
 | Attendance history | ✅ |
-| Date filters | ⬜ |
-| Attendance reports | ⬜ |
+| Date filters (`?from=&to=`) | ✅ |
+| Attendance reports | ✅ |
 
 ## Payments & Invoices
 
 | Feature | Status |
 |---------|--------|
 | Payment collection | ✅ |
-| Invoice generation (invoice_no) | 🔄 |
-| Receipt download/print | ⬜ |
+| Invoice generation (`invoice_no`) | ✅ |
+| Receipt download/print (`/payments/{id}/receipt`) | ✅ |
 | Payment status tracking | ✅ |
 
 ## Exercise Library
@@ -76,7 +77,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Exercise name | ✅ |
 | Category (muscle group) | ✅ |
-| Instructions | 🔄 |
+| Instructions (description) | ✅ |
 | Video URL | ✅ |
 | Difficulty level | ✅ |
 | Equipment | ✅ |
@@ -96,10 +97,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Weight | ✅ |
-| BMI (computed) | 🔄 |
+| BMI (computed in table) | ✅ |
 | Chest | ✅ |
 | Waist | ✅ |
-| Progress tracking charts | ⬜ |
+| Progress tracking charts (SVG, /measurements) | ✅ |
 
 ## Extra (beyond blueprint)
 
@@ -107,5 +108,4 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | PT sessions + coach booking | ✅ |
 | Gym classes + class bookings | ✅ |
-| Membership expiry/renewal | ⬜ |
-
+| Membership renewal automation | 🔄 |

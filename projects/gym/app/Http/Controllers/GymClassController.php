@@ -9,7 +9,9 @@ class GymClassController extends Controller
 {
     public function index()
     {
-        $rows = GymClass::with(['trainer'])->latest()->get();
+        $rows = GymClass::with(['trainer']);
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('day', 'like', "%$q%"); }); }
+        $rows = $rows->latest()->paginate(15)->withQueryString();
         return view('gym-classes.index', array_merge(compact('rows'), [
             'trainers' => \App\Models\Trainer::orderBy('name')->pluck('name', 'id'),
         ]));

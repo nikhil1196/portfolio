@@ -3,7 +3,14 @@
 @section('content')
 @php $edit = request('edit') ? $plans->firstWhere('id', request('edit')) : null; @endphp
 <div class="card">
-    <div class="card-head"><h2>{{ $edit ? 'Edit Plan' : 'Add Plan' }}</h2></div>
+    <div class="card-head"><h2>{{ $edit ? 'Edit Plan' : 'Add Plan' }}</h2>
+        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
+            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
+            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
+            <a class="btn" href="{{ route('export.csv', 'plans') }}" style="margin-left:auto">⬇ CSV</a>
+        </form>
+</div>
     <div class="card-body">
         <form method="POST" action="{{ $edit ? route('plans.update', $edit) : route('plans.store') }}">
             @csrf @if($edit) @method('PUT') @endif
@@ -35,6 +42,7 @@
                     <td>{{ $p->members_count }}</td>
                     <td><span class="badge">{{ $p->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'plans', 'id' => $p->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('plans.index', ['edit' => $p->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('plans.destroy', $p) }}" class="inline" onsubmit="return confirm('Delete this plan?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -45,6 +53,7 @@
                 <tr><td colspan="7" class="empty">No plans yet</td></tr>
             @endforelse
         </table>
+        {{ $plans->links() }}
     </div>
 </div>
 @endsection

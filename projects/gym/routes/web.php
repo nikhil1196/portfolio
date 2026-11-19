@@ -37,4 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pt-sessions', \App\Http\Controllers\PtSessionController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('gym-classes', \App\Http\Controllers\GymClassController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('class-bookings', \App\Http\Controllers\ClassBookingController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('payments/{payment}/receipt', [\App\Http\Controllers\ReceiptController::class, 'show'])->name('payments.receipt');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

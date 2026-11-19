@@ -2,7 +2,14 @@
 @section('title', 'Payments')
 @section('content')
 <div class="card">
-    <div class="card-head"><h2>Record Payment</h2><span class="note">Total collected: <strong>₹{{ number_format($totalPaid) }}</strong></span></div>
+    <div class="card-head"><h2>Record Payment</h2>
+        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
+            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
+            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
+            <a class="btn" href="{{ route('export.csv', 'payments') }}" style="margin-left:auto">⬇ CSV</a>
+        </form>
+<span class="note">Total collected: <strong>₹{{ number_format($totalPaid) }}</strong></span></div>
     <div class="card-body">
         <form method="POST" action="{{ route('payments.store') }}">
             @csrf
@@ -55,6 +62,7 @@
                 <tr><td colspan="8" class="empty">No payments yet</td></tr>
             @endforelse
         </table>
+        {{ $payments->links() }}
     </div>
 </div>
 @endsection

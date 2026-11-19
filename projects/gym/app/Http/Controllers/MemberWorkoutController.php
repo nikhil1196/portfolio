@@ -9,7 +9,7 @@ class MemberWorkoutController extends Controller
 {
     public function index()
     {
-        $rows = MemberWorkout::with(['member','workoutPlan'])->latest()->get();
+        $rows = MemberWorkout::with(['member','workoutPlan'])->latest()->paginate(15)->withQueryString();
         return view('member-workouts.index', array_merge(compact('rows'), [
             'members' => \App\Models\Member::orderBy('name')->pluck('name', 'id'),
             'workout_plans' => \App\Models\WorkoutPlan::orderBy('name')->pluck('name', 'id'),

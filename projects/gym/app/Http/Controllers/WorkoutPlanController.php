@@ -9,7 +9,7 @@ class WorkoutPlanController extends Controller
 {
     public function index()
     {
-        $rows = WorkoutPlan::latest()->get();
+        $rows = WorkoutPlan::latest()->paginate(15)->withQueryString();
         return view('workout-plans.index', array_merge(compact('rows'), [
         ]));
     }

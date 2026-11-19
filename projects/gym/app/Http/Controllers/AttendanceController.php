@@ -12,7 +12,7 @@ class AttendanceController extends Controller
     {
         return view('attendance.index', [
             'members' => Member::where('status', 'Active')->orderBy('name')->pluck('name', 'id'),
-            'log'     => Attendance::with('member')->latest('check_in')->limit(50)->get(),
+            'log'     => Attendance::with('member')->when(request('from'), fn($q)=>$q->whereDate('check_in','>=',request('from')))->when(request('to'), fn($q)=>$q->whereDate('check_in','<=',request('to')))->latest('check_in')->paginate(15)->withQueryString(),
         ]);
     }
 

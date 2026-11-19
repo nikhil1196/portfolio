@@ -3,7 +3,14 @@
 @section('content')
 @php $edit = request('edit') ? $rows->firstWhere('id', request('edit')) : null; @endphp
 <div class="card">
-    <div class="card-head"><h2>{{ $edit ? 'Edit Class' : 'Add Class' }}</h2></div>
+    <div class="card-head"><h2>{{ $edit ? 'Edit Class' : 'Add Class' }}</h2>
+        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
+            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
+            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
+            <a class="btn" href="{{ route('export.csv', 'gym-classes') }}" style="margin-left:auto">⬇ CSV</a>
+        </form>
+</div>
     <div class="card-body">
         <form method="POST" action="{{ $edit ? route('gym-classes.update', $edit) : route('gym-classes.store') }}">
             @csrf @if($edit) @method('PUT') @endif
@@ -52,6 +59,7 @@
                     <td>{{ $r->capacity }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'gym-classes', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('gym-classes.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('gym-classes.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -62,6 +70,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

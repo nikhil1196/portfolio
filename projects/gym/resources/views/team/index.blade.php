@@ -3,7 +3,14 @@
 @section('content')
 @php $edit = request('edit') ? $rows->firstWhere('id', request('edit')) : null; @endphp
 <div class="card">
-    <div class="card-head"><h2>{{ $edit ? 'Edit User' : 'Add User' }}</h2></div>
+    <div class="card-head"><h2>{{ $edit ? 'Edit User' : 'Add User' }}</h2>
+        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
+            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
+            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
+            <a class="btn" href="{{ route('export.csv', 'team') }}" style="margin-left:auto">⬇ CSV</a>
+        </form>
+</div>
     <div class="card-body">
         <form method="POST" action="{{ $edit ? route('team.update', $edit) : route('team.store') }}">
             @csrf @if($edit) @method('PUT') @endif
@@ -33,6 +40,7 @@
                     <td><span class="badge">{{ $r->role->name ?? '—' }}</span></td>
                     <td>{{ $r->created_at->format('d M Y') }}</td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'team', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('team.index', ['edit' => $r->id]) }}">Edit</a>
                         @if($r->id !== auth()->id())
                         <form method="POST" action="{{ route('team.destroy', $r) }}" class="inline" onsubmit="return confirm('Remove this user?')">
@@ -45,6 +53,7 @@
                 <tr><td colspan="5" class="empty">No users</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

@@ -9,7 +9,7 @@ class TrainerController extends Controller
 {
     public function index()
     {
-        return view('trainers.index', ['trainers' => Trainer::withCount('members')->orderBy('name')->get()]);
+        return view('trainers.index', ['trainers' => Trainer::withCount('members')->when(request('q'), fn($q)=>$q->where('name','like','%'.request('q').'%')->orWhere('specialty','like','%'.request('q').'%'))->orderBy('name')->paginate(15)->withQueryString()]);
     }
 
     public function store(Request $request)

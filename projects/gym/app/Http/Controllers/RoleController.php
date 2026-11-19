@@ -12,7 +12,7 @@ class RoleController extends Controller
 );
     public function index()
     {
-        $rows = Role::withCount('users')->latest()->get();
+        $rows = Role::withCount('users')->latest()->paginate(15)->withQueryString();
         return view('roles.index', ['rows' => $rows, 'modules' => array_keys(self::MODULES)]);
     }
     public function store(Request $request)

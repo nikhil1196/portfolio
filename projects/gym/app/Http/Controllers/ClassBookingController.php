@@ -9,7 +9,7 @@ class ClassBookingController extends Controller
 {
     public function index()
     {
-        $rows = ClassBooking::with(['gymClass','member'])->latest()->get();
+        $rows = ClassBooking::with(['gymClass','member'])->latest()->paginate(15)->withQueryString();
         return view('class-bookings.index', array_merge(compact('rows'), [
             'gym_classs' => \App\Models\GymClass::orderBy('name')->pluck('name', 'id'),
             'members' => \App\Models\Member::orderBy('name')->pluck('name', 'id'),

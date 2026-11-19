@@ -9,7 +9,9 @@ class MeasurementController extends Controller
 {
     public function index()
     {
-        $rows = Measurement::with(['member'])->latest()->get();
+        $rows = Measurement::with(['member']);
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('notes', 'like', "%$q%"); }); }
+        $rows = $rows->latest()->paginate(15)->withQueryString();
         return view('measurements.index', array_merge(compact('rows'), [
             'members' => \App\Models\Member::orderBy('name')->pluck('name', 'id'),
         ]));

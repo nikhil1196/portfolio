@@ -9,7 +9,7 @@ class PlanController extends Controller
 {
     public function index()
     {
-        return view('plans.index', ['plans' => Plan::withCount('members')->orderBy('price')->get()]);
+        return view('plans.index', ['plans' => Plan::withCount('members')->when(request('q'), fn($q)=>$q->where('name','like','%'.request('q').'%'))->orderBy('price')->paginate(15)->withQueryString()]);
     }
 
     public function store(Request $request)

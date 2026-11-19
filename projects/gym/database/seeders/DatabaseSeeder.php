@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Viewer', 'perms' => '', 'created_at' => now(), 'updated_at' => now()],
         ]);
         User::create([
+            'role_id'   => 1,
             'name'     => 'Admin',
             'email'    => 'admin@demo.local',
             'password' => Hash::make('admin123'),

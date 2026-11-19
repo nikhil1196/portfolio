@@ -30,6 +30,7 @@
             <a href="{{ route('pt-sessions.index') }}" class="{{ request()->routeIs('pt-sessions.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clock"])PT Sessions</a>
             <a href="{{ route('gym-classes.index') }}" class="{{ request()->routeIs('gym-classes.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "grid"])Classes</a>
             <a href="{{ route('class-bookings.index') }}" class="{{ request()->routeIs('class-bookings.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "calendar"])Bookings</a>
+            <a href="{{ route('audit.index') }}" class="{{ request()->routeIs('audit.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Audit Log</a>
         </nav>
         <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>

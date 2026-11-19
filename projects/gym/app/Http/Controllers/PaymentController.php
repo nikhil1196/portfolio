@@ -12,7 +12,7 @@ class PaymentController extends Controller
     public function index()
     {
         return view('payments.index', [
-            'payments'  => Payment::with(['member', 'plan'])->latest()->limit(60)->get(),
+            'payments'  => Payment::with(['member', 'plan'])->when(request('q'), fn($q)=>$q->where('invoice_no','like','%'.request('q').'%'))->latest()->paginate(15)->withQueryString(),
             'totalPaid' => Payment::where('status', 'Paid')->sum('amount'),
             'members'   => Member::orderBy('name')->pluck('name', 'id'),
             'plans'     => Plan::where('status', 'Active')->orderBy('name')->pluck('name', 'id'),

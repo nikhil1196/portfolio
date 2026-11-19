@@ -9,7 +9,9 @@ class PtSessionController extends Controller
 {
     public function index()
     {
-        $rows = PtSession::with(['member','trainer'])->latest()->get();
+        $rows = PtSession::with(['member','trainer']);
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('focus', 'like', "%$q%"); }); }
+        $rows = $rows->latest()->paginate(15)->withQueryString();
         return view('pt-sessions.index', array_merge(compact('rows'), [
             'members' => \App\Models\Member::orderBy('name')->pluck('name', 'id'),
             'trainers' => \App\Models\Trainer::orderBy('name')->pluck('name', 'id'),
