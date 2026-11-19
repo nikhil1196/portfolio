@@ -3,13 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-head"><h2>Record Payment</h2>
-        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
-            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
-            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
-            <a class="btn" href="{{ route('export.csv', 'payments') }}" style="margin-left:auto">⬇ CSV</a>
-        </form>
-<span class="note">Total collected: <strong>₹{{ number_format($totalPaid) }}</strong></span></div>
+        <span class="note">Total collected: <strong>₹{{ number_format($totalPaid) }}</strong></span></div>
     <div class="card-body">
         <form method="POST" action="{{ route('payments.store') }}">
             @csrf
@@ -36,6 +30,14 @@
 <div class="card">
     <div class="card-head"><h2>Payment History ({{ $payments->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'payments') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Invoice</th><th>Member</th><th>Plan</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th></th></tr>
             @forelse($payments as $p)

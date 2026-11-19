@@ -3,13 +3,7 @@
 @section('content')
 <div class="card">
     <div class="card-head"><h2>Member Check-in</h2>
-        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
-            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
-            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
-            <a class="btn" href="{{ route('export.csv', 'attendance') }}" style="margin-left:auto">⬇ CSV</a>
-        </form>
-</div>
+        </div>
     <div class="card-body">
         <form method="POST" action="{{ route('attendance.checkin') }}" class="toolbar">
             @csrf

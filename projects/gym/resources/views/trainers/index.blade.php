@@ -4,13 +4,7 @@
 @php $edit = request('edit') ? $trainers->firstWhere('id', request('edit')) : null; @endphp
 <div class="card">
     <div class="card-head"><h2>{{ $edit ? 'Edit Trainer' : 'Add Trainer' }}</h2>
-        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
-            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
-            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
-            <a class="btn" href="{{ route('export.csv', 'trainers') }}" style="margin-left:auto">⬇ CSV</a>
-        </form>
-</div>
+        </div>
     <div class="card-body">
         <form method="POST" action="{{ $edit ? route('trainers.update', $edit) : route('trainers.store') }}">
             @csrf @if($edit) @method('PUT') @endif
@@ -30,6 +24,14 @@
 <div class="card">
     <div class="card-head"><h2>All Trainers ({{ $trainers->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'trainers') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Name</th><th>Specialty</th><th>Phone</th><th>Assigned Members</th><th>Status</th><th></th></tr>
             @forelse($trainers as $t)
