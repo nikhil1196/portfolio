@@ -26,6 +26,8 @@
   2 => 'Exited',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Leave Balance</label><input type="number" name="leave_balance" value="{{ old('leave_balance', $edit->leave_balance ?? 20) }}"></div>
+                <div class="form-row"><label>Employment History</label><textarea name="history">{{ old('history', $edit->history ?? '') }}</textarea></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Employee</button>
             @if($edit)<a class="btn" href="{{ route('employees.index') }}">Cancel</a>@endif
         </form>
@@ -35,6 +37,14 @@
 <div class="card">
     <div class="card-head"><h2>All Employees ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'employees') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Code</th><th>Name</th><th>Dept</th><th>Joined</th><th>Salary</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -46,6 +56,7 @@
                     <td>₹{{ number_format($r->salary) }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'employees', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('employees.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('employees.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -56,6 +67,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

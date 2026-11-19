@@ -9,7 +9,9 @@ class DocumentController extends Controller
 {
     public function index()
     {
-        $rows = Document::with(['employee'])->latest()->get();
+        $rows = Document::with(['employee'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('documents.index', array_merge(compact('rows'), [
             'employees' => \App\Models\Employee::orderBy('name')->pluck('name', 'id'),
         ]));

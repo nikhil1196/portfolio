@@ -23,4 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('holidays', \App\Http\Controllers\HolidayController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('announcements', \App\Http\Controllers\AnnouncementController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('documents', \App\Http\Controllers\DocumentController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('reports/attendance', [\App\Http\Controllers\AttendanceReportController::class, 'index'])->name('reports.attendance');
+    Route::get('payroll/{payroll}/payslip', [\App\Http\Controllers\PayslipController::class, 'show'])->name('payroll.payslip');
+    Route::post('payroll/{payroll}/paid', [\App\Http\Controllers\PayslipController::class, 'markPaid'])->name('payroll.paid');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

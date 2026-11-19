@@ -9,7 +9,9 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-        $rows = Department::latest()->get();
+        $rows = Department::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('departments.index', array_merge(compact('rows'), [
         ]));
     }

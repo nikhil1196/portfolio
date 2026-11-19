@@ -32,6 +32,15 @@
 <div class="card">
     <div class="card-head"><h2>All Payroll Entrys ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All</option><option @selected(request('status')==='Processed')>Processed</option><option @selected(request('status')==='Paid')>Paid</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'payroll') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Employee</th><th>Month</th><th>Basic</th><th>Net Pay</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -42,7 +51,10 @@
                     <td><strong>₹{{ number_format($r->net) }}</strong></td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'payroll', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('payroll.index', ['edit' => $r->id]) }}">Edit</a>
+                        <a class="btn btn-sm" href="{{ route('payroll.payslip', $r) }}" target="_blank">Payslip</a>
+                        @if($r->status !== 'Paid')<form method="POST" action="{{ route('payroll.paid', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">Mark Paid</button></form>@endif
                         <form method="POST" action="{{ route('payroll.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -52,6 +64,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

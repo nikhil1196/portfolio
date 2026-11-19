@@ -32,6 +32,14 @@
 <div class="card">
     <div class="card-head"><h2>All Announcements ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'announcements') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Title</th><th>Audience</th><th>Published</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -41,6 +49,7 @@
                     <td>{{ $r->publish_date }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'announcements', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('announcements.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('announcements.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -51,6 +60,7 @@
                 <tr><td colspan="5" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

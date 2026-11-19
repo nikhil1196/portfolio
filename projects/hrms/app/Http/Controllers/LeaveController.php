@@ -9,7 +9,10 @@ class LeaveController extends Controller
 {
     public function index()
     {
-        $rows = Leave::with(['employee'])->latest()->get();
+        $rows = Leave::with(['employee'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('type', 'like', "%$q%") ->orWhere('reason', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('leaves.index', array_merge(compact('rows'), [
             'employees' => \App\Models\Employee::orderBy('name')->pluck('name', 'id'),
         ]));
@@ -52,6 +55,10 @@ class LeaveController extends Controller
     public function setStatus(Leave $row, Request $request)
     {
         $data = $request->validate(["status" => "required|in:Pending,Approved,Rejected"]);
+        if ($data['status'] === 'Approved' && $row->status !== 'Approved') {
+            $days = \Carbon\Carbon::parse($row->from_date)->diffInDays(\Carbon\Carbon::parse($row->to_date)) + 1;
+            $row->employee?->decrement('leave_balance', (int) $days);
+        }
         $row->update($data);
         return back()->with("ok", "Leave {$data["status"]}.");
     }

@@ -9,7 +9,10 @@ class PayrollController extends Controller
 {
     public function index()
     {
-        $rows = Payroll::with(['employee'])->latest()->get();
+        $rows = Payroll::with(['employee'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('month', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('payroll.index', array_merge(compact('rows'), [
             'employees' => \App\Models\Employee::orderBy('name')->pluck('name', 'id'),
         ]));
@@ -25,6 +28,7 @@ class PayrollController extends Controller
             'deductions' => 'nullable|numeric',
             'status' => 'required|in:Processed,Paid,On Hold',
         ]);
+        $data['net'] = ($data['basic'] ?? 0) + ($data['allowances'] ?? 0) - ($data['deductions'] ?? 0);
         $data['net'] = ($data['basic'] ?? 0) + ($data['allowances'] ?? 0) - ($data['deductions'] ?? 0);
         Payroll::create($data);
         return back()->with('ok', 'Payroll Entry added.');

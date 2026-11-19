@@ -32,15 +32,26 @@
 <div class="card">
     <div class="card-head"><h2>All Attendances ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <input type="date" name="from" value="{{ request('from') }}">
+            <input type="date" name="to" value="{{ request('to') }}">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'attendance') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Date</th><th>Employee</th><th>Check-in</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
                 <tr>
                     <td>{{ $r->work_date }}</td>
                     <td><strong>{{ $r->employee->name ?? "—" }}</strong><br><span class="note">{{ $r->employee->emp_code ?? "" }}</span></td>
-                    <td>{{ $r->check_in ?? "—" }}</td>
+                    <td>{{ $r->check_in ?? "—" }} @if($r->late)<span class="badge b-late">Late</span>@endif</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'attendance', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('attendance.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('attendance.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -51,6 +62,7 @@
                 <tr><td colspan="5" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

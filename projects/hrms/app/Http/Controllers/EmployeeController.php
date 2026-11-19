@@ -9,7 +9,9 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $rows = Employee::with(['department'])->latest()->get();
+        $rows = Employee::with(['department'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('emp_code', 'like', "%$q%") ->orWhere('email', 'like', "%$q%") ->orWhere('designation', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('employees.index', array_merge(compact('rows'), [
             'departments' => \App\Models\Department::orderBy('name')->pluck('name', 'id'),
         ]));
@@ -26,6 +28,7 @@ class EmployeeController extends Controller
             'phone' => 'nullable|string|max:20',
             'joining_date' => 'nullable|date',
             'salary' => 'nullable|numeric|min:0',
+            'history' => 'nullable|string', 'leave_balance' => 'nullable|integer|min:0',
             'status' => 'required|in:Active,On Notice,Exited',
         ]);
 
@@ -44,6 +47,7 @@ class EmployeeController extends Controller
             'phone' => 'nullable|string|max:20',
             'joining_date' => 'nullable|date',
             'salary' => 'nullable|numeric|min:0',
+            'history' => 'nullable|string', 'leave_balance' => 'nullable|integer|min:0',
             'status' => 'required|in:Active,On Notice,Exited',
         ]));
         return redirect()->route('employees.index')->with('ok', 'Employee updated.');

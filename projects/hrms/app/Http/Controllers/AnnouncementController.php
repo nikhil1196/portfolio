@@ -9,7 +9,9 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        $rows = Announcement::latest()->get();
+        $rows = Announcement::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('body', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('announcements.index', array_merge(compact('rows'), [
         ]));
     }

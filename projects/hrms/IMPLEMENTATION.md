@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Employees
@@ -22,15 +22,15 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Profile | ✅ |
 | Department | ✅ |
 | Documents | ✅ |
-| Employment history | ⬜ |
+| Employment history | ✅ |
 
 ## Attendance
 
 | Feature | Status |
 |---------|--------|
 | Daily attendance | ✅ |
-| Late tracking | ⬜ |
-| Reports | ⬜ |
+| Late tracking (auto flag >09:30 + badge) | ✅ |
+| Reports (monthly attendance summary) | ✅ |
 
 ## Leave
 
@@ -38,15 +38,15 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Leave request | ✅ |
 | Approval workflow | ✅ |
-| Balance tracking | ⬜ |
+| Balance tracking (deduct on approve) | ✅ |
 
 ## Payroll
 
 | Feature | Status |
 |---------|--------|
-| Salary structure | 🔄 |
-| Payslip generation | ⬜ |
-| Payment history | 🔄 |
+| Salary structure (basic+allow−deduct→net) | ✅ |
+| Payslip generation (printable) | ✅ |
+| Payment history (paid_at + status filter) | ✅ |
 
 ## Extra
 

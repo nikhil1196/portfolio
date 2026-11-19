@@ -8,7 +8,7 @@ class HrAttendance extends Model
 {
     protected $table = 'attendances';
 
-    protected $fillable = ['emp_id', 'work_date', 'check_in', 'status'];
+    protected $fillable = ['emp_id', 'work_date', 'check_in', 'status', 'check_out', 'late'];
 
     public function employee()
     {

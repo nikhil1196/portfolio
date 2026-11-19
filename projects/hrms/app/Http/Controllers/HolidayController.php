@@ -9,7 +9,9 @@ class HolidayController extends Controller
 {
     public function index()
     {
-        $rows = Holiday::latest()->get();
+        $rows = Holiday::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('holidays.index', array_merge(compact('rows'), [
         ]));
     }
