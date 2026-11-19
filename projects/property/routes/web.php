@@ -20,4 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+    Route::resource('expenses', \App\Http\Controllers\ExpenseController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('documents', \App\Http\Controllers\DocumentController::class)->only(['index', 'store', 'update', 'destroy']);
 });

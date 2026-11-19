@@ -129,5 +129,6 @@ class DatabaseSeeder extends Seeder
     'status' => 'Open',
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

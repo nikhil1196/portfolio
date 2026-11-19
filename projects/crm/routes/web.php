@@ -20,4 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
+    Route::resource('activities', \App\Http\Controllers\ActivityController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('products', \App\Http\Controllers\ProductController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('quotes', \App\Http\Controllers\QuoteController::class)->only(['index', 'store', 'update', 'destroy']);
 });

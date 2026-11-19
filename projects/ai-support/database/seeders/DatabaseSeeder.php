@@ -138,5 +138,6 @@ class DatabaseSeeder extends Seeder
     'category' => 'General',
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

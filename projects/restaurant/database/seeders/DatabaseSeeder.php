@@ -195,5 +195,6 @@ class DatabaseSeeder extends Seeder
     'price' => 120,
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

@@ -139,5 +139,6 @@ class DatabaseSeeder extends Seeder
     'checked_in' => 0,
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }

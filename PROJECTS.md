@@ -99,9 +99,9 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Menu items, tables, POS orders, live KDS, order history | ✅ done |
-| Menu categories | ⬜ pending |
-| Table reservations | ⬜ pending |
-| Inventory / stock | ⬜ pending |
+| Menu categories | ✅ done |
+| Table reservations | ✅ done |
+| Inventory / stock | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 6. `hrms` — HRMS
@@ -109,9 +109,9 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Departments, employees, attendance, leave approve/reject, payroll | ✅ done |
-| Holidays calendar | ⬜ pending |
-| Announcements | ⬜ pending |
-| Employee documents | ⬜ pending |
+| Holidays calendar | ✅ done |
+| Announcements | ✅ done |
+| Employee documents | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 7. `crm` — CRM
@@ -119,8 +119,8 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Contacts, leads, deals, kanban pipeline, tasks | ✅ done |
-| Activities / timeline per lead | ⬜ pending |
-| Products & quotes | ⬜ pending |
+| Activities / timeline per lead | ✅ done |
+| Products & quotes | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 8. `property` — Property Management
@@ -128,8 +128,8 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Properties, tenants, leases, rent, request flow | ✅ done |
-| Expenses | ⬜ pending |
-| Documents | ⬜ pending |
+| Expenses | ✅ done |
+| Documents | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 9. `events` — Event Booking
@@ -137,8 +137,8 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Events, ticket tiers, bookings, attendee check-in | ✅ done |
-| Categories, venues | ⬜ pending |
-| Sessions / speakers | ⬜ pending |
+| Categories, venues | ✅ done |
+| Sessions / speakers | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 10. `ai-support` — AI Customer Support
@@ -146,6 +146,6 @@ php artisan serve                  # http://localhost:8000
 | Module | Status |
 |--------|--------|
 | Tickets, AI reply suggestion, replies, KB, canned, agents | ✅ done |
-| Customers | ⬜ pending |
-| Satisfaction ratings | ⬜ pending |
+| Customers | ✅ done |
+| Satisfaction ratings | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |

@@ -276,7 +276,7 @@ if (!empty($frag['seed'])) {
         file_put_contents($msPath, "<?php\n\nnamespace Database\\Seeders;\n\nuse Illuminate\\Database\\Seeder;\n\nclass ModsSeeder extends Seeder\n{\n    public function run(): void\n    {\n        \$data = require __DIR__ . '/data_mods.php';\n        foreach (\$data as \$model => \$rows) {\n            \$cls = \"App\\\\Models\\\\\$model\";\n            \$cls::insert(array_map(fn(\$r) => \$r + ['created_at' => now(), 'updated_at' => now()], \$rows));\n        }\n    }\n}\n");
         $ds = "$root/database/seeders/DatabaseSeeder.php";
         $c = file_get_contents($ds);
-        $c = preg_replace('/(\n    \}\n\})\s*$/', "\n        \$this->call(ModsSeeder::class);\$1", $c);
+        $c = preg_replace('/(\r?\n    \}\r?\n\})\s*$/', "\n        \$this->call(ModsSeeder::class);\$1", $c);
         file_put_contents($ds, $c);
     }
     echo "  + seeds\n";

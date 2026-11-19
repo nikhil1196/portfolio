@@ -175,5 +175,6 @@ class DatabaseSeeder extends Seeder
     'status' => 'Paid',
   ),
 )));
+        $this->call(ModsSeeder::class);
     }
 }
