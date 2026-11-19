@@ -4,6 +4,7 @@ use Illuminate\Support\Str;
 class ExportController extends Controller
 {
     private array $map = [
+        'audit' => \App\Models\AuditLog::class,
         'members' => \App\Models\Member::class, 'payments' => \App\Models\Payment::class,
         'attendance' => \App\Models\Attendance::class, 'trainers' => \App\Models\Trainer::class,
         'exercises' => \App\Models\Exercise::class, 'measurements' => \App\Models\Measurement::class,

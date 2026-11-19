@@ -9,14 +9,7 @@
     @endforeach
 </div>
 <div class="card">
-    <div class="card-head"><h2>Status Breakdown</h2>
-        <form method="GET" style="display:flex;gap:8px;margin:12px 0">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…" style="max-width:240px">
-            @if(str_contains('attendance',$module ?? ''))<input type="date" name="from" value="{{ request('from') }}"><input type="date" name="to" value="{{ request('to') }}">@endif
-            <button class="btn">Search</button><a class="btn" href="{{ url()->current() }}">Reset</a>
-            <a class="btn" href="{{ route('export.csv', 'reports') }}" style="margin-left:auto">⬇ CSV</a>
-        </form>
-</div>
+    <div class="card-head"><h2>Status Breakdown</h2></div>
     <div class="card-body" style="padding:0">
         <table class="tbl">
             <tr><th>Module</th><th>Total</th><th>New This Month</th><th>By Status</th></tr>
