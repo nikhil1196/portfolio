@@ -52,6 +52,8 @@ php artisan serve                  # http://localhost:8000
 | PT sessions (book coach session) | ✅ done |
 | Class/session bookings | ✅ done |
 | Roles & permissions, team users, reports | ✅ done |
+| Exercise categories/muscle groups, progress charts | ⬜ pending |
+| Membership expiry/renewal workflow | ⬜ pending |
 
 ## 2. `clinic` — Clinic Management
 
@@ -64,6 +66,7 @@ php artisan serve                  # http://localhost:8000
 | Advance booking payment (Stripe-ready record) | ✅ done |
 | Email receipt → patient + doctor | ✅ done |
 | Visit notes / medical history | ⬜ pending |
+| Real Stripe keys + payment intent flow | ⬜ pending |
 | Roles & permissions, team users, reports | ✅ done |
 
 ## 3. `school` — School ERP
