@@ -13,7 +13,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('specialty')->nullable();
             $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->decimal('fee', 10, 2)->default(0);
+            $table->foreignId('clinic_id')->nullable()->constrained('clinics')->nullOnDelete();
             $table->string('status')->default('Active');
             $table->timestamps();
         });

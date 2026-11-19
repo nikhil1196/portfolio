@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('bills', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_no')->nullable();
-            $table->foreignId('patient_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->string('description')->nullable();
             $table->decimal('amount', 10, 2)->default(0);
             $table->string('status')->default('Paid');

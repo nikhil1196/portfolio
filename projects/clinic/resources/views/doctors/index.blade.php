@@ -10,6 +10,11 @@
             <div class="form-grid">
                 <div class="form-row"><label>Doctor Name</label><input type="text" name="name" value="{{ old('name', $edit->name ?? '') }}" required></div>
                 <div class="form-row"><label>Specialty</label><input type="text" name="specialty" value="{{ old('specialty', $edit->specialty ?? '') }}"></div>
+                <div class="form-row"><label>Clinic</label>
+                    <select name="clinic_id"><option value="">— Select —</option>
+                        @foreach($clinics as $id => $n)<option value="{{ $id }}" @selected(old('clinic_id', $edit->clinic_id ?? '') == $id)>{{ $n }}</option>@endforeach
+                    </select></div>
+                <div class="form-row"><label>Email</label><input type="email" name="email" value="{{ old('email', $edit->email ?? '') }}"></div>
                 <div class="form-row"><label>Phone</label><input type="tel" name="phone" value="{{ old('phone', $edit->phone ?? '') }}"></div>
                 <div class="form-row"><label>Consultation Fee (₹)</label><input type="number" name="fee" value="{{ old('fee', $edit->fee ?? '') }}"></div>
                 <div class="form-row"><label>Status</label>
@@ -28,11 +33,12 @@
     <div class="card-head"><h2>All Doctors ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
         <table class="tbl">
-            <tr><th>Name</th><th>Specialty</th><th>Phone</th><th>Fee</th><th>Status</th><th></th></tr>
+            <tr><th>Name</th><th>Specialty</th><th>Clinic</th><th>Phone</th><th>Fee</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
                 <tr>
                     <td><strong>{{ $r->name }}</strong></td>
                     <td>{{ $r->specialty }}</td>
+                    <td>{{ $r->clinic->name ?? "—" }}</td>
                     <td>{{ $r->phone }}</td>
                     <td>₹{{ number_format($r->fee) }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
@@ -44,7 +50,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="6" class="empty">No records yet</td></tr>
+                <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
     </div>

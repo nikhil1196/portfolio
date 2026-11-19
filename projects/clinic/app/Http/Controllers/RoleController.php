@@ -10,6 +10,9 @@ class RoleController extends Controller
   'appointments' => 'Appointment',
   'prescriptions' => 'Prescription',
   'bills' => 'Bill',
+  'clinics' => 'Clinic',
+  'schedules' => 'Schedule',
+  'payments' => 'Payment',
 );
     public function index()
     {

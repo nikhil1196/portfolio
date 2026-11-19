@@ -9,8 +9,9 @@ class DoctorController extends Controller
 {
     public function index()
     {
-        $rows = Doctor::latest()->get();
+        $rows = Doctor::with(['clinic'])->latest()->get();
         return view('doctors.index', array_merge(compact('rows'), [
+            'clinics' => \App\Models\Clinic::orderBy('name')->pluck('name', 'id'),
         ]));
     }
 
@@ -20,7 +21,9 @@ class DoctorController extends Controller
             'name' => 'required|string|max:255',
             'specialty' => 'nullable|string',
             'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email',
             'fee' => 'nullable|numeric|min:0',
+            'clinic_id' => 'nullable|exists:clinics,id',
             'status' => 'required|in:Active,Inactive',
         ]);
 
@@ -34,7 +37,9 @@ class DoctorController extends Controller
             'name' => 'required|string|max:255',
             'specialty' => 'nullable|string',
             'phone' => 'nullable|string|max:20',
+            'email' => 'nullable|email',
             'fee' => 'nullable|numeric|min:0',
+            'clinic_id' => 'nullable|exists:clinics,id',
             'status' => 'required|in:Active,Inactive',
         ]));
         return redirect()->route('doctors.index')->with('ok', 'Doctor updated.');

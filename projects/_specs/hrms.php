@@ -23,7 +23,7 @@ return [
         'departments' => [
             'model' => 'Department', 'title' => 'Department', '_mid' => 1,
             'columns' => [['name','string'],['head','stringNullable'],['status','statusActive']],
-            'fillable' => ['name', 'head', 'grid'],
+            'fillable' => ['name','head','status'],
             'validation' => ['name'=>'required|string|max:255','head'=>'nullable|string','status'=>'required|in:Active,Inactive'],
             'fields' => [
                 ['name','Department Name','text',null,true], ['head','Department Head','text'],
@@ -37,11 +37,11 @@ return [
         'employees' => [
             'model' => 'Employee', 'title' => 'Employee', '_mid' => 2,
             'columns' => [['emp_code','stringNullable'],['name','string'],['dept_id','fk:Department:dept_id'],['designation','stringNullable'],['email','stringNullable'],['phone','stringNullable'],['joining_date','dateNullable'],['salary','decimal'],['status','statusActive']],
-            'fillable' => ['emp_code','name','dept_id','designation', 'email', 'grid','joining_date','salary','status'],
+            'fillable' => ['emp_code','name','dept_id','designation','email','phone','joining_date','salary','status'],
             'validation' => ['emp_code'=>'nullable|string|max:15','name'=>'required|string|max:255','dept_id'=>'nullable|exists:departments,id','designation'=>'nullable|string','email'=>'nullable|email','phone'=>'nullable|string|max:20','joining_date'=>'nullable|date','salary'=>'nullable|numeric|min:0','status'=>'required|in:Active,On Notice,Exited'],
             'fields' => [
                 ['emp_code','Emp Code','text'], ['name','Full Name','text',null,true],
-                ['dept_id','Department', 'select', 'grid'], ['designation','Designation','text'],
+                ['dept_id','Department','select','@Department'], ['designation','Designation','text'],
                 ['email','Email','email'], ['phone','Phone','tel'], ['joining_date','Joining Date','date'],
                 ['salary','Salary (₹/mo)','number'], ['status','Status','select',['Active','On Notice','Exited']],
             ],
@@ -59,7 +59,7 @@ return [
             'fillable' => ['emp_id','work_date','check_in','status'],
             'validation' => ['emp_id'=>'required|exists:employees,id','work_date'=>'required|date','check_in'=>'nullable','status'=>'required|in:Present,Absent,Leave,Half Day,WFH'],
             'fields' => [
-                ['emp_id','Employee', 'select', 'grid',true], ['work_date','Date','date',null,true],
+                ['emp_id','Employee','select','@Employee',true], ['work_date','Date','date',null,true],
                 ['check_in','Check-in Time','time'],
                 ['status','Status','select',['Present','Absent','Leave','Half Day','WFH']],
             ],
@@ -76,7 +76,7 @@ return [
             'fillable' => ['emp_id','type','from_date','to_date','reason','status'],
             'validation' => ['emp_id'=>'required|exists:employees,id','type'=>'nullable|string','from_date'=>'required|date','to_date'=>'required|date','reason'=>'nullable|string','status'=>'required|in:Pending,Approved,Rejected'],
             'fields' => [
-                ['emp_id','Employee', 'select', 'grid',true],
+                ['emp_id','Employee','select','@Employee',true],
                 ['type','Leave Type','select',['Casual','Sick','Earned','Unpaid']],
                 ['from_date','From','date',null,true], ['to_date','To','date',null,true],
                 ['reason','Reason','textarea'],
@@ -93,10 +93,10 @@ return [
         'payroll' => [
             'model' => 'Payroll', 'title' => 'Payroll Entry', '_mid' => 5,
             'columns' => [['emp_id','fkreq:Employee:emp_id'],['month','stringNullable'],['basic','decimal'],['allowances','decimal'],['deductions','decimal'],['net','decimal'],['status','default:Processed']],
-            'fillable' => ['emp_id','month', 'basic', 'grid','deductions', 'net', 'grid'],
+            'fillable' => ['emp_id','month','basic','allowances','deductions','net','status'],
             'validation' => ['emp_id'=>'required|exists:employees,id','month'=>'required|string|max:10','basic'=>'required|numeric','allowances'=>'nullable|numeric','deductions'=>'nullable|numeric','status'=>'required|in:Processed,Paid,On Hold'],
             'fields' => [
-                ['emp_id','Employee', 'select', 'grid',true], ['month','Month','month',null,true],
+                ['emp_id','Employee','select','@Employee',true], ['month','Month','month',null,true],
                 ['basic','Basic (₹)','number',null,true], ['allowances','Allowances (₹)','number'],
                 ['deductions','Deductions (₹)','number'],
                 ['status','Status','select',['Processed','Paid','On Hold']],

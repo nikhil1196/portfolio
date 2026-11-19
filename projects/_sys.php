@@ -61,8 +61,8 @@ class Role extends Model
 $uf = "$root/app/Models/User.php";
 $uc = file_get_contents($uf);
 if (!str_contains($uc, 'role_id')) {
-    $uc = preg_replace("/('password'\s*,?\s*)/", "$1'role_id',\n        ", $uc, 1);
-    $uc = preg_replace("/(protected function casts|}\s*$)/s", "\n    public function role()\n    {\n        return \$this->belongsTo(Role::class);\n    }\n\n    public function can(string \$perm): bool\n    {\n        return \$this->role && in_array(\$perm, \$this->role->permsList(), true);\n    }\n$1", $uc, 1);
+    $uc = preg_replace("/('password')\s*(,?)/", "$1$2'role_id',\n        ", $uc, 1);
+    $uc = preg_replace("/(protected function casts|}\s*$)/s", "\n    public function role()\n    {\n        return \$this->belongsTo(Role::class);\n    }\n\n    public function hasPerm(string \$perm): bool\n    {\n        return \$this->role && in_array(\$perm, \$this->role->permsList(), true);\n    }\n$1", $uc, 1);
     file_put_contents($uf, $uc);
 }
 
@@ -77,7 +77,7 @@ class EnsurePermission
     public function handle(Request \$request, Closure \$next, string \$perm)
     {
         \$u = \$request->user();
-        if (\$u && (\$u->can('*') || \$u->can(\$perm) || \$request->isMethod('GET'))) {
+        if (\$u && (\$u->hasPerm('*') || \$u->hasPerm(\$perm) || \$request->isMethod('GET'))) {
             return \$next(\$request);
         }
         abort(403, 'No permission for this module.');

@@ -24,11 +24,11 @@ return [
         'students' => [
             'model' => 'Student', 'title' => 'Student', '_mid' => 1,
             'columns' => [['name','string'],['roll_no','stringNullable'],['class_id','fk:SchoolClass:class_id'],['guardian','stringNullable'],['phone','stringNullable'],['dob','dateNullable'],['status','statusActive']],
-            'fillable' => ['name','roll_no','class_id','guardian', 'phone', 'grid','status'],
+            'fillable' => ['name','roll_no','class_id','guardian','phone','dob','status'],
             'validation' => ['name'=>'required|string|max:255','roll_no'=>'nullable|string|max:20','class_id'=>'nullable|exists:school_classes,id','guardian'=>'nullable|string','phone'=>'nullable|string|max:20','dob'=>'nullable|date','status'=>'required|in:Active,Inactive,Alumni'],
             'fields' => [
                 ['name','Student Name','text',null,true], ['roll_no','Roll No','text'],
-                ['class_id','Class', 'select', 'grid',true], ['guardian','Guardian Name','text'],
+                ['class_id','Class','select','@SchoolClass:name',true], ['guardian','Guardian Name','text'],
                 ['phone','Phone','tel'], ['dob','Date of Birth','date'],
                 ['status','Status','select',['Active','Inactive','Alumni']],
             ],
@@ -43,7 +43,7 @@ return [
         'teachers' => [
             'model' => 'Teacher', 'title' => 'Teacher', '_mid' => 2,
             'columns' => [['name','string'],['subject','stringNullable'],['phone','stringNullable'],['qualification','stringNullable'],['status','statusActive']],
-            'fillable' => ['name', 'subject', 'grid','qualification','status'],
+            'fillable' => ['name','subject','phone','qualification','status'],
             'validation' => ['name'=>'required|string|max:255','subject'=>'nullable|string','phone'=>'nullable|string|max:20','qualification'=>'nullable|string','status'=>'required|in:Active,Inactive'],
             'fields' => [
                 ['name','Teacher Name','text',null,true], ['subject','Subject','text'],
@@ -58,11 +58,11 @@ return [
         'classes' => [
             'model' => 'SchoolClass', 'title' => 'Class', '_mid' => 3,
             'columns' => [['name','string'],['section','stringNullable'],['teacher_id','fk:Teacher'],['room','stringNullable']],
-            'fillable' => ['name', 'section', 'grid','room'],
+            'fillable' => ['name','section','teacher_id','room'],
             'validation' => ['name'=>'required|string|max:255','section'=>'nullable|string|max:10','teacher_id'=>'nullable|exists:teachers,id','room'=>'nullable|string|max:20'],
             'fields' => [
                 ['name','Class Name','text',null,true], ['section','Section','text'],
-                ['teacher_id','Class Teacher', 'select', 'grid'], ['room','Room No','text'],
+                ['teacher_id','Class Teacher','select','@Teacher'], ['room','Room No','text'],
             ],
             'with' => ['teacher'],
             'rels' => ['teacher' => 'belongsTo:Teacher', 'students' => 'hasMany:Student'],
@@ -74,10 +74,10 @@ return [
         'fees' => [
             'model' => 'Fee', 'title' => 'Fee', '_mid' => 4,
             'columns' => [['receipt_no','stringNullable'],['student_id','fkreq:Student'],['term','stringNullable'],['amount','decimal'],['status','default:Paid'],['paid_at','dateNullable']],
-            'fillable' => ['receipt_no','student_id','term', 'amount', 'grid','paid_at'],
+            'fillable' => ['receipt_no','student_id','term','amount','status','paid_at'],
             'validation' => ['student_id'=>'required|exists:students,id','term'=>'nullable|string','amount'=>'required|numeric|min:0','status'=>'required|in:Paid,Pending,Overdue','paid_at'=>'nullable|date'],
             'fields' => [
-                ['student_id','Student', 'select', 'grid',true],
+                ['student_id','Student','select','@Student',true],
                 ['term','Term','select',['Term 1','Term 2','Term 3','Annual']],
                 ['amount','Amount (₹)','number',null,true],
                 ['status','Status','select',['Paid','Pending','Overdue']], ['paid_at','Date','date'],
@@ -94,10 +94,10 @@ return [
         'results' => [
             'model' => 'Result', 'title' => 'Result', '_mid' => 5,
             'columns' => [['student_id','fkreq:Student'],['exam','stringNullable'],['subject','string'],['marks','decimal'],['max_marks','decimal'],['grade','stringNullable']],
-            'fillable' => ['student_id','exam', 'subject', 'grid','max_marks','grade'],
+            'fillable' => ['student_id','exam','subject','marks','max_marks','grade'],
             'validation' => ['student_id'=>'required|exists:students,id','exam'=>'nullable|string','subject'=>'required|string','marks'=>'required|numeric','max_marks'=>'nullable|numeric','grade'=>'nullable|string|max:5'],
             'fields' => [
-                ['student_id','Student', 'select', 'grid',true], ['exam','Exam','text'],
+                ['student_id','Student','select','@Student',true], ['exam','Exam','text'],
                 ['subject','Subject','text',null,true], ['marks','Marks','number',null,true],
                 ['max_marks','Max Marks','number'], ['grade','Grade','text'],
             ],
@@ -115,7 +115,7 @@ return [
             'fillable' => ['student_id','att_date','status','remark'],
             'validation' => ['student_id'=>'required|exists:students,id','att_date'=>'required|date','status'=>'required|in:Present,Absent,Late','remark'=>'nullable|string'],
             'fields' => [
-                ['student_id','Student', 'select', 'grid',true],
+                ['student_id','Student','select','@Student:name',true],
                 ['att_date','Date','date',null,true],
                 ['status','Status','select',['Present','Absent','Late']],
                 ['remark','Remark','text'],
@@ -133,7 +133,7 @@ return [
         'notices' => [
             'model' => 'Notice', 'title' => 'Notice', '_mid' => 7,
             'columns' => [['title','string'],['body','text'],['audience','default:All'],['publish_on','dateNullable'],['status','default:Published']],
-            'fillable' => ['title', 'body', 'grid','publish_on','status'],
+            'fillable' => ['title','body','audience','publish_on','status'],
             'validation' => ['title'=>'required|string|max:255','body'=>'required|string','audience'=>'required|in:All,Students,Teachers,Parents','publish_on'=>'nullable|date','status'=>'required|in:Published,Draft'],
             'fields' => [
                 ['title','Title','text',null,true],

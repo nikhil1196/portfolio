@@ -20,6 +20,9 @@ $colTypes = [
     'datetime'         => fn($n) => "\$table->dateTime('$n');",
     'datetimeNullable' => fn($n) => "\$table->dateTime('$n')->nullable();",
     'bool'             => fn($n) => "\$table->boolean('$n')->default(0);",
+    'intNullable'      => fn($n) => "\$table->integer('$n')->nullable();",
+    'time'             => fn($n) => "\$table->time('$n');",
+    'index'            => fn($n) => "\$table->string('$n')->unique();",
     'statusActive'     => fn($n) => "\$table->string('$n')->default('Active');",
 ];
 

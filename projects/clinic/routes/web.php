@@ -15,6 +15,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('appointments', \App\Http\Controllers\AppointmentController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:appointments');
     Route::resource('prescriptions', \App\Http\Controllers\PrescriptionController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:prescriptions');
     Route::resource('bills', \App\Http\Controllers\BillController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:bills');
+    Route::resource('clinics', \App\Http\Controllers\ClinicController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:clinics');
+    Route::resource('schedules', \App\Http\Controllers\ScheduleController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:schedules');
+    Route::resource('payments', \App\Http\Controllers\PaymentController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:payments');
 
     Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
     Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);

@@ -16,6 +16,10 @@
                     <select name="doctor_id"><option value="">— Select —</option>
                         @foreach($doctors as $id => $n)<option value="{{ $id }}" @selected(old('doctor_id', $edit->doctor_id ?? '') == $id)>{{ $n }}</option>@endforeach
                     </select></div>
+                <div class="form-row"><label>Clinic</label>
+                    <select name="clinic_id"><option value="">— Select —</option>
+                        @foreach($clinics as $id => $n)<option value="{{ $id }}" @selected(old('clinic_id', $edit->clinic_id ?? '') == $id)>{{ $n }}</option>@endforeach
+                    </select></div>
                 <div class="form-row"><label>Date</label><input type="date" name="appt_date" value="{{ old('appt_date', $edit->appt_date ?? '') }}" required></div>
                 <div class="form-row"><label>Time</label><input type="time" name="appt_time" value="{{ old('appt_time', $edit->appt_time ?? '') }}"></div>
                 <div class="form-row"><label>Reason / Symptoms</label><input type="text" name="reason" value="{{ old('reason', $edit->reason ?? '') }}"></div>
@@ -36,13 +40,14 @@
     <div class="card-head"><h2>All Appointments ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
         <table class="tbl">
-            <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Reason</th><th>Status</th><th></th></tr>
+            <tr><th>Date</th><th>Time</th><th>Patient</th><th>Doctor</th><th>Clinic</th><th>Reason</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
                 <tr>
                     <td>{{ $r->appt_date }}</td>
                     <td>{{ $r->appt_time }}</td>
                     <td><strong>{{ $r->patient->name }}</strong></td>
                     <td>{{ $r->doctor->name }}</td>
+                    <td>{{ $r->clinic->name ?? "—" }}</td>
                     <td>{{ $r->reason }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
@@ -53,7 +58,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" class="empty">No records yet</td></tr>
+                <tr><td colspan="8" class="empty">No records yet</td></tr>
             @endforelse
         </table>
     </div>

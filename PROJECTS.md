@@ -33,9 +33,9 @@ php artisan serve                  # http://localhost:8000
 |--------|--------|
 | Auth + session login | ✅ done |
 | Dashboard stats | ✅ done |
-| Roles & permissions (roles CRUD, per-module grants, middleware) | ⬜ pending |
-| Team users (admin users w/ role assignment) | ⬜ pending |
-| Reports (per-module counts, status breakdowns, trends) | ⬜ pending |
+| Roles & permissions (roles CRUD, per-module grants, `perm:` middleware) | ✅ done |
+| Team users (admin users w/ role assignment) | ✅ done |
+| Reports (per-module counts, status breakdowns) | ✅ done |
 
 ## 1. `gym` — Gym Management SaaS
 
@@ -51,7 +51,7 @@ php artisan serve                  # http://localhost:8000
 | Member measurements (weight, BMI, chest, waist…) | ⬜ pending |
 | PT sessions (book coach session) | ⬜ pending |
 | Class/session bookings | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 2. `clinic` — Clinic Management
 
@@ -64,7 +64,7 @@ php artisan serve                  # http://localhost:8000
 | Advance booking payment (Stripe-ready record) | ⬜ pending |
 | Email receipt → patient + doctor | ⬜ pending |
 | Visit notes / medical history | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 3. `school` — School ERP
 
@@ -77,7 +77,7 @@ php artisan serve                  # http://localhost:8000
 | Study materials | ⬜ pending |
 | Assignments + submissions | ⬜ pending |
 | Exams (schedule, separate from results) | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 4. `society` — Society Management
 
@@ -92,7 +92,7 @@ php artisan serve                  # http://localhost:8000
 | Visitors log | ⬜ pending |
 | Staff / vendors | ⬜ pending |
 | Parking slots | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 5. `restaurant` — Restaurant POS + KDS
 
@@ -102,7 +102,7 @@ php artisan serve                  # http://localhost:8000
 | Menu categories | ⬜ pending |
 | Table reservations | ⬜ pending |
 | Inventory / stock | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 6. `hrms` — HRMS
 
@@ -112,7 +112,7 @@ php artisan serve                  # http://localhost:8000
 | Holidays calendar | ⬜ pending |
 | Announcements | ⬜ pending |
 | Employee documents | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 7. `crm` — CRM
 
@@ -121,7 +121,7 @@ php artisan serve                  # http://localhost:8000
 | Contacts, leads, deals, kanban pipeline, tasks | ✅ done |
 | Activities / timeline per lead | ⬜ pending |
 | Products & quotes | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 8. `property` — Property Management
 
@@ -130,7 +130,7 @@ php artisan serve                  # http://localhost:8000
 | Properties, tenants, leases, rent, request flow | ✅ done |
 | Expenses | ⬜ pending |
 | Documents | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 9. `events` — Event Booking
 
@@ -139,7 +139,7 @@ php artisan serve                  # http://localhost:8000
 | Events, ticket tiers, bookings, attendee check-in | ✅ done |
 | Categories, venues | ⬜ pending |
 | Sessions / speakers | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |
 
 ## 10. `ai-support` — AI Customer Support
 
@@ -148,4 +148,4 @@ php artisan serve                  # http://localhost:8000
 | Tickets, AI reply suggestion, replies, KB, canned, agents | ✅ done |
 | Customers | ⬜ pending |
 | Satisfaction ratings | ⬜ pending |
-| Roles & permissions, team users, reports | ⬜ pending |
+| Roles & permissions, team users, reports | ✅ done |

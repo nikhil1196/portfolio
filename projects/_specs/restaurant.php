@@ -31,7 +31,7 @@ return [
         'menu' => [
             'model' => 'MenuItem', 'title' => 'Menu Item', 'table' => 'menu_items', '_mid' => 1,
             'columns' => [['name','string'],['category','stringNullable'],['price','decimal'],['available','bool']],
-            'fillable' => ['name', 'category', 'grid','available'],
+            'fillable' => ['name','category','price','available'],
             'validation' => ['name'=>'required|string|max:255','category'=>'nullable|string','price'=>'required|numeric|min:0','available'=>'nullable|boolean'],
             'fields' => [
                 ['name','Item Name','text',null,true],
@@ -48,7 +48,7 @@ return [
         'tables' => [
             'model' => 'DiningTable', 'title' => 'Table', 'table' => 'tables', '_mid' => 2,
             'columns' => [['name','string'],['seats','integer'],['status','default:Free']],
-            'fillable' => ['name', 'seats', 'grid'],
+            'fillable' => ['name','seats','status'],
             'validation' => ['name'=>'required|string|max:20','seats'=>'nullable|integer|min:1','status'=>'required|in:Free,Occupied,Reserved'],
             'fields' => [
                 ['name','Table Name','text',null,true], ['seats','Seats','number'],
@@ -63,10 +63,10 @@ return [
         'orders' => [
             'model' => 'Order', 'title' => 'Order', '_mid' => 3,
             'columns' => [['order_no','stringNullable'],['table_id','fk:DiningTable:table_id'],['status','default:Pending'],['total','decimal'],['payment','default:Unpaid']],
-            'fillable' => ['order_no','table_id','status', 'total', 'grid'],
+            'fillable' => ['order_no','table_id','status','total','payment'],
             'validation' => ['table_id'=>'nullable|exists:tables,id','status'=>'required|in:Pending,Preparing,Ready,Served','total'=>'nullable|numeric|min:0','payment'=>'required|in:Paid,Unpaid'],
             'fields' => [
-                ['table_id','Table', 'select', 'grid'],
+                ['table_id','Table','select','@DiningTable:name'],
                 ['status','Status','select',['Pending','Preparing','Ready','Served']],
                 ['total','Total (₹)','number'], ['payment','Payment','select',['Unpaid','Paid']],
             ],
