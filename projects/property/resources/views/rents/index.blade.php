@@ -31,6 +31,15 @@
 <div class="card">
     <div class="card-head"><h2>All Rent Records ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All</option><option @selected(request('status')==='Due')>Due</option><option @selected(request('status')==='Paid')>Paid</option><option @selected(request('status')==='Overdue')>Overdue</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'rents') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Property</th><th>Tenant</th><th>Month</th><th>Amount</th><th>Paid On</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -42,7 +51,10 @@
                     <td>{{ $r->paid_at ?? "—" }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'rents', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('rents.index', ['edit' => $r->id]) }}">Edit</a>
+                        <a class="btn btn-sm" href="{{ route('rents.receipt', $r) }}" target="_blank">Receipt</a>
+                        @if($r->status !== 'Paid')<form method="POST" action="{{ route('rents.paid', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">Mark Paid</button></form>@endif
                         <form method="POST" action="{{ route('rents.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
@@ -52,6 +64,7 @@
                 <tr><td colspan="7" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

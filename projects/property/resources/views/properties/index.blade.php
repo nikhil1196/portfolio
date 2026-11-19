@@ -5,7 +5,7 @@
 <div class="card">
     <div class="card-head"><h2>{{ $edit ? 'Edit Property' : 'Add Property' }}</h2></div>
     <div class="card-body">
-        <form method="POST" action="{{ $edit ? route('properties.update', $edit) : route('properties.store') }}">
+        <form method="POST" enctype="multipart/form-data" action="{{ $edit ? route('properties.update', $edit) : route('properties.store') }}">
             @csrf @if($edit) @method('PUT') @endif
             <div class="form-grid">
                 <div class="form-row"><label>Property Title</label><input type="text" name="title" value="{{ old('title', $edit->title ?? '') }}" required></div>
@@ -28,6 +28,7 @@
   2 => 'Maintenance',
 ) as $s)<option @selected(old('status', $edit->status ?? '') === $s)>{{ $s }}</option>@endforeach</select></div>
             </div>
+                <div class="form-row"><label>Image</label><input type="file" name="image" accept="image/*"></div>
             <button class="btn btn-acc" type="submit">{{ $edit ? 'Update' : 'Add' }} Property</button>
             @if($edit)<a class="btn" href="{{ route('properties.index') }}">Cancel</a>@endif
         </form>
@@ -37,6 +38,15 @@
 <div class="card">
     <div class="card-head"><h2>All Propertys ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+            <select name="status"><option value="">All</option><option @selected(request('status')==='Available')>Available</option><option @selected(request('status')==='Rented')>Rented</option><option @selected(request('status')==='Maintenance')>Maintenance</option></select>
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'properties') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Property</th><th>Type</th><th>Location</th><th>Rent</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -47,8 +57,9 @@
                     <td>₹{{ number_format($r->rent) }}</td>
                     <td><span class="badge">{{ $r->status }}</span></td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'properties', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('properties.index', ['edit' => $r->id]) }}">Edit</a>
-                        <form method="POST" action="{{ route('properties.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('properties.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
                         </form>
                     </td>
@@ -57,6 +68,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

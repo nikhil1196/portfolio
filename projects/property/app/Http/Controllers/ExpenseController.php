@@ -9,7 +9,9 @@ class ExpenseController extends Controller
 {
     public function index()
     {
-        $rows = Expense::with(['property'])->latest()->get();
+        $rows = Expense::with(['property'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('category', 'like', "%$q%") ->orWhere('notes', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('expenses.index', array_merge(compact('rows'), [
             'properties' => \App\Models\Property::orderBy('title')->pluck('title', 'id'),
         ]));

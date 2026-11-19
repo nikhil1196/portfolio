@@ -9,10 +9,10 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 
 | Feature | Status |
 |---------|--------|
-| Full CRUD incl. View page | 🔄 |
-| Search/pagination/filters | ⬜ |
-| Audit log | ⬜ |
-| CSV export | ⬜ |
+| Full CRUD incl. View page | ✅ |
+| Search/pagination/filters | ✅ |
+| Audit log | ✅ |
+| CSV export | ✅ |
 | Roles/permissions + team + reports | ✅ |
 
 ## Properties
@@ -20,8 +20,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Details | ✅ |
-| Images | ⬜ |
-| Location | 🔄 |
+| Images (upload + shown on record) | ✅ |
+| Location (address + city) | ✅ |
 | Documents | ✅ |
 
 ## Tenants
@@ -29,8 +29,8 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 | Feature | Status |
 |---------|--------|
 | Profile | ✅ |
-| Documents | 🔄 |
-| History | ⬜ |
+| Documents (id_proof + file upload) | ✅ |
+| History (lease history on record) | ✅ |
 
 ## Leases
 
@@ -38,7 +38,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Agreement details | ✅ |
 | Start/end dates | ✅ |
-| Renewal tracking | ⬜ |
+| Renewal tracking (renew action + counter) | ✅ |
 
 ## Rent
 
@@ -46,7 +46,7 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Monthly rent | ✅ |
 | Payment status | ✅ |
-| Receipts | ⬜ |
+| Receipts (printable + mark paid) | ✅ |
 
 ## Expenses
 
@@ -54,5 +54,5 @@ Legend: ⬜ Pending · 🟨 In Progress · ✅ Completed · 🔄 Needs Review
 |---------|--------|
 | Property expenses | ✅ |
 | Categories | ✅ |
-| Reports | ⬜ |
+| Reports (category totals + monthly chart) | ✅ |
 

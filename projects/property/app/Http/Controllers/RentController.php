@@ -9,7 +9,10 @@ class RentController extends Controller
 {
     public function index()
     {
-        $rows = Rent::with(['lease.property','lease.tenant'])->latest()->get();
+        $rows = Rent::with(['lease.property','lease.tenant'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('month', 'like', "%$q%") ->orWhere('status', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('rents.index', array_merge(compact('rows'), [
             'leases' => \App\Models\Lease::orderBy('id')->pluck('id', 'id'),
         ]));

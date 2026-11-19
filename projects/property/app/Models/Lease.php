@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Lease extends Model
 {
-    protected $fillable = ['property_id', 'tenant_id', 'start_date', 'end_date', 'rent', 'deposit', 'status'];
+    protected $fillable = ['property_id', 'tenant_id', 'start_date', 'end_date', 'rent', 'deposit', 'status', 'renewals'];
 
     public function property()
     {

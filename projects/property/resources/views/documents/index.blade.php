@@ -41,6 +41,14 @@
 <div class="card">
     <div class="card-head"><h2>All Documents ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'documents') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Document</th><th>Property</th><th>Tenant</th><th>Type</th><th>Status</th><th></th></tr>
             @forelse($rows as $r)
@@ -51,6 +59,7 @@
                     <td><span class="badge">{{ $r->type }}</span></td>
                     <td>{{ $r->status }}</td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'documents', 'id' => $r->id]) }}">View</a>
                         <a class="btn btn-sm" href="{{ route('documents.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('documents.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -61,6 +70,7 @@
                 <tr><td colspan="6" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

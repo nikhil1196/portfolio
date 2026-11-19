@@ -22,4 +22,10 @@ Route::middleware('auth')->group(function () {
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
     Route::resource('expenses', \App\Http\Controllers\ExpenseController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('documents', \App\Http\Controllers\DocumentController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('reports/expenses', [\App\Http\Controllers\ExpenseReportController::class, 'index'])->name('reports.expenses');
+    Route::get('rents/{rent}/receipt', [\App\Http\Controllers\RentReceiptController::class, 'show'])->name('rents.receipt');
+    Route::post('rents/{rent}/paid', [\App\Http\Controllers\RentReceiptController::class, 'markPaid'])->name('rents.paid');
+    Route::post('leases/{lease}/renew', \App\Http\Controllers\LeaseRenewController::class)->name('leases.renew');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

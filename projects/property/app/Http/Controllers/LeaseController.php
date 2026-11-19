@@ -9,7 +9,9 @@ class LeaseController extends Controller
 {
     public function index()
     {
-        $rows = Lease::with(['property','tenant'])->latest()->get();
+        $rows = Lease::with(['property','tenant'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('status', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('leases.index', array_merge(compact('rows'), [
             'properties' => \App\Models\Property::orderBy('title')->pluck('title', 'id'),
             'tenants' => \App\Models\Tenant::orderBy('name')->pluck('name', 'id'),
