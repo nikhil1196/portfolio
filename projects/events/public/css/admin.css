@@ -98,9 +98,10 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: .88rem; }
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 15%, transparent); }
 .fld textarea { min-height: 80px; resize: vertical; }
 .form-actions { display: flex; align-items: flex-end; }
-.toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 14px 22px; border-bottom: 1px solid #eef0f8; }
 .toolbar form { display: flex; gap: 10px; }
 .toolbar input, .toolbar select { padding: 9px 13px; border: 1px solid #dde1ef; border-radius: 8px; font: inherit; }
+.card-body nav[role="navigation"], .card-body > .pagination { margin: 12px 22px; }
 
 /* ---------- POS / KDS ---------- */
 .pos-grid { display: grid; grid-template-columns: 1fr 380px; gap: 22px; align-items: start; }
