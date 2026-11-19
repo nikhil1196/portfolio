@@ -9,7 +9,9 @@ class CannedReplyController extends Controller
 {
     public function index()
     {
-        $rows = CannedReply::latest()->get();
+        $rows = CannedReply::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('category', 'like', "%$q%") ->orWhere('body', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('canned.index', array_merge(compact('rows'), [
         ]));
     }

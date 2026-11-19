@@ -9,7 +9,9 @@ class RatingController extends Controller
 {
     public function index()
     {
-        $rows = Rating::with(['ticket'])->latest()->get();
+        $rows = Rating::with(['ticket'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('feedback', 'like', "%$q%"); }); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('ratings.index', array_merge(compact('rows'), [
             'support_tickets' => \App\Models\SupportTicket::orderBy('subject')->pluck('subject', 'id'),
         ]));

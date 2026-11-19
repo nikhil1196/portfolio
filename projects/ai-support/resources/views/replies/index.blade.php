@@ -29,15 +29,25 @@
 <div class="card">
     <div class="card-head"><h2>All Replys ({{ $rows->count() }})</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'replies') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Ticket</th><th>Author</th><th>Reply</th><th>Sent</th><th></th></tr>
             @forelse($rows as $r)
                 <tr>
                     <td><code>{{ $r->ticket->ticket_no ?? "—" }}</code></td>
-                    <td><strong>{{ $r->author }}</strong> {{ $r->is_ai ? '<span class="badge">AI</span>' : "" }}</td>
+                    <td><strong>{{ $r->author }}</strong> {{ $r->is_ai ? '<span class="badge">AI</span>' : "" }}{{ $r->is_ai && !$r->approved_at ? '<span class="badge" style="background:#b45309">pending</span>' : "" }}</td>
                     <td>{{ Str::limit($r->body, 90) }}</td>
                     <td>{{ $r->created_at->format('d M, h:i A') }}</td>
                     <td>
+                        <a class="btn btn-sm" href="{{ route('record.show', ['module' => 'replies', 'id' => $r->id]) }}">View</a>
+                        @if($r->is_ai && !$r->approved_at)<form method="POST" action="{{ route('replies.approve', $r) }}" style="display:inline">@csrf<button class="btn btn-sm">✓ Approve</button></form>@endif
                         <a class="btn btn-sm" href="{{ route('replies.index', ['edit' => $r->id]) }}">Edit</a>
                         <form method="POST" action="{{ route('replies.destroy', $r) }}" class="inline" onsubmit="return confirm('Delete?')">
                             @csrf @method('DELETE')<button class="btn btn-sm btn-danger" type="submit">Del</button>
@@ -48,6 +58,7 @@
                 <tr><td colspan="5" class="empty">No records yet</td></tr>
             @endforelse
         </table>
+        {{ $rows->links() }}
     </div>
 </div>
 @endsection

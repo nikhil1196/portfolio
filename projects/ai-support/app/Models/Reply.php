@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    protected $fillable = ['ticket_id', 'author', 'body', 'is_ai'];
+    protected $fillable = ['ticket_id', 'author', 'body', 'is_ai', 'approved_at', 'approved_by'];
 
     public function ticket()
     {

@@ -24,6 +24,8 @@ class ReportController extends Controller
                 'byStatus' => $byStatus,
             ];
         }
-        return view('reports.index', compact('reports'));
+                $avgRating = \App\Models\Rating::avg('score');
+        $ratingDist = \App\Models\Rating::selectRaw('score, COUNT(*) as n')->groupBy('score')->pluck('n', 'score');
+        return view('reports.index', compact('reports', 'avgRating', 'ratingDist'));
     }
 }

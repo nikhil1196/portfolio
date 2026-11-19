@@ -9,7 +9,11 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $rows = Customer::latest()->get();
+        $rows = Customer::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('email', 'like', "%$q%") ->orWhere('company', 'like', "%$q%") ->orWhere('phone', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        if (request('priority')) { $rows->where('priority', request('priority')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('customers.index', array_merge(compact('rows'), [
         ]));
     }

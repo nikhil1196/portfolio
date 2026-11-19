@@ -9,7 +9,11 @@ class AgentController extends Controller
 {
     public function index()
     {
-        $rows = Agent::latest()->get();
+        $rows = Agent::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('name', 'like', "%$q%") ->orWhere('email', 'like', "%$q%") ->orWhere('role', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        if (request('priority')) { $rows->where('priority', request('priority')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('agents.index', array_merge(compact('rows'), [
         ]));
     }

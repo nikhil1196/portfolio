@@ -9,8 +9,13 @@ class SupportTicketController extends Controller
 {
     public function index()
     {
-        $rows = SupportTicket::with(['agent'])->latest()->get();
+        $rows = SupportTicket::with(['agent'])->latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('ticket_no', 'like', "%$q%") ->orWhere('customer', 'like', "%$q%") ->orWhere('subject', 'like', "%$q%") ->orWhere('channel', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        if (request('priority')) { $rows->where('priority', request('priority')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('tickets.index', array_merge(compact('rows'), [
+            'customers' => \App\Models\Customer::orderBy('name')->pluck('name', 'id'),
             'agents' => \App\Models\Agent::orderBy('name')->pluck('name', 'id'),
         ]));
     }
@@ -25,9 +30,14 @@ class SupportTicketController extends Controller
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Open,In Progress,Resolved',
             'agent_id' => 'nullable|exists:agents,id',
+            'customer_id' => 'nullable|exists:customers,id',
             'ai_summary' => 'nullable|string',
         ]);
         $data['ticket_no'] = 'TCK-' . str_pad((string)(\App\Models\SupportTicket::max('id') + 9001), 4, '0', STR_PAD_LEFT);
+        if (!empty($data['customer_id'])) {
+            $cu = \App\Models\Customer::find($data['customer_id']);
+            if ($cu) { $data['customer'] = $cu->name; $data['email'] ??= $cu->email; }
+        }
         SupportTicket::create($data);
         return back()->with('ok', 'Ticket added.');
     }
@@ -42,6 +52,7 @@ class SupportTicketController extends Controller
             'priority' => 'required|in:High,Medium,Low',
             'status' => 'required|in:Open,In Progress,Resolved',
             'agent_id' => 'nullable|exists:agents,id',
+            'customer_id' => 'nullable|exists:customers,id',
             'ai_summary' => 'nullable|string',
         ]));
         return redirect()->route('tickets.index')->with('ok', 'Ticket updated.');

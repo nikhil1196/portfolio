@@ -11,6 +11,14 @@
 <div class="card">
     <div class="card-head"><h2>Status Breakdown</h2></div>
     <div class="card-body" style="padding:0">
+        <div class="toolbar">
+            <form method="GET">
+                <input type="text" name="q" value="{{ request('q') }}" placeholder="Search…">
+                <button class="btn" type="submit">Search</button>
+                <a class="btn" href="{{ url()->current() }}">Reset</a>
+                <a class="btn" href="{{ route('export.csv', 'reports') }}" style="margin-left:auto">⬇ CSV</a>
+            </form>
+        </div>
         <table class="tbl">
             <tr><th>Module</th><th>Total</th><th>New This Month</th><th>By Status</th></tr>
             @foreach($reports as $r)
@@ -22,6 +30,13 @@
                 </tr>
             @endforeach
         </table>
+        
     </div>
 </div>
+<div class="card" style="margin-top:16px"><div class="card-head"><h3>Customer Satisfaction</h3></div>
+<div class="card-body" style="padding:0">
+<table class="tbl"><tr><th>Avg score</th><th>5★</th><th>4★</th><th>3★</th><th>2★</th><th>1★</th></tr>
+<tr><td><strong>{{ number_format($avgRating ?? 0, 1) }}</strong> / 5</td>
+@for($i=5;$i>=1;$i--)<td>{{ $ratingDist[$i] ?? 0 }}</td>@endfor</tr></table>
+</div></div>
 @endsection

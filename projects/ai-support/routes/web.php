@@ -22,4 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
     Route::resource('customers', \App\Http\Controllers\CustomerController::class)->only(['index', 'store', 'update', 'destroy']);
     Route::resource('ratings', \App\Http\Controllers\RatingController::class)->only(['index', 'store', 'update', 'destroy']);
-});
+    Route::post('replies/{reply}/approve', [\App\Http\Controllers\ReplyController::class, 'approve'])->name('replies.approve');
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+    Route::get('export/{module}', [\App\Http\Controllers\ExportController::class, 'csv'])->name('export.csv');
+    Route::get('v/{module}/{id}', [\App\Http\Controllers\RecordController::class, 'show'])->name('record.show');});

@@ -9,7 +9,11 @@ class KbArticleController extends Controller
 {
     public function index()
     {
-        $rows = KbArticle::latest()->get();
+        $rows = KbArticle::latest();
+        if ($q = request('q')) { $rows->where(function ($w) use ($q) { $w->Where('title', 'like', "%$q%") ->orWhere('category', 'like', "%$q%") ->orWhere('body', 'like', "%$q%"); }); }
+                if (request('status')) { $rows->where('status', request('status')); }
+        if (request('priority')) { $rows->where('priority', request('priority')); }
+        $rows = $rows->paginate(15)->withQueryString();
         return view('kb.index', array_merge(compact('rows'), [
         ]));
     }
