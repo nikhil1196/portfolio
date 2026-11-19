@@ -2,10 +2,10 @@
 return [
     'name' => 'Society Management', 'accent' => '#e17055', 'icon' => '⌂',
     'nav' => [
-        ['Dashboard', 'dashboard', '⌂'], ['Units', 'units.index', '▦'],
-        ['Residents', 'residents.index', '◉'], ['Maintenance', 'maintenance.index', '₹'],
-        ['Complaints', 'complaints.index', '✉'], ['Notices', 'notices.index', '⚑'],
-        ['Bookings', 'bookings.index', '▤'],
+        ['Dashboard', 'dashboard', 'home'], ['Units', 'units.index', 'building'],
+        ['Residents', 'residents.index', 'users'], ['Maintenance', 'maintenance.index', 'money'],
+        ['Complaints', 'complaints.index', 'alert'], ['Notices', 'notices.index', 'flag'],
+        ['Bookings', 'bookings.index', 'clipboard'],
     ],
     'uses' => "use App\\Models\\Complaint;\nuse App\\Models\\Maintenance;\nuse App\\Models\\Resident;\nuse App\\Models\\Unit;",
     'stats' => [
@@ -24,7 +24,7 @@ return [
         'units' => [
             'model' => 'Unit', 'title' => 'Unit', '_mid' => 1,
             'columns' => [['block','stringNullable'],['flat_no','string'],['floor','integer'],['type','stringNullable'],['area_sqft','integer'],['status','default:Occupied']],
-            'fillable' => ['block','flat_no','floor','type','area_sqft','status'],
+            'fillable' => ['block','flat_no','floor', 'type', 'grid','status'],
             'validation' => ['block'=>'nullable|string|max:5','flat_no'=>'required|string|max:15','floor'=>'nullable|integer','type'=>'nullable|string','area_sqft'=>'nullable|integer','status'=>'required|in:Occupied,Vacant'],
             'fields' => [
                 ['block','Block','text'], ['flat_no','Flat No','text',null,true], ['floor','Floor','number'],
@@ -40,10 +40,10 @@ return [
         'residents' => [
             'model' => 'Resident', 'title' => 'Resident', '_mid' => 2,
             'columns' => [['unit_id','fkreq:Unit'],['name','string'],['phone','stringNullable'],['email','stringNullable'],['role','default:Owner'],['status','statusActive']],
-            'fillable' => ['unit_id','name','phone','email','role','status'],
+            'fillable' => ['unit_id','name', 'phone', 'grid','role','status'],
             'validation' => ['unit_id'=>'required|exists:units,id','name'=>'required|string|max:255','phone'=>'nullable|string|max:20','email'=>'nullable|email','role'=>'required|in:Owner,Tenant,Family Member','status'=>'required|in:Active,Moved Out'],
             'fields' => [
-                ['unit_id','Unit','select','@Unit:flat_no',true], ['name','Resident Name','text',null,true],
+                ['unit_id','Unit', 'select', 'grid',true], ['name','Resident Name','text',null,true],
                 ['phone','Phone','tel'], ['email','Email','email'],
                 ['role','Role','select',['Owner','Tenant','Family Member']],
                 ['status','Status','select',['Active','Moved Out']],
@@ -59,10 +59,10 @@ return [
         'maintenance' => [
             'model' => 'Maintenance', 'title' => 'Maintenance Bill', '_mid' => 3,
             'columns' => [['unit_id','fkreq:Unit'],['month','stringNullable'],['amount','decimal'],['status','default:Due'],['paid_at','dateNullable']],
-            'fillable' => ['unit_id','month','amount','status','paid_at'],
+            'fillable' => ['unit_id','month', 'amount', 'grid','paid_at'],
             'validation' => ['unit_id'=>'required|exists:units,id','month'=>'required|string|max:10','amount'=>'required|numeric|min:0','status'=>'required|in:Paid,Due,Overdue','paid_at'=>'nullable|date'],
             'fields' => [
-                ['unit_id','Unit','select','@Unit:flat_no',true], ['month','Month','month',null,true],
+                ['unit_id','Unit', 'select', 'grid',true], ['month','Month','month',null,true],
                 ['amount','Amount (₹)','number',null,true],
                 ['status','Status','select',['Paid','Due','Overdue']], ['paid_at','Paid On','date'],
             ],
@@ -77,10 +77,10 @@ return [
         'complaints' => [
             'model' => 'Complaint', 'title' => 'Complaint', '_mid' => 4,
             'columns' => [['resident_id','fkreq:Resident'],['category','stringNullable'],['subject','string'],['description','textNullable'],['status','default:Open']],
-            'fillable' => ['resident_id','category','subject','description','status'],
+            'fillable' => ['resident_id','category', 'subject', 'grid','status'],
             'validation' => ['resident_id'=>'required|exists:residents,id','category'=>'nullable|string','subject'=>'required|string','description'=>'nullable|string','status'=>'required|in:Open,In Progress,Resolved'],
             'fields' => [
-                ['resident_id','Resident','select','@Resident',true],
+                ['resident_id','Resident', 'select', 'grid',true],
                 ['category','Category','select',['Plumbing','Electrical','Security','Cleaning','Parking','Other']],
                 ['subject','Subject','text',null,true], ['description','Description','textarea'],
                 ['status','Status','select',['Open','In Progress','Resolved']],
@@ -96,7 +96,7 @@ return [
         'notices' => [
             'model' => 'Notice', 'title' => 'Notice', '_mid' => 5,
             'columns' => [['title','string'],['body','text'],['audience','default:All'],['published_at','dateNullable']],
-            'fillable' => ['title','body','audience','published_at'],
+            'fillable' => ['title', 'body', 'grid','published_at'],
             'validation' => ['title'=>'required|string|max:255','body'=>'required|string','audience'=>'required|in:All,Owners,Tenants','published_at'=>'nullable|date'],
             'fields' => [
                 ['title','Title','text',null,true], ['body','Notice Text','textarea',null,true],
@@ -114,7 +114,7 @@ return [
             'validation' => ['amenity'=>'required|in:Clubhouse,Community Hall,Swimming Pool,Tennis Court,Party Lawn','unit_id'=>'required|exists:units,id','booking_date'=>'required|date','slot'=>'nullable|string','status'=>'required|in:Confirmed,Cancelled,Completed'],
             'fields' => [
                 ['amenity','Amenity','select',['Clubhouse','Community Hall','Swimming Pool','Tennis Court','Party Lawn'],true],
-                ['unit_id','Unit','select','@Unit:flat_no',true],
+                ['unit_id','Unit', 'select', 'grid',true],
                 ['booking_date','Date','date',null,true],
                 ['slot','Time Slot','select',['Morning (6-12)','Afternoon (12-5)','Evening (5-10)','Full Day']],
                 ['status','Status','select',['Confirmed','Cancelled','Completed']],

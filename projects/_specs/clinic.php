@@ -2,9 +2,9 @@
 return [
     'name' => 'Clinic Management System', 'accent' => '#00b894', 'icon' => '✚',
     'nav' => [
-        ['Dashboard', 'dashboard', '⌂'], ['Patients', 'patients.index', '◉'],
-        ['Doctors', 'doctors.index', '✚'], ['Appointments', 'appointments.index', '▤'],
-        ['Prescriptions', 'prescriptions.index', '℞'], ['Bills', 'bills.index', '₹'],
+        ['Dashboard', 'dashboard', 'home'], ['Patients', 'patients.index', 'users'],
+        ['Doctors', 'doctors.index', 'user'], ['Appointments', 'appointments.index', 'calendar'],
+        ['Prescriptions', 'prescriptions.index', 'file'], ['Bills', 'bills.index', 'receipt'],
     ],
     'uses' => "use App\\Models\\Appointment;\nuse App\\Models\\Bill;\nuse App\\Models\\Doctor;\nuse App\\Models\\Patient;",
     'stats' => [
@@ -23,7 +23,7 @@ return [
         'patients' => [
             'model' => 'Patient', 'title' => 'Patient', '_mid' => 1,
             'columns' => [['name','string'],['phone','stringNullable'],['dob','dateNullable'],['gender','stringNullable'],['blood','stringNullable'],['address','textNullable'],['status','statusActive']],
-            'fillable' => ['name','phone','dob','gender','blood','address','status'],
+            'fillable' => ['name', 'phone', 'grid','gender', 'blood', 'grid','status'],
             'validation' => ['name'=>'required|string|max:255','phone'=>'nullable|string|max:20','dob'=>'nullable|date','gender'=>'nullable|string','blood'=>'nullable|string|max:5','address'=>'nullable|string','status'=>'required|in:Active,Inactive'],
             'fields' => [
                 ['name','Full Name','text',null,true], ['phone','Phone','tel'], ['dob','Date of Birth','date'],
@@ -39,7 +39,7 @@ return [
         'doctors' => [
             'model' => 'Doctor', 'title' => 'Doctor', '_mid' => 2,
             'columns' => [['name','string'],['specialty','stringNullable'],['phone','stringNullable'],['fee','decimal'],['status','statusActive']],
-            'fillable' => ['name','specialty','phone','fee','status'],
+            'fillable' => ['name', 'specialty', 'grid','fee','status'],
             'validation' => ['name'=>'required|string|max:255','specialty'=>'nullable|string','phone'=>'nullable|string|max:20','fee'=>'nullable|numeric|min:0','status'=>'required|in:Active,Inactive'],
             'fields' => [
                 ['name','Doctor Name','text',null,true], ['specialty','Specialty','text'],
@@ -57,7 +57,7 @@ return [
             'fillable' => ['patient_id','doctor_id','appt_date','appt_time','reason','status'],
             'validation' => ['patient_id'=>'required|exists:patients,id','doctor_id'=>'required|exists:doctors,id','appt_date'=>'required|date','appt_time'=>'nullable','reason'=>'nullable|string','status'=>'required|in:Scheduled,Completed,Cancelled'],
             'fields' => [
-                ['patient_id','Patient','select','@Patient',true], ['doctor_id','Doctor','select','@Doctor',true],
+                ['patient_id','Patient', 'select', 'grid',true], ['doctor_id','Doctor', 'select', 'grid',true],
                 ['appt_date','Date','date',null,true], ['appt_time','Time','time'], ['reason','Reason / Symptoms','text'],
                 ['status','Status','select',['Scheduled','Completed','Cancelled']],
             ],
@@ -75,7 +75,7 @@ return [
             'fillable' => ['patient_id','doctor_id','notes','medicines'],
             'validation' => ['patient_id'=>'required|exists:patients,id','doctor_id'=>'required|exists:doctors,id','notes'=>'nullable|string','medicines'=>'nullable|string'],
             'fields' => [
-                ['patient_id','Patient','select','@Patient',true], ['doctor_id','Doctor','select','@Doctor',true],
+                ['patient_id','Patient', 'select', 'grid',true], ['doctor_id','Doctor', 'select', 'grid',true],
                 ['notes','Diagnosis / Notes','textarea'], ['medicines','Medicines','textarea'],
             ],
             'with' => ['patient','doctor'],
@@ -89,10 +89,10 @@ return [
         'bills' => [
             'model' => 'Bill', 'title' => 'Bill', '_mid' => 5,
             'columns' => [['invoice_no','stringNullable'],['patient_id','fkreq:Patient'],['description','stringNullable'],['amount','decimal'],['status','default:Paid'],['paid_at','dateNullable']],
-            'fillable' => ['invoice_no','patient_id','description','amount','status','paid_at'],
+            'fillable' => ['invoice_no','patient_id','description', 'amount', 'grid','paid_at'],
             'validation' => ['patient_id'=>'required|exists:patients,id','description'=>'nullable|string','amount'=>'required|numeric|min:0','status'=>'required|in:Paid,Pending,Cancelled','paid_at'=>'nullable|date'],
             'fields' => [
-                ['patient_id','Patient','select','@Patient',true], ['description','Description','text'],
+                ['patient_id','Patient', 'select', 'grid',true], ['description','Description','text'],
                 ['amount','Amount (₹)','number',null,true],
                 ['status','Status','select',['Paid','Pending','Cancelled']], ['paid_at','Bill Date','date'],
             ],

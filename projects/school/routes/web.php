@@ -10,12 +10,16 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('students', \App\Http\Controllers\StudentController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('teachers', \App\Http\Controllers\TeacherController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('classes', \App\Http\Controllers\SchoolClassController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('students', \App\Http\Controllers\StudentController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:students');
+    Route::resource('teachers', \App\Http\Controllers\TeacherController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:teachers');
+    Route::resource('classes', \App\Http\Controllers\SchoolClassController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:classes');
     Route::patch('fees/{row}/pay', [\App\Http\Controllers\FeeController::class, 'markPaid'])->name('fees.pay');
-    Route::resource('fees', \App\Http\Controllers\FeeController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('results', \App\Http\Controllers\ResultController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('attendance', \App\Http\Controllers\AttendanceController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('notices', \App\Http\Controllers\NoticeController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('fees', \App\Http\Controllers\FeeController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:fees');
+    Route::resource('results', \App\Http\Controllers\ResultController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:results');
+    Route::resource('attendance', \App\Http\Controllers\AttendanceController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:attendance');
+    Route::resource('notices', \App\Http\Controllers\NoticeController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:notices');
+
+    Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
+    Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
+    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
 });

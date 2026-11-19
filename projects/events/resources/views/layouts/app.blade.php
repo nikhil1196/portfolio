@@ -14,13 +14,16 @@
             <span>Event Booking Platform</span>
         </a>
         <nav class="side-nav">
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><span class="ni">⌂</span>Dashboard</a>
-            <a href="{{ route('events.index') }}" class="{{ request()->routeIs('events.*') ? 'active' : '' }}"><span class="ni">★</span>Events</a>
-            <a href="{{ route('tickets.index') }}" class="{{ request()->routeIs('tickets.*') ? 'active' : '' }}"><span class="ni">▤</span>Tickets</a>
-            <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}"><span class="ni">◎</span>Bookings</a>
-            <a href="{{ route('attendees.index') }}" class="{{ request()->routeIs('attendees.*') ? 'active' : '' }}"><span class="ni">◉</span>Attendees</a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">@include("partials.icon", ["i" => "home"])Dashboard</a>
+            <a href="{{ route('events.index') }}" class="{{ request()->routeIs('events.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "calendar"])Events</a>
+            <a href="{{ route('tickets.index') }}" class="{{ request()->routeIs('tickets.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "ticket"])Tickets</a>
+            <a href="{{ route('bookings.index') }}" class="{{ request()->routeIs('bookings.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "clipboard"])Bookings</a>
+            <a href="{{ route('attendees.index') }}" class="{{ request()->routeIs('attendees.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Attendees</a>
+            <a href="{{ route('reports') }}" class="{{ request()->routeIs('reports') ? 'active' : '' }}">@include("partials.icon", ["i" => "chart"])Reports</a>
+            <a href="{{ route('team.index') }}" class="{{ request()->routeIs('team.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Team</a>
+            <a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "shield"])Roles</a>
         </nav>
-        <div class="side-foot"><a href="{{ url('/../') }}" class="side-back">← Back to Portfolio</a></div>
+        <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>
     <div class="main">
         <header class="topbar">

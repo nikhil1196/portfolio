@@ -2,9 +2,9 @@
 return [
     'name' => 'Event Booking Platform', 'accent' => '#fd79a8', 'icon' => '★',
     'nav' => [
-        ['Dashboard', 'dashboard', '⌂'], ['Events', 'events.index', '★'],
-        ['Tickets', 'tickets.index', '▤'], ['Bookings', 'bookings.index', '◎'],
-        ['Attendees', 'attendees.index', '◉'],
+        ['Dashboard', 'dashboard', 'home'], ['Events', 'events.index', 'calendar'],
+        ['Tickets', 'tickets.index', 'ticket'], ['Bookings', 'bookings.index', 'clipboard'],
+        ['Attendees', 'attendees.index', 'users'],
     ],
     'uses' => "use App\\Models\\Booking;\nuse App\\Models\\Event;",
     'stats' => [
@@ -23,7 +23,7 @@ return [
         'events' => [
             'model' => 'Event', 'title' => 'Event', '_mid' => 1,
             'columns' => [['title','string'],['category','stringNullable'],['venue','stringNullable'],['event_date','datetime'],['price','decimal'],['capacity','integer'],['status','default:Published']],
-            'fillable' => ['title','category','venue','event_date','price','capacity','status'],
+            'fillable' => ['title', 'category', 'grid','event_date','price', 'capacity', 'grid'],
             'validation' => ['title'=>'required|string|max:255','category'=>'nullable|string','venue'=>'nullable|string','event_date'=>'required|date','price'=>'nullable|numeric|min:0','capacity'=>'nullable|integer|min:0','status'=>'required|in:Published,Draft,Cancelled'],
             'fields' => [
                 ['title','Event Title','text',null,true],
@@ -42,10 +42,10 @@ return [
         'tickets' => [
             'model' => 'Ticket', 'title' => 'Ticket Tier', '_mid' => 2,
             'columns' => [['event_id','fkreq:Event'],['name','string'],['price','decimal'],['qty','integer']],
-            'fillable' => ['event_id','name','price','qty'],
+            'fillable' => ['event_id','name', 'price', 'grid'],
             'validation' => ['event_id'=>'required|exists:events,id','name'=>'required|string|max:255','price'=>'required|numeric|min:0','qty'=>'required|integer|min:1'],
             'fields' => [
-                ['event_id','Event','select','@Event:title',true], ['name','Tier Name','text',null,true],
+                ['event_id','Event', 'select', 'grid',true], ['name','Tier Name','text',null,true],
                 ['price','Price (₹)','number',null,true], ['qty','Quantity','number',null,true],
             ],
             'with' => ['event'],
@@ -58,10 +58,10 @@ return [
         'bookings' => [
             'model' => 'Booking', 'title' => 'Booking', '_mid' => 3,
             'columns' => [['booking_no','stringNullable'],['event_id','fkreq:Event'],['name','string'],['email','stringNullable'],['seats','integer'],['amount','decimal'],['status','default:Confirmed']],
-            'fillable' => ['booking_no','event_id','name','email','seats','amount','status'],
+            'fillable' => ['booking_no','event_id','name', 'email', 'grid','amount','status'],
             'validation' => ['event_id'=>'required|exists:events,id','name'=>'required|string|max:255','email'=>'nullable|email','seats'=>'required|integer|min:1','amount'=>'nullable|numeric|min:0','status'=>'required|in:Confirmed,Cancelled,Refunded'],
             'fields' => [
-                ['event_id','Event','select','@Event:title',true], ['name','Booked By','text',null,true],
+                ['event_id','Event', 'select', 'grid',true], ['name','Booked By','text',null,true],
                 ['email','Email','email'], ['seats','Seats','number',null,true], ['amount','Amount (₹)','number'],
                 ['status','Status','select',['Confirmed','Cancelled','Refunded']],
             ],
@@ -80,7 +80,7 @@ return [
             'fillable' => ['booking_id','name','checked_in'],
             'validation' => ['booking_id'=>'required|exists:bookings,id','name'=>'required|string|max:255','checked_in'=>'nullable|boolean'],
             'fields' => [
-                ['booking_id','Booking','select','@Booking:booking_no',true], ['name','Attendee Name','text',null,true],
+                ['booking_id','Booking', 'select', 'grid',true], ['name','Attendee Name','text',null,true],
                 ['checked_in','Checked In','select',[0=>'No',1=>'Yes']],
             ],
             'with' => ['booking.event'],

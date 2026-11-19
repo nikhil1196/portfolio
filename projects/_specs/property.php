@@ -2,9 +2,9 @@
 return [
     'name' => 'Property Management', 'accent' => '#6c5ce7', 'icon' => '▣',
     'nav' => [
-        ['Dashboard', 'dashboard', '⌂'], ['Properties', 'properties.index', '▣'],
-        ['Tenants', 'tenants.index', '◉'], ['Leases', 'leases.index', '▤'],
-        ['Rent', 'rents.index', '₹'], ['Requests', 'requests.index', '✉'],
+        ['Dashboard', 'dashboard', 'home'], ['Properties', 'properties.index', 'building'],
+        ['Tenants', 'tenants.index', 'users'], ['Leases', 'leases.index', 'file'],
+        ['Rent', 'rents.index', 'grid'], ['Requests', 'requests.index', 'alert'],
     ],
     'uses' => "use App\\Models\\Lease;\nuse App\\Models\\Property;\nuse App\\Models\\Rent;",
     'stats' => [
@@ -23,7 +23,7 @@ return [
         'properties' => [
             'model' => 'Property', 'title' => 'Property', '_mid' => 1,
             'columns' => [['title','string'],['type','stringNullable'],['address','stringNullable'],['city','stringNullable'],['rent','decimal'],['status','default:Available']],
-            'fillable' => ['title','type','address','city','rent','status'],
+            'fillable' => ['title', 'type', 'grid','city', 'rent', 'grid'],
             'validation' => ['title'=>'required|string|max:255','type'=>'nullable|string','address'=>'nullable|string','city'=>'nullable|string','rent'=>'nullable|numeric|min:0','status'=>'required|in:Available,Occupied,Maintenance'],
             'fields' => [
                 ['title','Property Title','text',null,true],
@@ -40,7 +40,7 @@ return [
         'tenants' => [
             'model' => 'Tenant', 'title' => 'Tenant', '_mid' => 2,
             'columns' => [['name','string'],['phone','stringNullable'],['email','stringNullable'],['id_proof','stringNullable'],['status','statusActive']],
-            'fillable' => ['name','phone','email','id_proof','status'],
+            'fillable' => ['name', 'phone', 'grid','id_proof','status'],
             'validation' => ['name'=>'required|string|max:255','phone'=>'nullable|string|max:20','email'=>'nullable|email','id_proof'=>'nullable|string','status'=>'required|in:Active,Moved Out'],
             'fields' => [
                 ['name','Tenant Name','text',null,true], ['phone','Phone','tel'],
@@ -56,10 +56,10 @@ return [
         'leases' => [
             'model' => 'Lease', 'title' => 'Lease', '_mid' => 3,
             'columns' => [['property_id','fkreq:Property'],['tenant_id','fkreq:Tenant'],['start_date','date'],['end_date','date'],['rent','decimal'],['deposit','decimal'],['status','statusActive']],
-            'fillable' => ['property_id','tenant_id','start_date','end_date','rent','deposit','status'],
+            'fillable' => ['property_id','tenant_id','start_date','end_date','rent', 'deposit', 'grid'],
             'validation' => ['property_id'=>'required|exists:properties,id','tenant_id'=>'required|exists:tenants,id','start_date'=>'required|date','end_date'=>'required|date','rent'=>'required|numeric|min:0','deposit'=>'nullable|numeric|min:0','status'=>'required|in:Active,Expired,Terminated'],
             'fields' => [
-                ['property_id','Property','select','@Property:title',true], ['tenant_id','Tenant','select','@Tenant',true],
+                ['property_id','Property', 'select', 'grid',true], ['tenant_id','Tenant', 'select', 'grid',true],
                 ['start_date','Start Date','date',null,true], ['end_date','End Date','date',null,true],
                 ['rent','Monthly Rent (₹)','number',null,true], ['deposit','Deposit (₹)','number'],
                 ['status','Status','select',['Active','Expired','Terminated']],
@@ -75,10 +75,10 @@ return [
         'rents' => [
             'model' => 'Rent', 'title' => 'Rent Record', '_mid' => 4,
             'columns' => [['lease_id','fkreq:Lease'],['month','stringNullable'],['amount','decimal'],['status','default:Due'],['paid_at','dateNullable']],
-            'fillable' => ['lease_id','month','amount','status','paid_at'],
+            'fillable' => ['lease_id','month', 'amount', 'grid','paid_at'],
             'validation' => ['lease_id'=>'required|exists:leases,id','month'=>'required|string|max:10','amount'=>'required|numeric|min:0','status'=>'required|in:Paid,Due,Overdue','paid_at'=>'nullable|date'],
             'fields' => [
-                ['lease_id','Lease','select','@Lease:id',true], ['month','Month','month',null,true],
+                ['lease_id','Lease', 'select', 'grid',true], ['month','Month','month',null,true],
                 ['amount','Amount (₹)','number',null,true],
                 ['status','Status','select',['Paid','Due','Overdue']], ['paid_at','Paid On','date'],
             ],
@@ -93,10 +93,10 @@ return [
         'requests' => [
             'model' => 'MaintenanceRequest', 'title' => 'Maintenance Request', 'table' => 'requests', '_mid' => 5,
             'columns' => [['property_id','fkreq:Property'],['tenant_id','fk:Tenant'],['category','stringNullable'],['subject','string'],['status','default:Open']],
-            'fillable' => ['property_id','tenant_id','category','subject','status'],
+            'fillable' => ['property_id','tenant_id','category', 'subject', 'grid'],
             'validation' => ['property_id'=>'required|exists:properties,id','tenant_id'=>'nullable|exists:tenants,id','category'=>'nullable|string','subject'=>'required|string','status'=>'required|in:Open,In Progress,Resolved'],
             'fields' => [
-                ['property_id','Property','select','@Property:title',true], ['tenant_id','Raised By','select','@Tenant'],
+                ['property_id','Property', 'select', 'grid',true], ['tenant_id','Raised By', 'select', 'grid'],
                 ['category','Category','select',['Plumbing','Electrical','Carpentry','General','Pest Control']],
                 ['subject','Issue','text',null,true],
                 ['status','Status','select',['Open','In Progress','Resolved']],

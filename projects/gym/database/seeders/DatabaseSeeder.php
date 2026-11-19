@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        \App\Models\Role::insert([
+            ['name' => 'Admin', 'perms' => '*', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Manager', 'perms' => 'members,plans,trainers,payments', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Viewer', 'perms' => '', 'created_at' => now(), 'updated_at' => now()],
+        ]);
         User::create([
             'name'     => 'Admin',
             'email'    => 'admin@demo.local',
@@ -60,5 +65,6 @@ class DatabaseSeeder extends Seeder
             ['invoice_no' => 'INV-1004', 'member_id' => 4, 'plan_id' => 3, 'amount' => 7500,  'method' => 'UPI',            'status' => 'Paid',    'paid_at' => '2026-07-15'],
             ['invoice_no' => 'INV-1005', 'member_id' => 8, 'plan_id' => 1, 'amount' => 1500,  'method' => 'Card',           'status' => 'Pending', 'paid_at' => '2026-11-10'],
         ]);
+        $this->call(ModsSeeder::class);
     }
 }

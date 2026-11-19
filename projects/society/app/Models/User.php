@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'role_id',
+        ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -22,7 +23,17 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
-    protected function casts(): array
+    
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function hasPerm(string $perm): bool
+    {
+        return $this->role && in_array($perm, $this->role->permsList(), true);
+    }
+protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',

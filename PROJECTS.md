@@ -8,8 +8,6 @@ session auth, and SQLite seed data.
 
 ## Architecture
 
-Each `projects/<slug>/` is a complete Laravel project:
-
 ```
 projects/<slug>/
 ├── app/Models/                  # Eloquent models + relationships
@@ -21,10 +19,6 @@ projects/<slug>/
 └── public/                      # Entry point + admin.css/admin.js
 ```
 
-`projects/_gen.php` + `projects/_specs/*.php` contain the generator and specs
-used to scaffold the nine generated apps (gym was built manually as the
-reference). `projects/index.php` is a hub page linking to every app.
-
 ## Running an app
 
 ```bash
@@ -33,43 +27,125 @@ php artisan migrate:fresh --seed   # reset + reseed SQLite DB
 php artisan serve                  # http://localhost:8000
 ```
 
-Or serve `projects/<slug>/public/` via Apache/Laragon. Each app's `.env` is
-gitignored and configured for `database/database.sqlite`.
+## Cross-cutting modules (all 10 apps)
 
-## Status
+| Module | Status |
+|--------|--------|
+| Auth + session login | ✅ done |
+| Dashboard stats | ✅ done |
+| Roles & permissions (roles CRUD, per-module grants, middleware) | ⬜ pending |
+| Team users (admin users w/ role assignment) | ⬜ pending |
+| Reports (per-module counts, status breakdowns, trends) | ⬜ pending |
 
-| # | App | Modules | Status |
-|---|-----|---------|--------|
-| 1 | `gym` | Auth, dashboard, members, plans, trainers, check-in/out log, payments + mark-paid | ✅ verified |
-| 2 | `clinic` | Auth, dashboard, patients, doctors, appointments, prescriptions, bills | ✅ verified |
-| 3 | `school` | Auth, dashboard, students, teachers, classes, fee records (+mark-paid), exam results, **attendance register, notices** | ✅ verified |
-| 4 | `society` | Auth, dashboard, units, residents, maintenance bills (+mark-paid), complaint status flow (Open→Progress→Resolved), notices, **amenity bookings** | ✅ verified |
-| 5 | `restaurant` | Auth, dashboard, menu items, tables, POS order screen, **live kitchen display (15s auto-refresh)**, order history | ✅ verified |
-| 6 | `hrms` | Auth, dashboard, departments, employees, attendance, **leave approve/reject actions**, payroll | ✅ verified |
-| 7 | `crm` | Auth, dashboard, contacts, leads, deals, **kanban pipeline board with stage moves**, tasks | ✅ verified |
-| 8 | `property` | Auth, dashboard, properties, tenants, leases, rent, maintenance request status flow | ✅ verified |
-| 9 | `events` | Auth, dashboard, events, ticket tiers, bookings, **one-click attendee check-in** | ✅ verified |
-| 10 | `ai-support` | Auth, dashboard, tickets, **AI reply suggestion (KB keyword match)**, replies, KB, canned replies, agents | ✅ verified |
+## 1. `gym` — Gym Management SaaS
 
-Verified = login, dashboard, all module pages return 200, and POST create
-flow persists data.
+| Module | Status |
+|--------|--------|
+| Members, plans, trainers | ✅ done |
+| Check-in / check-out attendance | ✅ done |
+| Payments + invoices + mark-paid | ✅ done |
+| Personal trainer assignment (member ↔ coach) | ✅ done (trainer_id on member) |
+| Exercise library (with demo video URL) | ⬜ pending |
+| Workout plans (plan → exercises, sets/reps) | ⬜ pending |
+| Assign workout plan to member | ⬜ pending |
+| Member measurements (weight, BMI, chest, waist…) | ⬜ pending |
+| PT sessions (book coach session) | ⬜ pending |
+| Class/session bookings | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
 
-## Deferred / roadmap
+## 2. `clinic` — Clinic Management
 
-Remaining enhancements for later:
+| Module | Status |
+|--------|--------|
+| Patients, doctors, appointments, prescriptions, bills | ✅ done |
+| Multi-clinic branches + clinic selection | ⬜ pending |
+| Doctor availability / schedule slots | ⬜ pending |
+| Slot-aware appointment booking | ⬜ pending |
+| Advance booking payment (Stripe-ready record) | ⬜ pending |
+| Email receipt → patient + doctor | ⬜ pending |
+| Visit notes / medical history | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
 
-- **Restaurant**: split bills, print receipts, WebSocket push for KDS
-  (currently 15s polling)
-- **AI Support**: plug suggestion engine into a real LLM API (currently KB
-  keyword matching)
-- **All apps**: search/filters on list pages, pagination on large tables,
-  feature tests, role-based access beyond the single admin
+## 3. `school` — School ERP
 
-## Notes
+| Module | Status |
+|--------|--------|
+| Students, teachers, classes, fees + mark-paid, results, attendance, notices | ✅ done |
+| Subjects | ⬜ pending |
+| Staff (non-teaching) | ⬜ pending |
+| Timetable (class × day × period → subject/teacher) | ⬜ pending |
+| Study materials | ⬜ pending |
+| Assignments + submissions | ⬜ pending |
+| Exams (schedule, separate from results) | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
 
-- Databases are SQLite files inside each app (`database/database.sqlite`),
-  ignored by git. Re-seed anytime with `php artisan migrate:fresh --seed`.
-- `vendor/` is gitignored per app — run `composer install` inside an app
-  directory if dependencies are missing after cloning.
-- The earlier plain-PHP demos were replaced by this Laravel rebuild; the old
-  code remains in git history (commit `b22796f`).
+## 4. `society` — Society Management
+
+| Module | Status |
+|--------|--------|
+| Units (houses) + flat numbers | ✅ done |
+| Residents incl. family members per unit | ✅ done |
+| Maintenance bills + mark-paid | ✅ done |
+| Complaint status flow | ✅ done |
+| Notices, amenity bookings | ✅ done |
+| Online payment record + receipt for maintenance | ⬜ pending |
+| Visitors log | ⬜ pending |
+| Staff / vendors | ⬜ pending |
+| Parking slots | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 5. `restaurant` — Restaurant POS + KDS
+
+| Module | Status |
+|--------|--------|
+| Menu items, tables, POS orders, live KDS, order history | ✅ done |
+| Menu categories | ⬜ pending |
+| Table reservations | ⬜ pending |
+| Inventory / stock | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 6. `hrms` — HRMS
+
+| Module | Status |
+|--------|--------|
+| Departments, employees, attendance, leave approve/reject, payroll | ✅ done |
+| Holidays calendar | ⬜ pending |
+| Announcements | ⬜ pending |
+| Employee documents | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 7. `crm` — CRM
+
+| Module | Status |
+|--------|--------|
+| Contacts, leads, deals, kanban pipeline, tasks | ✅ done |
+| Activities / timeline per lead | ⬜ pending |
+| Products & quotes | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 8. `property` — Property Management
+
+| Module | Status |
+|--------|--------|
+| Properties, tenants, leases, rent, request flow | ✅ done |
+| Expenses | ⬜ pending |
+| Documents | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 9. `events` — Event Booking
+
+| Module | Status |
+|--------|--------|
+| Events, ticket tiers, bookings, attendee check-in | ✅ done |
+| Categories, venues | ⬜ pending |
+| Sessions / speakers | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |
+
+## 10. `ai-support` — AI Customer Support
+
+| Module | Status |
+|--------|--------|
+| Tickets, AI reply suggestion, replies, KB, canned, agents | ✅ done |
+| Customers | ⬜ pending |
+| Satisfaction ratings | ⬜ pending |
+| Roles & permissions, team users, reports | ⬜ pending |

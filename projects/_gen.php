@@ -292,7 +292,7 @@ $out('resources/views/layouts/app.blade.php', "<!DOCTYPE html>
         </a>
         <nav class=\"side-nav\">
 $nav        </nav>
-        <div class=\"side-foot\"><a href=\"{{ url('/../') }}\" class=\"side-back\">← Back to Portfolio</a></div>
+        <div class=\"side-foot\"><a href=\"{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}\" class=\"side-back\">← Back to Portfolio</a></div>
     </aside>
     <div class=\"main\">
         <header class=\"topbar\">
@@ -313,6 +313,8 @@ $nav        </nav>
 </body>
 </html>
 ");
+@mkdir("$root/resources/views/partials", 0777, true);
+copy(__DIR__ . "/_core/views/icon.blade.php", "$root/resources/views/partials/icon.blade.php");
 $out('resources/views/auth/login.blade.php', "<!DOCTYPE html>
 <html lang=\"en\">
 <head>

@@ -8,7 +8,13 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        \App\Models\Role::insert([
+            ['name' => 'Admin', 'perms' => '*', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Manager', 'perms' => 'properties,tenants,leases,rents,requests', 'created_at' => now(), 'updated_at' => now()],
+            ['name' => 'Viewer', 'perms' => '', 'created_at' => now(), 'updated_at' => now()],
+        ]);
         \App\Models\User::create(['name' => 'Admin', 'email' => 'admin@demo.local', 'password' => \Illuminate\Support\Facades\Hash::make('admin123')]);
+        \App\Models\User::where('email', 'admin@demo.local')->update(['role_id' => 1]);
         \App\Models\Property::insert(array_map(fn($r) => $r + ['created_at' => now(), 'updated_at' => now()], array (
   0 => 
   array (

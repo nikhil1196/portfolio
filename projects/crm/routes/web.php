@@ -10,10 +10,14 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('contacts', \App\Http\Controllers\ContactController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('leads', \App\Http\Controllers\LeadController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('contacts', \App\Http\Controllers\ContactController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:contacts');
+    Route::resource('leads', \App\Http\Controllers\LeadController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:leads');
     Route::get('pipeline', [\App\Http\Controllers\PipelineController::class, 'index'])->name('pipeline');
     Route::patch('deals/{row}/stage', [\App\Http\Controllers\PipelineController::class, 'move'])->name('deals.stage');
-    Route::resource('deals', \App\Http\Controllers\DealController::class)->only(['index', 'store', 'update', 'destroy']);
-    Route::resource('tasks', \App\Http\Controllers\TaskController::class)->only(['index', 'store', 'update', 'destroy']);
+    Route::resource('deals', \App\Http\Controllers\DealController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:deals');
+    Route::resource('tasks', \App\Http\Controllers\TaskController::class)->only(['index', 'store', 'update', 'destroy'])->middleware('perm:tasks');
+
+    Route::resource('roles', \App\Http\Controllers\RoleController::class)->only(['index','store','update','destroy']);
+    Route::resource('team', \App\Http\Controllers\TeamController::class)->only(['index','store','update','destroy']);
+    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports');
 });

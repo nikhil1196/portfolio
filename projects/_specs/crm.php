@@ -2,8 +2,8 @@
 return [
     'name' => 'CRM', 'accent' => '#00cec9', 'icon' => '◎',
     'nav' => [
-        ['Dashboard', 'dashboard', '⌂'], ['Contacts', 'contacts.index', '◉'],
-        ['Leads', 'leads.index', '◎'], ['Deals', 'deals.index', '₹'], ['Tasks', 'tasks.index', '✓'],
+        ['Dashboard', 'dashboard', 'home'], ['Contacts', 'contacts.index', 'users'],
+        ['Leads', 'leads.index', 'target'], ['Deals', 'deals.index', 'money'], ['Tasks', 'tasks.index', 'checksq'],
     ],
     'uses' => "use App\\Models\\Contact;\nuse App\\Models\\Deal;\nuse App\\Models\\Lead;\nuse App\\Models\\Task;",
     'stats' => [
@@ -22,7 +22,7 @@ return [
         'contacts' => [
             'model' => 'Contact', 'title' => 'Contact', '_mid' => 1,
             'columns' => [['name','string'],['company','stringNullable'],['email','stringNullable'],['phone','stringNullable'],['source','stringNullable'],['status','statusActive']],
-            'fillable' => ['name','company','email','phone','source','status'],
+            'fillable' => ['name', 'company', 'grid','phone', 'source', 'grid'],
             'validation' => ['name'=>'required|string|max:255','company'=>'nullable|string','email'=>'nullable|email','phone'=>'nullable|string|max:20','source'=>'nullable|string','status'=>'required|in:Active,Inactive'],
             'fields' => [
                 ['name','Contact Name','text',null,true], ['company','Company','text'],
@@ -39,10 +39,10 @@ return [
         'leads' => [
             'model' => 'Lead', 'title' => 'Lead', '_mid' => 2,
             'columns' => [['contact_id','fk:Contact'],['title','string'],['value','decimal'],['stage','default:New'],['owner','stringNullable'],['notes','textNullable']],
-            'fillable' => ['contact_id','title','value','stage','owner','notes'],
+            'fillable' => ['contact_id','title', 'value', 'grid','owner','notes'],
             'validation' => ['contact_id'=>'nullable|exists:contacts,id','title'=>'required|string|max:255','value'=>'nullable|numeric|min:0','stage'=>'required|in:New,Contacted,Qualified,Proposal,Negotiation,Won,Lost','owner'=>'nullable|string','notes'=>'nullable|string'],
             'fields' => [
-                ['contact_id','Contact','select','@Contact'], ['title','Lead Title','text',null,true],
+                ['contact_id','Contact', 'select', 'grid'], ['title','Lead Title','text',null,true],
                 ['value','Est. Value (₹)','number'],
                 ['stage','Stage','select',['New','Contacted','Qualified','Proposal','Negotiation','Won','Lost']],
                 ['owner','Owner','text'], ['notes','Notes','textarea'],
@@ -58,10 +58,10 @@ return [
         'deals' => [
             'model' => 'Deal', 'title' => 'Deal', '_mid' => 3,
             'columns' => [['contact_id','fkreq:Contact'],['title','string'],['value','decimal'],['stage','default:Qualification'],['close_date','dateNullable'],['status','default:Open']],
-            'fillable' => ['contact_id','title','value','stage','close_date','status'],
+            'fillable' => ['contact_id','title', 'value', 'grid','close_date','status'],
             'validation' => ['contact_id'=>'required|exists:contacts,id','title'=>'required|string|max:255','value'=>'required|numeric|min:0','stage'=>'required|in:Qualification,Proposal,Negotiation,Won,Lost','close_date'=>'nullable|date','status'=>'required|in:Open,Closed'],
             'fields' => [
-                ['contact_id','Contact','select','@Contact',true], ['title','Deal Title','text',null,true],
+                ['contact_id','Contact', 'select', 'grid',true], ['title','Deal Title','text',null,true],
                 ['value','Deal Value (₹)','number',null,true],
                 ['stage','Stage','select',['Qualification','Proposal','Negotiation','Won','Lost']],
                 ['close_date','Expected Close','date'], ['status','Status','select',['Open','Closed']],
@@ -80,7 +80,7 @@ return [
             'fillable' => ['contact_id','title','due_date','priority','status'],
             'validation' => ['contact_id'=>'nullable|exists:contacts,id','title'=>'required|string|max:255','due_date'=>'nullable|date','priority'=>'required|in:High,Medium,Low','status'=>'required|in:Open,Done,Cancelled'],
             'fields' => [
-                ['contact_id','Contact','select','@Contact'], ['title','Task','text',null,true],
+                ['contact_id','Contact', 'select', 'grid'], ['title','Task','text',null,true],
                 ['due_date','Due Date','date',null,true],
                 ['priority','Priority','select',['High','Medium','Low']],
                 ['status','Status','select',['Open','Done','Cancelled']],

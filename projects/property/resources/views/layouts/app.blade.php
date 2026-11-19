@@ -14,14 +14,17 @@
             <span>Property Management</span>
         </a>
         <nav class="side-nav">
-            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}"><span class="ni">⌂</span>Dashboard</a>
-            <a href="{{ route('properties.index') }}" class="{{ request()->routeIs('properties.*') ? 'active' : '' }}"><span class="ni">▣</span>Properties</a>
-            <a href="{{ route('tenants.index') }}" class="{{ request()->routeIs('tenants.*') ? 'active' : '' }}"><span class="ni">◉</span>Tenants</a>
-            <a href="{{ route('leases.index') }}" class="{{ request()->routeIs('leases.*') ? 'active' : '' }}"><span class="ni">▤</span>Leases</a>
-            <a href="{{ route('rents.index') }}" class="{{ request()->routeIs('rents.*') ? 'active' : '' }}"><span class="ni">₹</span>Rent</a>
-            <a href="{{ route('requests.index') }}" class="{{ request()->routeIs('requests.*') ? 'active' : '' }}"><span class="ni">✉</span>Requests</a>
+            <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">@include("partials.icon", ["i" => "home"])Dashboard</a>
+            <a href="{{ route('properties.index') }}" class="{{ request()->routeIs('properties.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "building"])Properties</a>
+            <a href="{{ route('tenants.index') }}" class="{{ request()->routeIs('tenants.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Tenants</a>
+            <a href="{{ route('leases.index') }}" class="{{ request()->routeIs('leases.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "file"])Leases</a>
+            <a href="{{ route('rents.index') }}" class="{{ request()->routeIs('rents.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "grid"])Rent</a>
+            <a href="{{ route('requests.index') }}" class="{{ request()->routeIs('requests.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "alert"])Requests</a>
+            <a href="{{ route('reports') }}" class="{{ request()->routeIs('reports') ? 'active' : '' }}">@include("partials.icon", ["i" => "chart"])Reports</a>
+            <a href="{{ route('team.index') }}" class="{{ request()->routeIs('team.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "users"])Team</a>
+            <a href="{{ route('roles.index') }}" class="{{ request()->routeIs('roles.*') ? 'active' : '' }}">@include("partials.icon", ["i" => "shield"])Roles</a>
         </nav>
-        <div class="side-foot"><a href="{{ url('/../') }}" class="side-back">← Back to Portfolio</a></div>
+        <div class="side-foot"><a href="{{ env('PORTFOLIO_URL', 'http://localhost/portfolio/') }}" class="side-back">← Back to Portfolio</a></div>
     </aside>
     <div class="main">
         <header class="topbar">
