@@ -1,1 +1,7 @@
 includes/mail-config.php
+
+# Per-app SQLite databases (auto-created & seeded)
+projects/*/data/
+
+# IDE
+.idea/

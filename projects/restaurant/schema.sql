@@ -1,0 +1,8 @@
+CREATE TABLE _meta (k TEXT PRIMARY KEY, v TEXT);
+INSERT INTO _meta (k, v) VALUES ('version', '1');
+
+CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, email TEXT UNIQUE, password TEXT, created_at TEXT DEFAULT (datetime('now')));
+CREATE TABLE menu_items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, category TEXT, price REAL DEFAULT 0, available INTEGER DEFAULT 1);
+CREATE TABLE tables (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, seats INTEGER DEFAULT 4, status TEXT DEFAULT 'Free');
+CREATE TABLE orders (id INTEGER PRIMARY KEY AUTOINCREMENT, order_no TEXT, table_id INTEGER REFERENCES tables(id), status TEXT DEFAULT 'Pending', total REAL DEFAULT 0, payment TEXT DEFAULT 'Unpaid', created_at TEXT DEFAULT (datetime('now','localtime')));
+CREATE TABLE order_items (id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER REFERENCES orders(id), item_name TEXT, qty INTEGER DEFAULT 1, price REAL DEFAULT 0);
